@@ -1,18 +1,50 @@
-# Lucky Draw System
+# 🎫 Lucky Draw
 
-A production-grade prize draw system for physical businesses. Customers
-register once, earn tickets by showing up and by engaging online, and watch
-the winners get drawn live on a screen.
+**English** · [中文](README.zh-CN.md)
 
-Built and run by **X FITNESS GYM SDN. BHD.** for our first anniversary draw,
-and open sourced so other businesses do not have to build it again.
+**A prize draw system for physical businesses — built and run live, not
+built as a demo.**
+
+Customers register once, earn tickets by showing up and by engaging online,
+and watch the winners get drawn on stage in a full-screen arena.
+
+We are **X FITNESS GYM SDN. BHD.**, a gym in Johor Bahru, Malaysia. We built
+this for our first anniversary draw because nothing off the shelf did what we
+needed, ran it with real prizes in front of a real room, and open sourced it
+so the next business does not have to build it again.
 
 Nothing in it is gym-specific. A restaurant, a salon, a retail chain or a car
-workshop can run the same campaign by changing copy and images.
+workshop runs the same campaign by changing copy and images.
+
+### ✨ Why it might be worth your time
+
+- Runs as static files. No build step, no bundler, no framework, no npm
+  install — two HTML files and a Postgres database
+- Trilingual out of the box: English, 中文 and Bahasa Malaysia
+- The draw is designed to survive being watched: every ticket has a permanent
+  serial, serials are issued in true chronological order, and there is no
+  override to pick a winner
+- A ticket ledger that reconciles issued serials against every entrant's
+  balance, so a mismatch surfaces days before the draw instead of on stage
+- Identity documents are hashed on arrival and never stored in plaintext
 
 ---
 
-## What it does
+## 📸 Screenshots
+
+| The customer page | The staff console |
+|---|---|
+| ![Customer page](docs/screenshots/customer-page.png) | ![Staff console](docs/screenshots/admin-console.png) |
+| One page, no app. Tickets, sources and live odds. | Overview, activity feed and the ticket ledger. |
+
+| Draw night | Kiosk mode |
+|---|---|
+| ![Draw arena](docs/screenshots/draw-arena.png) | ![Kiosk](docs/screenshots/kiosk.png) |
+| The winning ticket rolls digit by digit, then the name lifts in. | A tablet at the front desk. Customers scan themselves. |
+
+---
+
+## 📱 What it does
 
 **For the customer** — one page, no app, no download.
 
@@ -48,7 +80,7 @@ workshop can run the same campaign by changing copy and images.
 
 ---
 
-## Design principles
+## 🎯 Design principles
 
 These came out of running a real draw with real prizes and a room watching.
 
@@ -77,7 +109,7 @@ adjustment shows up on the customer's own page with the staff reason attached.
 
 ---
 
-## Architecture
+## 🏗️ Architecture
 
 A static frontend talking to PostgreSQL through PostgREST. There is no
 application server.
@@ -99,7 +131,7 @@ full-time engineer.
 
 ---
 
-## Getting started
+## 🚀 Getting started
 
 ### 1. You need to build the backend
 
@@ -164,7 +196,7 @@ Any static host. We use Vercel via a GitHub push. There is nothing to compile.
 
 ---
 
-## Adapting it to your industry
+## 🔄 Adapting it to your industry
 
 The system vocabulary is already neutral: *entrant*, *check-in*, *subscription
 months*, *ticket*. What remains specific to us is campaign **content**, and it
@@ -186,7 +218,7 @@ so many exports work without editing anything.
 
 ---
 
-## Two deployment landmines
+## ⚠️ Two deployment landmines
 
 Both cost us real time. Neither reproduces in the Supabase SQL Editor, which is
 what makes them expensive.
@@ -217,7 +249,7 @@ through the deployed app.
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
 `admin.html` and `index.html` are single files with roughly 125 top-level
 declarations each. Collisions are silent — a duplicate `const` or a duplicate
@@ -239,7 +271,7 @@ Security issues: please do not open a public issue. See
 
 ---
 
-## Licence
+## 📄 Licence
 
 Code is [MIT](LICENSE).
 
