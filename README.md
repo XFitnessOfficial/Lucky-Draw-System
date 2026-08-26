@@ -1,4 +1,4 @@
-# Lucky Draw
+# Lucky Draw System
 
 A production-grade prize draw system for physical businesses. Customers
 register once, earn tickets by showing up and by engaging online, and watch
