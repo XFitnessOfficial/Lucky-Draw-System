@@ -1,0 +1,3107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>X FITNESS · 9.01 Grand Lucky Draw</title>
+<meta name="description" content="X FITNESS 1st Anniversary Grand Lucky Draw. Register free, stack your tickets, and watch the live draw on 1 September 2026, 8:00 PM.">
+<meta name="theme-color" content="#060605">
+<meta property="og:title" content="X FITNESS · 9.01 Grand Lucky Draw">
+<meta property="og:description" content="Win an iPhone 17 Pro Max, Apple Watch and more. Free to join.">
+<meta property="og:type" content="website">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="500x500" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@700;900&display=swap" rel="stylesheet">
+<script src="assets/qrcode-1.0.0.min.js" defer></script>
+<style>
+/* ---- iOS FOCUS-ZOOM FLOOR ----------------------------------------------
+   Safari on iOS zooms the whole page whenever a focused form control renders
+   below 16px, and it does not zoom back out when the field is blurred. Form
+   controls also do NOT inherit the page font, so anything without an explicit
+   rule falls through to the UA default (~13px) and triggers it too.
+
+   This is a low-specificity element selector: any class rule still wins, so
+   nothing below may set a form control under 16px. `maximum-scale=1` is NOT
+   an alternative — modern Safari ignores it and it blocks pinch-zoom for
+   anyone who needs it. */
+input:not([type=checkbox]):not([type=radio]), select, textarea{font-size:16px}
+
+:root{
+  --ink:#060605;
+  --navy:linear-gradient(180deg,#18150E,#0E0D09);
+  --gold:#E8C15A;
+  --paper:#F2F3F9;
+  --dim:#97907E;
+  --line:rgba(226,199,132,.16);
+  --gold-foil:linear-gradient(150deg,#F9E7AE 5%, #E8C15A 42%, #C79A38 68%, #8A6420 100%);
+  --silver-foil:linear-gradient(150deg,#FFFFFF 4%, #DDE3EC 36%, #A6B1BF 64%, #66727F 100%);
+  --copper-foil:linear-gradient(150deg,#F8DCC0 5%, #DB9A5E 40%, #B26A33 68%, #6B3A16 100%);
+  --display:'Bodoni Moda', serif;
+  /* serif stack for the event-day headings — Bodoni for latin, Noto Serif SC for 中文 */
+  --wkdisp:'Bodoni Moda','Noto Serif SC',serif;
+  /* the 150deg foil ends almost brown; fine on "901", it kills a long headline */
+  --foil-wide:linear-gradient(100deg,#FFF3D2 0%,#F1D693 24%,#E8C15A 50%,#F4DA9C 72%,#DCB253 100%);
+}
+/* Rehearsal repaints the gold palette blue. From the back of a room nobody
+   can mistake a practice run for the real 9.01 draw. */
+body.rehearsing{
+  --gold:#7E9BFF;
+  --line:rgba(126,155,255,.20);
+  --gold-foil:linear-gradient(150deg,#CFDCFF 5%, #7E9BFF 42%, #4763C9 68%, #24357A 100%);
+  --copper-foil:linear-gradient(150deg,#DCE4FF 5%, #93A9F0 42%, #5C74C4 68%, #2C3C7E 100%);
+  --dim:#8891AE;
+}
+body.rehearsing::after{
+  content:'REHEARSAL'; position:fixed; inset:auto 0 0 0; z-index:9;
+  text-align:center; font:800 10px Inter; letter-spacing:.34em; color:#8FA6E8;
+  background:rgba(20,30,80,.92); padding:7px 0; pointer-events:none;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Inter,'Noto Sans SC',sans-serif; background:var(--ink); color:var(--paper);
+  display:flex; justify-content:center; min-height:100vh; overflow-x:hidden;
+  -webkit-tap-highlight-color:transparent;}
+
+/* layered backdrop */
+.bg{position:fixed; inset:0; z-index:-1; overflow:hidden; background:var(--ink); contain:strict;}
+.blob{position:absolute; border-radius:50%; filter:blur(56px); opacity:.5; will-change:transform;}
+.b1{width:560px; height:560px; background:radial-gradient(circle, rgba(232,193,90,.26), transparent 70%); top:-200px; left:50%; transform:translateX(-50%); animation:drift1 18s ease-in-out infinite alternate;}
+.b2{width:420px; height:420px; background:radial-gradient(circle, rgba(255,196,90,.16), transparent 70%); bottom:-160px; right:-140px; animation:drift2 22s ease-in-out infinite alternate;}
+.b3{width:380px; height:380px; background:radial-gradient(circle, rgba(190,130,40,.2), transparent 70%); bottom:20%; left:-160px; animation:drift3 20s ease-in-out infinite alternate;}
+@keyframes drift1{to{transform:translateX(-50%) translateY(60px) scale(1.1)}}
+@keyframes drift2{to{transform:translate(-60px,-60px) scale(1.12)}}
+@keyframes drift3{to{transform:translate(60px,-40px) scale(1.08)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.halo{position:absolute; top:-140px; left:50%; width:660px; height:660px; margin-left:-330px; border-radius:50%;
+  background:conic-gradient(from 0deg, transparent 0deg, rgba(232,193,90,.16) 38deg, transparent 88deg, transparent 178deg, rgba(232,193,90,.11) 216deg, transparent 268deg);
+  filter:blur(30px); animation:spin 36s linear infinite; will-change:transform;}
+.veil{position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:radial-gradient(130% 90% at 50% 0%, transparent 52%, rgba(0,0,0,.6) 100%),
+  repeating-linear-gradient(115deg, transparent 0 150px, rgba(255,255,255,.014) 150px 151px);}
+.dust{position:absolute; bottom:-12px; border-radius:50%;
+  background:radial-gradient(circle, #F9E7AE 0%, rgba(232,193,90,0) 70%);
+  animation:rise linear infinite; opacity:0; pointer-events:none;}
+@keyframes rise{0%{transform:translateY(0); opacity:0} 12%{opacity:.5} 85%{opacity:.12} 100%{transform:translateY(-108vh) translateX(36px); opacity:0}}
+@media (prefers-reduced-motion:reduce){ .blob,.halo,.dust{animation:none} .halo,.dust{display:none} }
+
+/* LITE MODE — switched on automatically when the device can't hold 60fps, and
+   forced with #lite. Keeps the gold look, drops the layers that cost the most:
+   the two spinning blurred conic gradients and the 16 rising dust particles. */
+body.lite .halo,
+body.lite .dust{display:none}
+body.lite .shalo{animation:none; filter:blur(26px); opacity:.85}
+body.lite .blob{animation:none; filter:blur(44px)}
+body.lite .prod{animation:none}
+body.lite .veil{background:radial-gradient(130% 90% at 50% 0%, transparent 52%, rgba(0,0,0,.6) 100%)}
+/* stop paying for animation while the tab is in the background */
+body.bgpaused .blob, body.bgpaused .halo, body.bgpaused .shalo,
+body.bgpaused .dust, body.bgpaused .prod{animation-play-state:paused}
+
+#fpsBadge{position:fixed; top:8px; right:8px; z-index:999; font:600 12px/1.3 'JetBrains Mono',monospace;
+  background:rgba(0,0,0,.72); color:#E8C15A; border:1px solid rgba(232,193,90,.4);
+  border-radius:8px; padding:5px 8px; pointer-events:none; white-space:pre; display:none;}
+
+.phone{width:100%; max-width:430px; position:relative; padding-bottom:90px;}
+
+/* top — compact brand so it never crowds the language pills */
+.top{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:16px 20px 0;}
+.brand{display:flex; align-items:center; gap:8px; min-width:0;}
+.brand .mark{width:26px; height:26px; object-fit:contain; flex:none;}
+.brand .wm{height:13px; width:auto; object-fit:contain; display:block; flex:none;}
+.langs{display:flex; flex:none; gap:3px; background:rgba(255,255,255,.06); border:1px solid var(--line); border-radius:99px; padding:3px;}
+.langs button{border:0; background:transparent; color:var(--dim); font:600 10.5px Inter,'Noto Sans SC'; padding:5px 9px; border-radius:99px; cursor:pointer;}
+.langs button.on{background:var(--gold); color:#241A02;}
+
+/* hero */
+.hero{text-align:center; padding:30px 20px 4px;}
+.annv{display:flex; align-items:center; justify-content:center; gap:12px;}
+.annv b{font:800 13px Inter,'Noto Sans SC'; letter-spacing:.4em; color:var(--gold); text-indent:.4em; white-space:nowrap;}
+.annv::before,.annv::after{content:''; height:1.5px; width:34px; background:linear-gradient(90deg,transparent,rgba(232,193,90,.75));}
+.annv::after{background:linear-gradient(90deg,rgba(232,193,90,.75),transparent);}
+.fslogan{display:block; width:80%; max-width:430px; margin:16px auto 0; opacity:.96;}
+/* homepage outro — Option A: hairline + the official slogan lockup */
+.outro{padding:42px 20px 0; text-align:center;}
+.outro .ohr{width:52px; height:2px; background:var(--gold-foil); margin:0 auto 26px; border-radius:2px;}
+.outro img{width:100%; display:block; filter:drop-shadow(0 10px 30px rgba(0,0,0,.6));}
+.outro .ocomm{font:600 8.5px 'JetBrains Mono'; letter-spacing:.26em; color:var(--dim); margin-top:16px;}
+.h901{font-family:var(--display); font-weight:700; letter-spacing:.005em; font-size:112px; line-height:.92; margin-top:6px;
+  background:var(--gold-foil); -webkit-background-clip:text; background-clip:text; color:transparent;
+  filter:drop-shadow(0 12px 36px rgba(232,193,90,.28));}
+.hsub{font-family:var(--display); font-weight:600; font-size:16px; letter-spacing:.22em; margin-top:13px; text-transform:uppercase;}
+.hthin{font:300 11.5px Inter,'Noto Sans SC'; letter-spacing:.34em; color:var(--dim); margin-top:8px; text-transform:uppercase;}
+.rule{width:52px; height:2px; background:var(--gold-foil); margin:15px auto 0; border-radius:2px;}
+
+/* countdown */
+.count{display:flex; justify-content:center; gap:7px; margin:17px 0 0;}
+.cbox{background:var(--navy); border:1px solid var(--line); border-radius:11px; min-width:62px; padding:10px 6px 8px; text-align:center;}
+.cbox b{display:block; font:700 21px 'JetBrains Mono'; color:var(--gold);}
+.cbox i{font-style:normal; font:600 8px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.2em; color:var(--dim);}
+.clabel{text-align:center; font:600 9.5px 'JetBrains Mono','Noto Sans SC'; color:var(--gold); letter-spacing:.18em; margin-top:9px; opacity:.85;}
+
+/* buttons */
+.ctas{padding:19px 20px 0; display:flex; flex-direction:column; gap:9px;}
+.bgold{border:0; border-radius:13px; padding:16px; background:var(--gold-foil); color:#241A02;
+  font:700 13.5px Inter,'Noto Sans SC'; letter-spacing:.12em; cursor:pointer; text-transform:uppercase;
+  box-shadow:0 12px 30px rgba(232,193,90,.28), inset 0 1px 0 rgba(255,255,255,.55);}
+.bgold:active{transform:scale(.985)}
+.bgold[disabled]{opacity:.55; cursor:wait}
+.bline{border:1.5px solid rgba(232,193,90,.6); background:transparent; border-radius:13px; padding:13px; color:var(--gold);
+  font:700 12px Inter,'Noto Sans SC'; letter-spacing:.1em; cursor:pointer; text-transform:uppercase;}
+
+/* sections */
+.section{padding:28px 20px 0;}
+.stitle{display:flex; align-items:center; gap:10px; margin-bottom:13px;}
+.stitle b{font:700 11px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.28em; color:var(--gold); white-space:nowrap;}
+.stitle span{font-size:10.5px; color:var(--dim);}
+.stitle::after{content:''; height:1px; flex:1; background:linear-gradient(90deg, rgba(232,193,90,.4), transparent);}
+
+/* ============ PRIZE SHOWCASE ============ */
+.stage{position:relative; border-radius:20px; overflow:hidden; text-align:center; padding:28px 18px 22px;
+  border:1px solid rgba(232,193,90,.45);
+  background:radial-gradient(130% 85% at 50% 0%, rgba(232,193,90,.15), rgba(10,9,6,0) 55%), linear-gradient(180deg,#17130A,#0B0A07);}
+.stage + .stage{margin-top:12px;}
+.shalo{position:absolute; top:-24%; left:50%; width:430px; height:430px; margin-left:-215px; border-radius:50%;
+  background:conic-gradient(from 0deg, transparent 0deg, rgba(232,193,90,.30) 40deg, transparent 95deg, transparent 175deg, rgba(232,193,90,.20) 215deg, transparent 275deg);
+  filter:blur(22px); animation:spin 20s linear infinite; pointer-events:none; will-change:transform;}
+body.rehearsing .shalo{background:conic-gradient(from 0deg, transparent 0deg, rgba(126,155,255,.30) 40deg, transparent 95deg, transparent 175deg, rgba(126,155,255,.20) 215deg, transparent 275deg);}
+.beam{position:absolute; top:0; bottom:34%; left:50%; width:150px; transform:translateX(-50%);
+  background:linear-gradient(180deg, rgba(249,231,174,.20), transparent 85%); filter:blur(16px); pointer-events:none;}
+/* Block, not inline. As an inline <img> it shared a line box with the pill
+   below it whenever that pill was short ("2ND"), and the two got centred as a
+   pair — which is why the tier pills sat off to the right. */
+.prod{display:block; margin:0 auto; position:relative; z-index:1;
+  filter:drop-shadow(0 26px 44px rgba(232,193,90,.34));
+  animation:floaty 4.6s ease-in-out infinite alternate;}
+@keyframes floaty{to{transform:translateY(-10px)}}
+@media (prefers-reduced-motion:reduce){ .prod,.shalo{animation:none} }
+
+/* 2nd + 3rd sit side by side: one hero, two runners-up, then the gift cards.
+   Saves a full screen of scrolling and reads as a ranking rather than a list. */
+.twoup{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;}
+/* Grid stretches both cards to equal height; the card is a flex column and the
+   spec is pushed to the bottom, so the two subtitles land on the same baseline
+   no matter how many lines each title wraps to. The spec box reserves two lines
+   so a one-line spec still starts level with a two-line one. */
+/* Specificity note: these have to outrank `.stage.second .prod` and
+   `.stage.second h3`, which are 0,3,x and sit later in the file. Anything
+   written as plain `.twoup .prod` silently loses and the override does
+   nothing — which is exactly what happened the first time. */
+.twoup .stage{padding:16px 10px 15px; margin-top:0;
+  display:flex; flex-direction:column;}
+.twoup .stage + .stage{margin-top:0;}
+.twoup .stage.second .prod{width:92%; max-width:158px;}
+.twoup .stage.second h3{font-size:17px; margin:9px 0 3px; line-height:1.18;}
+.twoup .spec{font-size:8.5px; letter-spacing:.08em; line-height:1.45;
+  box-sizing:content-box; margin-top:auto; padding-top:8px;
+  min-height:calc(2 * 1.45em);}
+/* flex children stretch by default, which turned the little tier pill into a
+   full-width bar — it has to opt out and centre itself */
+.twoup .ptag{align-self:center;}
+.twoup .shalo{width:210px; height:210px; margin-left:-105px; filter:blur(16px);}
+.twoup .ptag{font-size:8.5px; padding:4px 8px; letter-spacing:.12em;}
+.twoup .pqty2{top:9px; right:9px; font-size:9px; padding:3px 6px;}
+.stage.grand .prod{width:62%; max-width:246px;}
+.stage.second .prod{width:50%; max-width:196px;}
+.ptag{position:relative; z-index:1; display:inline-block; font:700 8.5px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.24em;
+  color:#241A02; background:var(--gold-foil); border-radius:99px; padding:5px 12px; margin-top:16px;}
+.ptag.ghost{background:transparent; border:1px solid rgba(232,193,90,.6); color:var(--gold);}
+.stage.second .ptag.ghost{background:var(--silver-foil); border:0; color:#1B222B;}
+.stage.third  .ptag.ghost{background:var(--copper-foil); border:0; color:#2A1608;}
+.stage h3{position:relative; z-index:1; font-family:var(--display); font-weight:700; font-size:28px; letter-spacing:.02em; margin-top:9px;
+  background:var(--gold-foil); -webkit-background-clip:text; background-clip:text; color:transparent;}
+.stage.second h3{font-size:22px; background-image:var(--silver-foil); -webkit-background-clip:text; background-clip:text; color:transparent;
+  filter:drop-shadow(0 6px 20px rgba(190,205,225,.18));}
+/* gold, silver, copper — the podium reads at a glance */
+.stage.third h3{font-size:22px; background-image:var(--copper-foil); -webkit-background-clip:text; background-clip:text; color:transparent;
+  filter:drop-shadow(0 6px 20px rgba(219,154,94,.22));}
+.spec{position:relative; z-index:1; font:600 9.5px 'JetBrains Mono'; letter-spacing:.26em; color:var(--dim); margin-top:7px;}
+.pqty2{position:absolute; z-index:2; top:12px; right:12px; font:700 11px 'JetBrains Mono'; color:var(--gold);
+  border:1px solid rgba(232,193,90,.55); border-radius:99px; padding:5px 10px; background:rgba(6,6,5,.5); backdrop-filter:blur(3px);}
+.gsub{display:flex; align-items:center; gap:10px; margin:20px 0 11px;}
+.gsub b{font:700 10px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.24em; color:var(--gold); white-space:nowrap;}
+.gsub span{font-size:10px; color:var(--dim); white-space:nowrap;}
+.gsub::before,.gsub::after{content:''; height:1px; flex:1; background:linear-gradient(90deg, transparent, rgba(232,193,90,.35));}
+.gsub::after{background:linear-gradient(90deg, rgba(232,193,90,.35), transparent);}
+.gwrap{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+.gcard{position:relative; border-radius:15px; overflow:hidden; text-align:center; padding:24px 10px 13px;
+  border:1px solid var(--line); background:linear-gradient(180deg,#15120B,#0C0B08);}
+.gcard::before{content:''; position:absolute; inset:0; background:radial-gradient(95% 60% at 50% 6%, rgba(232,193,90,.12), transparent 62%); pointer-events:none;}
+.gcard img{position:relative; width:100%; filter:drop-shadow(0 12px 20px rgba(0,0,0,.55));}
+.gtier{position:absolute; top:8px; left:8px; font:700 8px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.16em; color:var(--gold);
+  border:1px solid rgba(232,193,90,.5); border-radius:99px; padding:4px 8px; background:rgba(6,6,5,.55); z-index:1;}
+.gqty{position:absolute; top:8px; right:8px; font:700 8.5px 'JetBrains Mono'; letter-spacing:.1em; color:#241A02;
+  background:var(--gold-foil); border-radius:99px; padding:4px 8px; z-index:1;}
+.gname{position:relative; font-family:var(--display); font-style:italic; font-weight:600; font-size:14.5px; color:var(--gold); margin-top:9px;}
+.gsubname{position:relative; font-size:9.5px; color:var(--dim); margin-top:3px; letter-spacing:.04em;}
+.prow{position:relative; display:flex; align-items:center; gap:14px; border-radius:15px; overflow:hidden;
+  padding:16px 16px 16px 14px; border:1px solid var(--line); background:linear-gradient(180deg,#15120B,#0C0B08);}
+.prow::before{content:''; position:absolute; inset:0; background:radial-gradient(60% 100% at 16% 50%, rgba(232,193,90,.13), transparent 64%); pointer-events:none;}
+.prow img{position:relative; flex:none; width:62px; filter:drop-shadow(0 10px 18px rgba(0,0,0,.6));}
+.prow .pinfo{position:relative; text-align:left; padding-right:34px;}
+.prow .gname{margin-top:0;}
+.totalstrip{margin-top:13px; text-align:center; font:700 9.5px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.2em; color:var(--gold);
+  border:1px dashed rgba(232,193,90,.45); border-radius:99px; padding:10px 8px;}
+
+/* steps */
+/* ---------- 9.01 week · event schedule ----------
+   Everything is scoped to .wkblk so nothing here can collide with the
+   prize or how-it-works rules above. */
+#secWeek{padding-top:34px}
+.wkblk{position:relative; border:1px solid rgba(232,193,90,.32); border-radius:20px;
+  padding:30px 15px 20px;
+  background:radial-gradient(130% 55% at 50% 0%, rgba(232,193,90,.075), transparent 72%),
+             linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0) 40%);
+  box-shadow:0 34px 64px -44px rgba(232,193,90,.55);}
+.wkblk::before{content:''; position:absolute; top:-1px; left:14%; right:14%; height:1px;
+  background:linear-gradient(90deg, transparent, rgba(249,231,174,.85), transparent);}
+.wkblk .legend{position:absolute; top:0; left:50%; transform:translate(-50%,-50%);
+  display:flex; align-items:center; gap:9px; white-space:nowrap;
+  background:var(--ink); border:1px solid rgba(232,193,90,.34); border-radius:20px; padding:7px 15px;}
+.wkblk .legend b{font:700 10.5px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.26em; color:var(--gold);}
+.wkblk .legend span{font-size:9.5px; color:var(--dim);}
+.wkblk .phase{display:flex; align-items:baseline; gap:9px; margin:0 0 10px;}
+.wkblk .phase b{font:700 9.5px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.24em; color:var(--dim);}
+/* v9.9 — the date used to be 17px Bodoni in foil, the only thing in this row
+   that did not share the PRE-EVENT WEEK type. Now the same mono as the label
+   beside it, kept gold (label stays dim) so the main day still leads the eye. */
+.wkblk .phase em{font-style:normal; font:700 11px 'JetBrains Mono','Noto Sans SC';
+  letter-spacing:.2em; color:var(--gold);}
+.wkblk .phase::after{content:''; height:1px; flex:1; background:rgba(226,199,132,.14);}
+.wkblk .ecard{background:var(--navy); border:1px solid rgba(226,199,132,.11); border-radius:14px;
+  padding:15px 16px 16px; margin-bottom:10px; position:relative; overflow:hidden;}
+.wkblk .ecard.live{border-color:rgba(232,193,90,.42);
+  box-shadow:0 0 0 1px rgba(232,193,90,.10), 0 14px 34px -22px rgba(232,193,90,.5);}
+.wkblk .ecard.done{opacity:.5}
+.wkblk .ehead{display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:11px;}
+.wkblk .edate{font:800 9px 'JetBrains Mono'; letter-spacing:.12em; color:#241A02;
+  background:var(--gold-foil); padding:5px 9px; border-radius:7px; white-space:nowrap;}
+.wkblk .only{font:700 8.5px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.16em; color:var(--gold);
+  border:1px solid rgba(232,193,90,.4); border-radius:7px; padding:4px 8px; white-space:nowrap;}
+.wkblk .estat{margin-left:auto; font:700 8.5px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.1em;
+  color:var(--dim); display:flex; align-items:center; gap:5px; white-space:nowrap;}
+.wkblk .estat.on{color:#7FE0A8}
+.wkblk .estat.on::before{content:''; width:6px; height:6px; border-radius:50%; background:#7FE0A8;
+  animation:wkbl 1.5s infinite;}
+@keyframes wkbl{50%{opacity:.25}}
+/* .ecard in the selector so the sheet's own `.sheet h3` rule cannot win */
+.wkblk .ecard h3{font:700 16px Inter,'Noto Sans SC'; letter-spacing:-.01em; color:var(--paper); text-align:left;}
+.wkblk .ecard > p{font-size:10.5px; color:var(--dim); line-height:1.6; margin-top:10px;}
+.wkblk .chips{display:flex; align-items:center; gap:6px; margin-top:11px; flex-wrap:wrap;}
+.wkblk .chips span{font:600 10px Inter,'Noto Sans SC'; color:var(--paper); background:rgba(232,193,90,.07);
+  border:1px solid var(--line); border-radius:20px; padding:6px 11px;}
+.wkblk .chips i{font-style:normal; color:var(--gold); font-size:10px; opacity:.7;}
+.wkblk .kick{font:800 9.5px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.14em; color:var(--gold); margin-top:9px;}
+.wkblk .pricerow{display:flex; align-items:center; gap:14px; margin-top:11px;}
+.wkblk .price{display:flex; align-items:baseline; gap:5px;}
+.wkblk .price i{font-style:normal; font:600 11px Inter; letter-spacing:.1em; color:var(--dim);}
+.wkblk .price b{font-family:var(--display); font-weight:900; font-size:46px; line-height:.86;
+  background:var(--gold-foil); -webkit-background-clip:text; background-clip:text; color:transparent;}
+/* fixed height: the row grew when the flask went in, and a stretched rule
+   ran far below the price it is meant to separate */
+.wkblk .pdiv{width:1px; height:54px; align-self:center; background:rgba(226,199,132,.22);}
+.wkblk .months b{display:block; font-family:var(--display); font-weight:900; font-size:30px; line-height:1;
+  background:var(--gold-foil); -webkit-background-clip:text; background-clip:text; color:transparent;}
+.wkblk .months i{font-style:normal; font:700 8.5px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.18em; color:var(--dim);}
+/* Bodoni's plus is a hairline and the foil gradient is at its darkest right in
+   the middle of the word, so the "+" all but vanished. Sans, heavier, and
+   painted solid instead of through the gradient. */
+.wkblk .months b em{font-style:normal; font-family:Inter,'Noto Sans SC',sans-serif; font-weight:800;
+  font-size:.68em; vertical-align:.12em; padding:0 .05em;
+  -webkit-text-fill-color:#FBEBBE; color:#FBEBBE;}
+/* free gift: Matrix flask sits in the gap to the right of the price */
+.wkblk .fl{margin-left:auto; position:relative; flex:none;}
+.wkblk .fl img{height:clamp(94px,27vw,120px); width:auto; display:block; position:relative; z-index:1;}
+.wkblk .fl::before{content:''; position:absolute; inset:-14px -18px; border-radius:50%;
+  background:radial-gradient(circle, rgba(232,193,90,.20), transparent 68%);}
+.wkblk .gline{display:flex; align-items:baseline; gap:8px; margin-top:12px; flex-wrap:wrap;}
+.wkblk .gline b{font:800 9px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.14em; color:#241A02;
+  background:var(--gold-foil); padding:5px 9px; border-radius:6px; white-space:nowrap;}
+.wkblk .gline span{flex:1; min-width:150px; font-size:10px; color:var(--dim); line-height:1.55;}
+.wkblk .tl{position:relative; padding-left:26px; margin-top:2px;}
+.wkblk .tli{position:relative; padding-bottom:12px;}
+.wkblk .tli:last-child{padding-bottom:2px}
+.wkblk .tli:not(:last-child)::before{content:''; position:absolute; left:-19px; top:17px; bottom:0; width:1px;
+  background:linear-gradient(180deg, rgba(226,199,132,.18), rgba(232,193,90,.75));}
+.wkblk .dot{position:absolute; left:-23px; top:12px; width:9px; height:9px; transform:rotate(45deg);
+  background:var(--ink); border:1px solid rgba(226,199,132,.55);}
+.wkblk .tcard{background:var(--navy); border:1px solid rgba(226,199,132,.11); border-radius:14px; padding:14px 15px 15px;}
+.wkblk .twhen{display:inline-block; font:800 9px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.14em;
+  color:#241A02; background:var(--gold-foil); padding:5px 9px; border-radius:7px;}
+/* v9.9 — Inter + ALL CAPS so the event-day cards share the type system of the
+   pre-event cards above (.ecard h3). Caps come from text-transform, never from
+   the strings, so 中文 is untouched and BM uppercases for free.
+   22 -> 19px: caps set wider than sentence case and Inter is wider than Bodoni.
+   These headlines already wrap to two lines on a phone today; 19px is where
+   caps hold the same two-line shape without growing the card. */
+.wkblk .tli h4{font:700 19px Inter,'Noto Sans SC'; letter-spacing:.012em; line-height:1.3;
+  margin-top:11px; text-transform:uppercase;}
+.wkblk .tli p{font-size:10.5px; color:var(--dim); line-height:1.6; margin-top:6px;}
+.wkblk .tli.peak .dot{width:15px; height:15px; left:-26px; top:15px; background:var(--gold-foil);
+  border-color:transparent; box-shadow:0 0 0 4px rgba(232,193,90,.15);}
+.wkblk .tli.peak .tcard{border-color:rgba(232,193,90,.45); padding:18px 16px 17px;
+  background:radial-gradient(120% 90% at 50% 0%, rgba(232,193,90,.15), transparent 66%), #0C0A06;
+  box-shadow:0 22px 48px -32px rgba(232,193,90,.6), inset 0 1px 0 rgba(249,231,174,.2);}
+/* GRAND LUCKY DRAW keeps the gold foil; 800 weight and a
+   tighter track so Inter caps carry the same presence Bodoni 29px had. */
+.wkblk .tli.peak h4{font-weight:800; font-size:25px; letter-spacing:.006em; line-height:1.2;
+  background:var(--foil-wide); -webkit-background-clip:text; background-clip:text; color:transparent;}
+.wkblk .tli.peak.now .dot{animation:wkpk 1.6s infinite;}
+@keyframes wkpk{50%{box-shadow:0 0 0 10px rgba(232,193,90,0)}}
+.wkblk .venue{display:flex; align-items:center; gap:6px; margin-top:11px;
+  font:600 10.5px Inter,'Noto Sans SC'; color:var(--paper);}
+.wkblk .venue .pin{color:var(--gold); flex:none;}
+.wkblk .lv{display:inline-flex; align-items:center; gap:6px; margin-top:10px;
+  font:700 8.5px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.16em; color:var(--paper);
+  border:1px solid rgba(226,199,132,.3); border-radius:20px; padding:5px 11px;}
+.wkblk .lv::before{content:''; width:6px; height:6px; border-radius:50%; background:#E0574F; flex:none;}
+.wkblk .lv.now{border-color:rgba(224,87,79,.75); background:rgba(224,87,79,.13); color:#FFD9D6;}
+.wkblk .lv.tap{cursor:pointer}
+.wkblk .lv.now::before{animation:wkbl 1s infinite;}
+.wkblk .done .venue, .wkblk .done .lv{opacity:.5}
+.wkblk .spon{display:flex; align-items:center; justify-content:center; gap:26px; margin-top:12px;
+  padding:13px; background:rgba(255,255,255,.03); border:1px solid var(--line); border-radius:11px;}
+.wkblk .spon img{height:42px; width:auto; display:block;}
+.wkblk .spon img.dc{height:37px}
+
+.steps{background:var(--navy); border:1px solid var(--line); border-radius:16px; padding:4px 16px;}
+.step{display:flex; gap:13px; align-items:flex-start; padding:14px 0; border-bottom:1px dashed rgba(226,199,132,.16);}
+.step:last-child{border-bottom:0}
+.snum{flex:none; width:30px; font-family:var(--display); font-weight:700; font-size:21px; line-height:1;
+  background:var(--gold-foil); -webkit-background-clip:text; background-clip:text; color:transparent;}
+.step h4{font-size:13px; font-weight:700;}
+.step p{font-size:10.5px; color:var(--dim); line-height:1.55; margin-top:3px;}
+
+/* forms */
+.back{display:inline-flex; align-items:center; gap:7px; margin:16px 0 0 20px; border:1.5px solid rgba(232,193,90,.55);
+  background:rgba(232,193,90,.07); color:var(--gold); font:700 12px Inter,'Noto Sans SC'; cursor:pointer;
+  padding:9px 16px; border-radius:99px;}
+.back:active{transform:scale(.96)}
+.pgtitle{font-family:var(--display); font-weight:700; font-size:30px; padding:8px 20px 0;}
+.pgsub{font-size:12px; color:var(--dim); padding:6px 20px 0; line-height:1.6;}
+.card{background:var(--navy); border:1px solid var(--line); border-radius:18px; padding:18px 16px;}
+.warn{display:flex; gap:11px; border:1px solid rgba(232,193,90,.5); background:rgba(232,193,90,.07); border-radius:13px; padding:13px; margin-bottom:16px;}
+.warn .wi{flex:none; font-size:17px;}
+.warn h5{font:700 10.5px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.1em; color:var(--gold);}
+.warn p{font-size:10.5px; color:#C6BFA9; line-height:1.6; margin-top:4px;}
+.warn p b{color:var(--gold); font-weight:600;}
+.fld{margin-bottom:13px;}
+.fld label{display:block; font:700 9px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.14em; color:var(--dim); margin-bottom:7px;}
+.fld label em{color:var(--gold); font-style:normal;}
+.fld input{width:100%; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.16); border-radius:11px; padding:12px 14px; font:500 16px Inter; color:var(--paper); outline:none;}
+.fld input:focus{border-color:var(--gold)}
+.fld input.bad{border-color:#E2574E}
+.fhint{font-size:10px; color:var(--dim); line-height:1.55; margin-top:7px;}
+.seg{display:flex; gap:8px; margin-bottom:9px;}
+.ccrow{display:flex; gap:8px;}
+.ccrow select{flex:0 0 132px; min-width:0; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.16);
+  border-radius:11px; padding:12px 7px; font:600 16px Inter; color:var(--paper); outline:none;}
+.ccrow select:focus{border-color:var(--gold)}
+.ccrow input{flex:1; min-width:0;}
+.hwrap{display:flex; align-items:center; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.16); border-radius:11px;}
+.hwrap:focus-within{border-color:var(--gold)}
+.hwrap .hpre{display:none; padding:12px 0 12px 14px; font:700 16px Inter; color:var(--gold);}
+.hwrap.ig .hpre{display:block;}
+.hwrap input{flex:1; min-width:0; background:transparent; border:0; border-radius:11px; padding:12px 14px; font:500 16px Inter; color:var(--paper); outline:none;}
+.hwrap.ig input{padding-left:5px;}
+.segb{flex:1; display:flex; align-items:center; justify-content:center; gap:8px; border:1.5px solid rgba(255,255,255,.16); border-radius:11px; padding:11px; font:600 12px Inter; color:var(--dim); cursor:pointer;}
+.segb.on{border-color:var(--gold); color:var(--paper); background:rgba(232,193,90,.08);}
+.segb .si{width:22px; height:22px; border-radius:6px;}
+.segb .si svg{width:14px; height:14px}
+.consent{display:flex; gap:9px; align-items:flex-start; font-size:10.5px; color:var(--dim); line-height:1.6; margin:4px 0 12px; cursor:pointer;}
+.consent input{width:15px; height:15px; margin-top:1px; accent-color:#C79A38; flex:none;}
+.err{display:none; border:1px solid rgba(226,87,78,.55); background:rgba(226,87,78,.1); color:#F3A9A3; border-radius:11px; padding:11px 13px; font-size:11.5px; line-height:1.5; margin-bottom:12px;}
+.err.show{display:block}
+
+/* ============ TICKET (dashboard) ============ */
+.ticket{position:relative; border-radius:18px; overflow:hidden; background:var(--gold-foil); color:#241A02; padding:20px 20px 16px;
+  box-shadow:0 22px 50px rgba(232,193,90,.25), inset 0 1px 0 rgba(255,255,255,.55);}
+.ticket::before,.ticket::after{content:''; position:absolute; width:26px; height:26px; border-radius:50%; background:var(--ink); top:97px; transform:translateY(-50%); z-index:2;}
+.ticket::before{left:-13px}.ticket::after{right:-13px}
+.shine{position:absolute; top:0; bottom:0; width:60px; background:linear-gradient(100deg, transparent, rgba(255,255,255,.55), transparent); animation:sh 3.6s ease-in-out infinite; pointer-events:none; z-index:3;}
+@keyframes sh{0%{left:-80px} 55%{left:120%} 100%{left:120%}}
+@media (prefers-reduced-motion:reduce){ .shine{display:none} }
+.trow{display:flex; justify-content:space-between; align-items:flex-end; gap:12px;}
+.tlabel{font:700 9.5px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.26em; opacity:.72;}
+.tnum{font-family:var(--display); font-weight:700; font-size:56px; line-height:1;}
+.tnum small{font:700 12px Inter,'Noto Sans SC'; letter-spacing:.08em;}
+.tname{font-weight:700; font-size:13.5px; text-align:right; word-break:break-word;}
+.tic{font:700 10.5px 'JetBrains Mono'; opacity:.7; text-align:right; margin-top:3px;}
+.tperf{border-top:2px dashed rgba(36,26,2,.35); margin:13px 0 11px;}
+.qzone{display:flex; align-items:center; gap:13px; background:rgba(255,255,255,.4); border-radius:13px; padding:10px; cursor:pointer;
+  border:1.5px dashed rgba(36,26,2,.28);}
+.qzone:active{transform:scale(.985)}
+.qbox{flex:none; background:#fff; border-radius:9px; padding:7px; box-shadow:0 4px 14px rgba(36,26,2,.18); min-width:110px; min-height:110px;}
+.qbox img, .qbox canvas, .qbox table{display:block; width:96px !important; height:96px !important;}
+.qfall{font:700 8px 'JetBrains Mono'; color:#241A02; word-break:break-all; width:96px;}
+.qtxt b{display:block; font:700 10.5px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.12em;}
+.qtxt p{font-size:10.5px; line-height:1.5; margin-top:5px; opacity:.85;}
+.qtap{display:inline-flex; align-items:center; gap:5px; margin-top:7px; font:700 8.5px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.14em;
+  background:#241A02; color:#F3DFA0; border-radius:99px; padding:4px 9px;}
+.qtap::before{content:'⤢'; font-size:10px;}
+.tbreak{display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin-top:11px;}
+.tb{background:rgba(255,255,255,.36); border-radius:10px; padding:8px 4px 7px; text-align:center;}
+.tb b{display:block; font-family:var(--display); font-weight:700; font-size:18px; line-height:1;}
+.tb i{display:block; font-style:normal; font:700 7.5px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.02em; opacity:.75; margin-top:4px;}
+/* v9.10 — the manual-correction chip. It is a fifth cell in the same grid, so
+   it wraps to its own row and the five numbers visibly add up to the headline
+   total. Painted dark on the gold foil: it is a staff correction, not one of
+   the four ways an entrant earns tickets, and the contrast says so. */
+.tb.adj{background:var(--ink);}
+.tb.adj b{color:var(--gold);}
+.tb.adj i{color:var(--gold); opacity:.6;}
+.tb.adj.neg b{color:#F2A0A0;}
+.tb.adj.neg i{color:#F2A0A0;}
+/* ---- ticket serial line ----
+   A real ticket has its number printed on the stub. This is that line, and it
+   lives inside the existing ticket card — same foil, same perforated language.
+   Hidden entirely until app_config.ticket_numbers_public is on. */
+.tser{display:flex; justify-content:space-between; align-items:baseline; gap:10px; margin-top:11px;
+  padding-top:10px; border-top:1px dashed rgba(36,26,2,.3); cursor:pointer;}
+.tser:active{opacity:.65}
+.tser .k{font:700 8px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.2em; opacity:.62;}
+.tser .v{font:800 12.5px 'JetBrains Mono'; letter-spacing:.01em; font-variant-numeric:tabular-nums;}
+/* rows inside the ticket-number sheet */
+.serhead{font-size:11px; color:var(--dim); line-height:1.65; margin-bottom:4px;}
+.serow{display:flex; justify-content:space-between; gap:12px; align-items:center;
+  padding:12px 0; border-bottom:1px dashed rgba(226,199,132,.16);}
+.serow:last-of-type{border-bottom:0;}
+.serow .l{font:700 11px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.05em; color:var(--paper);}
+.serow .d{font-size:10px; color:var(--dim); margin-top:4px; letter-spacing:.02em;}
+.serow .r{font:800 11.5px 'JetBrains Mono'; color:var(--gold); white-space:nowrap;
+  font-variant-numeric:tabular-nums; text-align:right;}
+.howpill{display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin-top:12px;}
+.howpill button{display:inline-flex; align-items:center; gap:8px; border:1.5px solid rgba(232,193,90,.55); background:rgba(232,193,90,.06);
+  color:var(--gold); border-radius:99px; padding:10px 18px; font:700 11.5px Inter,'Noto Sans SC'; letter-spacing:.04em; cursor:pointer;}
+.howpill button i{font-style:normal; width:17px; height:17px; border-radius:50%; background:var(--gold-foil); color:#241A02; display:grid; place-items:center; font:800 11px Inter; flex:none;}
+.howpill button i svg{display:block}
+/* inside the sheet, the sheet itself is the frame — drop the border and glow */
+#weekModal .wkblk{border:0; box-shadow:none; background:none; padding:4px 0 0;}
+#weekModal .wkblk::before{display:none}
+#weekModal .wkblk .legend{display:none}
+
+/* winner card */
+.woncard{position:relative; overflow:hidden; border-radius:18px; padding:20px 18px; text-align:center; margin-bottom:14px;
+  background:linear-gradient(140deg,#2A2008,#141007 70%); border:1.5px solid rgba(232,193,90,.85);
+  box-shadow:0 18px 46px rgba(232,193,90,.22);}
+.woncard .wtag{display:inline-block; font:700 9px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.3em; color:#241A02;
+  background:var(--gold-foil); border-radius:99px; padding:6px 14px;}
+.woncard h3{font-family:var(--display); font-weight:700; font-size:25px; margin-top:11px;
+  background:var(--gold-foil); -webkit-background-clip:text; background-clip:text; color:transparent;}
+.woncard .wsub{font:600 9.5px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.2em; color:var(--dim); margin-top:6px;}
+.woncard img{width:52%; max-width:190px; margin-top:12px; filter:drop-shadow(0 18px 32px rgba(232,193,90,.3));}
+.woncard .wnote{font-size:10.5px; color:#D9CFB4; line-height:1.65; margin-top:12px; text-align:left;
+  border:1px dashed rgba(232,193,90,.4); border-radius:12px; padding:11px 13px;}
+.woncard .wnote b{color:var(--gold); font-weight:600;}
+.woncard .wnote .wurg{display:block; margin:-1px 0 9px; padding-bottom:9px; font-weight:600;
+  color:#FFD9A0; border-bottom:1px dashed rgba(232,193,90,.3);}
+.woncard .wnote .wurg b{color:#FFD9A0;}
+.woncard .claimedpill{display:inline-block; margin-top:12px; font:700 10px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.16em;
+  color:#7de0a6; border:1.5px solid rgba(72,187,120,.6); border-radius:99px; padding:7px 14px; background:rgba(72,187,120,.08);}
+
+/* streak */
+.streak{background:var(--navy); border:1px solid var(--line); border-radius:16px; padding:16px;}
+.shead{display:flex; align-items:baseline; justify-content:space-between; gap:10px;}
+.shead b{font:700 11px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.24em; color:var(--gold);}
+.shead span{font:600 9.5px 'JetBrains Mono','Noto Sans SC'; color:var(--dim); letter-spacing:.04em; text-align:right;}
+.dots{display:flex; justify-content:space-between; margin-top:14px;}
+.dot{width:40px; display:flex; flex-direction:column; align-items:center; gap:5px;}
+.dcirc{width:38px; height:38px; border-radius:50%; border:1.5px solid rgba(232,193,90,.28); display:grid; place-items:center;
+  font:700 12px 'JetBrains Mono'; color:var(--dim); position:relative; background:rgba(255,255,255,.03);}
+.dot.done .dcirc{background:var(--gold-foil); border-color:transparent; color:#241A02; animation:pop .4s cubic-bezier(.5,1.6,.4,1) backwards;}
+.dot.done .dcirc::after{content:'✓'; position:absolute; right:-3px; bottom:-3px; width:15px; height:15px; border-radius:50%;
+  background:#241A02; color:#F3DFA0; font:800 9px Inter; display:grid; place-items:center; border:1.5px solid #F3DFA0;}
+@keyframes pop{from{transform:scale(.3); opacity:0}}
+.dot.today .dcirc{border-color:var(--gold); color:var(--gold); animation:pulse 1.8s ease-in-out infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(232,193,90,.4)} 50%{box-shadow:0 0 0 7px rgba(232,193,90,0)}}
+@media (prefers-reduced-motion:reduce){ .dot.today .dcirc, .dot.done .dcirc{animation:none} }
+.dot em{font-style:normal; font:700 7px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.1em; color:var(--gold); min-height:9px; white-space:nowrap;}
+.sfoot{display:flex; align-items:center; gap:8px; margin-top:13px; font-size:10.5px; color:var(--dim); line-height:1.5;}
+.sfoot b{color:var(--gold); font:700 11px 'JetBrains Mono'; white-space:nowrap;}
+/* tasks */
+.tasks{display:flex; flex-direction:column; gap:8px;}
+.task{background:var(--navy); border:1px solid var(--line); border-radius:13px; padding:12px 14px;}
+.task.done{border-color:rgba(232,193,90,.6); background:#171307;}
+.taskrow{display:flex; align-items:center; gap:12px;}
+.si{width:38px; height:38px; flex:none; border-radius:11px; display:grid; place-items:center;}
+.si svg{width:20px; height:20px; display:block;}
+.si-ig{background:radial-gradient(circle at 30% 110%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);}
+.si-fb{background:#1877F2;}
+.si-tt{background:#000;}
+.si-xhs{background:#FF2442; color:#fff; font:700 9px 'Noto Sans SC';}
+.task h5{font-size:12.5px; font-weight:600;}
+.tinfo{min-width:0; flex:1;}
+.thead{display:flex; align-items:center; gap:7px; flex-wrap:wrap;}
+.tpts{flex:none; font:800 9.5px 'JetBrains Mono'; letter-spacing:.04em; color:#241A02;
+  background-image:var(--gold-foil); border-radius:99px; padding:3px 8px; line-height:1.35;
+  box-shadow:0 1px 6px rgba(232,193,90,.28);}
+.task.done .tpts{opacity:.55; filter:saturate(.7);}
+.task p{font:500 9.5px 'JetBrains Mono'; color:var(--dim); margin-top:2px;}
+.tbtn{margin-left:auto; flex:none; border:1px solid rgba(232,193,90,.55); background:transparent; color:var(--gold);
+  font:700 10.5px Inter,'Noto Sans SC'; padding:8px 12px; border-radius:99px; cursor:pointer; text-decoration:none; white-space:nowrap; text-align:center;}
+.task.done .tbtn{background:var(--gold-foil); color:#241A02; border:0;}
+.taskform{display:none; gap:8px; margin-top:10px;}
+.taskform.show{display:flex;}
+.taskform.solo button{flex:1; padding:12px 16px;}
+.taskform input{flex:1; min-width:0; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.16); border-radius:10px; padding:9px 12px; font:500 16px Inter; color:var(--paper); outline:none;}
+.taskform input:focus{border-color:var(--gold)}
+#nameHint{color:#F0C46A;}
+.tlink{color:var(--gold); text-decoration:underline; text-underline-offset:2px;}
+.taskform button{border:0; border-radius:10px; padding:0 16px; background:var(--gold-foil); color:#241A02; font:700 12px Inter,'Noto Sans SC'; cursor:pointer; white-space:nowrap;}
+.tasknote{font-size:10.5px; color:var(--dim); line-height:1.6; margin-top:10px;}
+.tasknote b{color:var(--gold); font-weight:600;}
+
+/* mission (compact) */
+.mission{border-radius:16px; padding:17px; background:linear-gradient(135deg,#221A08,#0E0D09 72%); border:1px solid rgba(232,193,90,.42);}
+.mission .mh{display:flex; align-items:center; gap:11px;}
+.mission .mtag{font:700 8.5px 'JetBrains Mono'; letter-spacing:.2em; color:#241A02; background:var(--gold-foil); border-radius:99px; padding:4px 9px;}
+.mission h4{font-family:var(--display); font-weight:700; font-size:17px; letter-spacing:.03em; margin-top:10px;}
+.mission .mdesc{font-size:11px; color:#CFC8B4; line-height:1.65; margin-top:8px;}
+.mission .mdesc b{color:var(--gold); font-weight:600;}
+.mission .mfoot{display:flex; gap:8px; margin-top:13px;}
+.mission .mfoot a{flex:1; text-align:center; text-decoration:none; border:1px solid rgba(232,193,90,.55); color:var(--gold);
+  border-radius:11px; padding:11px; font:700 11.5px Inter,'Noto Sans SC';}
+.mission .mfoot button{flex:1; border:0; border-radius:11px; padding:11px; background:var(--gold-foil); color:#241A02; font:700 11.5px Inter,'Noto Sans SC'; cursor:pointer;}
+.mission .mfoot button[disabled]{opacity:.7; cursor:default}
+/* v9.10 — this block sits INSIDE the gold ticket, not on the dark page.
+   Until now it inherited the dark-page palette (gold text, a 28%-gold hairline
+   and a 5%-gold wash), which on the foil was gold-on-gold: the heading was
+   barely legible and the date was invisible. It is now painted dark, the
+   reverse of every other panel on the card, so it reads at a glance. */
+.adjbox{display:none; margin-top:6px; padding:11px 13px; border-radius:11px;
+  background:var(--ink); font-size:12px; line-height:1.5;}
+.adjbox b{display:block; color:var(--gold); font:700 8px 'JetBrains Mono','Noto Sans SC';
+  letter-spacing:.2em; opacity:.72;}
+.adjbox .lst{margin-top:7px; color:#F3E9CE;}
+.adjbox .row{display:flex; gap:9px; align-items:baseline;}
+.adjbox .row + .row{margin-top:8px; padding-top:8px; border-top:1px dashed rgba(232,193,90,.18);}
+.adjbox .row .d{flex:none; font:800 13px 'JetBrains Mono'; color:var(--gold); font-variant-numeric:tabular-nums;}
+.adjbox .row .d.neg{color:#F2A0A0;}
+.adjbox .row .why{min-width:0; word-break:break-word;}
+.adjbox .row .when{display:block; font:700 9px 'JetBrains Mono'; color:#9A8C63;
+  letter-spacing:.08em; margin-top:3px;}
+
+/* live card on dashboard */
+.livecard{border-radius:16px; padding:20px; background:var(--navy); border:1px solid var(--line); text-align:center;}
+.livecard .ld{font:700 9px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.3em; color:var(--gold);}
+.livecard .ld::before{content:'● '; animation:blink 1.4s infinite;}
+@keyframes blink{50%{opacity:.25}}
+.livecard h3{font-family:var(--display); font-weight:700; font-size:25px; letter-spacing:.04em; margin-top:9px;}
+.livecard p{font-size:11px; color:var(--dim); line-height:1.65; margin-top:8px;}
+.livecard .bgold{margin-top:15px; width:100%;}
+
+/* ============ LIVE PAGE ============ */
+.livechip{font:700 9px 'JetBrains Mono'; letter-spacing:.26em; color:var(--gold); border:1px solid rgba(232,193,90,.5);
+  border-radius:99px; padding:6px 11px; flex:none;}
+.livechip::before{content:'● '; animation:blink 1.3s infinite;}
+.spot{position:relative; margin:14px 20px 0; border-radius:20px; overflow:hidden; text-align:center; padding:20px 16px 17px;
+  border:1px solid rgba(232,193,90,.45);
+  background:radial-gradient(130% 85% at 50% 0%, rgba(232,193,90,.15), rgba(10,9,6,0) 55%), linear-gradient(180deg,#17130A,#0B0A07);}
+.spHint{position:relative; text-align:center; font:700 8.5px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.26em; color:var(--dim); margin-bottom:10px;}
+.spCar{position:relative; display:flex; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
+  scrollbar-width:none; margin:0 -16px;}
+.spCar::-webkit-scrollbar{display:none}
+.spCar.locked{overflow-x:hidden;}
+.spSlide{flex:0 0 100%; scroll-snap-align:center; text-align:center; padding:0 16px; box-sizing:border-box;}
+.spNav{position:relative; display:flex; justify-content:center; gap:7px; margin-top:13px;}
+.snd{width:7px; height:7px; border-radius:50%; border:0; padding:0; background:rgba(232,193,90,.28); cursor:pointer;}
+.snd.on{background:var(--gold-foil); transform:scale(1.35);}
+.pdw{display:contents}
+.spName.silver{background-image:var(--silver-foil);}
+.spName.copper{background-image:var(--copper-foil);}
+.spTier{position:relative; font:700 9px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.28em; color:var(--gold);}
+.spImgWrap{position:relative; height:142px; display:grid; place-items:center; margin-top:9px;}
+.spImgWrap img{max-height:142px; max-width:72%; filter:drop-shadow(0 20px 36px rgba(232,193,90,.32));
+  transition:opacity .28s, transform .28s; animation:floaty 4.5s ease-in-out infinite alternate;}
+.spImgWrap.swap img{opacity:0; transform:scale(.9);}
+.spName{position:relative; font-family:var(--display); font-weight:700; font-size:23px; margin-top:9px;
+  background:var(--gold-foil); -webkit-background-clip:text; background-clip:text; color:transparent;}
+.spSub{position:relative; font:600 9px 'JetBrains Mono'; letter-spacing:.22em; color:var(--dim); margin-top:6px;}
+.prog{position:relative; display:flex; align-items:center; justify-content:center; gap:6px; margin-top:12px; flex-wrap:wrap;}
+.pd{width:9px; height:9px; border-radius:50%; border:1.5px solid rgba(232,193,90,.4);}
+.pd.on{background:var(--gold-foil); border-color:transparent; animation:pop .35s cubic-bezier(.5,1.6,.4,1);}
+.pcount{font:700 10px 'JetBrains Mono'; color:var(--gold); margin-left:6px; letter-spacing:.08em;}
+.arena{position:relative; margin:12px 20px 0; border-radius:20px; border:1px solid var(--line);
+  background:var(--navy); min-height:172px; display:grid; place-items:center; overflow:hidden; padding:20px;
+  transition:border-color .3s, box-shadow .3s;}
+.arena.hot{border-color:rgba(232,193,90,.7); box-shadow:0 0 44px rgba(232,193,90,.16) inset, 0 0 34px rgba(232,193,90,.12);}
+.arena.won{border-color:rgba(232,193,90,.9); box-shadow:0 0 60px rgba(232,193,90,.25) inset, 0 14px 44px rgba(232,193,90,.18);}
+.ring{position:absolute; inset:0; display:none; place-items:center; pointer-events:none;}
+.arena.hot .ring{display:grid;}
+.ring i{position:absolute; width:120px; height:120px; border-radius:50%; border:1.5px solid rgba(232,193,90,.5); animation:ringx 1.5s ease-out infinite;}
+.ring i:nth-child(2){animation-delay:.5s}
+.ring i:nth-child(3){animation-delay:1s}
+@keyframes ringx{from{transform:scale(.5); opacity:.8} to{transform:scale(2.6); opacity:0}}
+.stateBox{position:relative; text-align:center; width:100%;}
+.idleTxt{font:600 10.5px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.28em; color:var(--dim);}
+.idleTxt::before{content:'● '; color:var(--gold); animation:blink 1.5s infinite;}
+.idleHint{font-size:10px; color:#6d6653; margin-top:9px; letter-spacing:.04em; line-height:1.6;}
+.winTag{display:inline-block; font:700 8.5px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.3em; color:#241A02;
+  background:var(--gold-foil); border-radius:99px; padding:5px 13px;}
+.winName{font:700 clamp(19px,6vw,28px) 'JetBrains Mono'; margin-top:12px; color:#fff; word-break:break-word;
+  text-shadow:0 0 26px rgba(232,193,90,.65); animation:slam .5s cubic-bezier(.3,1.5,.4,1);}
+@keyframes slam{from{transform:scale(1.7); opacity:0}}
+.winMeta{font:600 11px 'JetBrains Mono'; color:var(--gold); margin-top:9px; letter-spacing:.1em;}
+.winSocial{font:600 12.5px 'JetBrains Mono'; color:#E8C15A; opacity:.72; margin-top:5px; letter-spacing:.06em;}
+.slot .sox{font:600 9.5px 'JetBrains Mono'; color:#E8C15A; opacity:.6; margin-top:1px;}
+.winPrize{font:600 9.5px 'JetBrains Mono','Noto Sans SC'; color:var(--dim); margin-top:6px; letter-spacing:.12em;}
+.slot .tno{font:800 9.5px 'JetBrains Mono'; color:var(--gold); opacity:.85;
+  margin-top:4px; letter-spacing:.02em; font-variant-numeric:tabular-nums;}
+@media (prefers-reduced-motion:reduce){ .winName,.pd.on{animation:none} .ring{display:none !important} }
+
+
+/* ============ v9.12 · LIVE DRAW: THE GOLD TICKET ============
+   The draw no longer scrambles straight to a name. It rolls the winning
+   TICKET NUMBER digit by digit on a gold foil ticket, stamps it, and only
+   then lifts the holder's name in above it. Names stay first and largest;
+   the number is the receipt underneath. Pacing is per prize tier — see
+   DZ_PACE in the script. */
+:root{ --dzfoil:linear-gradient(101deg,
+   #5E440F 0%, #9C7A32 9%, #D9B451 18%, #F7E39C 27%, #FFF6D2 33%, #FFD300 41%,
+   #FFFBEA 47%, #F0CE68 55%, #C39A3C 66%, #7E5E1B 78%, #B7913F 88%, #E8C15A 100%);
+  --dzink:#2E1E00; --dzcell:62px; }
+body.rehearsing{ --dzfoil:linear-gradient(101deg,
+   #1B2450 0%, #3A4A8E 9%, #6B82CC 18%, #C2D0F5 27%, #E4ECFF 33%, #7E9BFF 41%,
+   #EFF4FF 47%, #8FA5E0 55%, #4763C9 66%, #232F66 78%, #4A5C9E 88%, #7E9BFF 100%); }
+
+.dzStat{font:700 8.5px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.30em; color:var(--gold);
+  opacity:.9; min-height:11px; transition:color .3s;}
+.dzStat.done{color:var(--paper); opacity:1;}
+.dzCount{height:0; overflow:visible; font:700 0 var(--display,Inter); color:var(--gold); opacity:0;
+  transition:font-size .35s cubic-bezier(.2,1.4,.4,1), opacity .3s;}
+.dzCount.on{font-size:44px; opacity:1; margin:4px 0 -4px;}
+.dzTick{margin:7px auto 0; height:12px; max-width:250px; overflow:hidden; opacity:0; transition:opacity .4s;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent);}
+.dzTick.on{opacity:.5;}
+.dzTick b{display:block; font:400 9px/12px 'JetBrains Mono'; letter-spacing:.2em; color:var(--dim); white-space:nowrap;}
+
+/* the name block rises in ABOVE the ticket */
+.dzWho{display:grid; grid-template-rows:0fr; transition:grid-template-rows .85s cubic-bezier(.2,.8,.2,1);}
+.dzDraw.reveal .dzWho{grid-template-rows:1fr;}
+.dzWho > div{overflow:hidden;}
+.dzWho .winTag{opacity:0; transform:translateY(8px) scale(.9);
+  transition:opacity .5s .05s, transform .5s .05s cubic-bezier(.2,1.3,.4,1);}
+.dzDraw.reveal .dzWho .winTag{opacity:1; transform:none;}
+.dzName{margin-top:12px; font-family:'JetBrains Mono'; font-weight:700; line-height:1.06; color:#fff;
+  text-shadow:0 0 26px rgba(232,193,90,.65); display:flex; justify-content:center; flex-wrap:wrap;
+  column-gap:.42em; row-gap:2px; animation:none;}
+.dzName .w{display:inline-flex; white-space:nowrap;}
+.dzName .w b{font-weight:700; opacity:0; transform:translateY(16px); filter:blur(6px);
+  transition:opacity .5s, transform .5s cubic-bezier(.2,.9,.3,1), filter .5s;}
+.dzName .w b.on{opacity:1; transform:none; filter:none;}
+.dzWho .winMeta,.dzWho .winSocial{opacity:0; transition:opacity .5s .45s;}
+.dzDraw.reveal .dzWho .winMeta,.dzDraw.reveal .dzWho .winSocial{opacity:1;}
+
+/* the ticket itself */
+.dzTk{position:relative; margin:14px auto 0; width:100%; max-width:322px;}
+.dzGlow{position:absolute; inset:-30px -18px; border-radius:36px; pointer-events:none; filter:blur(14px);
+  opacity:0; transition:opacity .6s;
+  background:radial-gradient(58% 58% at 50% 50%, rgba(255,211,0,.26), rgba(255,211,0,.10) 45%, rgba(255,211,0,.03) 68%, transparent 84%);}
+body.rehearsing .dzGlow{background:radial-gradient(58% 58% at 50% 50%, rgba(126,155,255,.28), rgba(126,155,255,.10) 45%, transparent 84%);}
+.dzTk.live .dzGlow{opacity:1; animation:dzbreathe 2.2s ease-in-out infinite;}
+.dzTk.won  .dzGlow{opacity:1; animation:none; filter:blur(16px);}
+@keyframes dzbreathe{50%{opacity:.55}}
+.dzTicket{position:relative; display:flex; border-radius:12px; overflow:hidden;
+  background:var(--dzfoil); background-size:230% 100%; background-position:12% 0;
+  box-shadow:0 1px 0 rgba(255,250,220,.6) inset, 0 -1px 0 rgba(90,64,10,.5) inset, 0 14px 34px -14px rgba(0,0,0,.9);
+  opacity:0; transform:translateY(22px);
+  transition:opacity .5s, transform .6s cubic-bezier(.2,1.05,.35,1), background-position 1.1s ease;}
+.dzTk.in .dzTicket{opacity:1; transform:none;}
+.dzTk.won .dzTicket{background-position:78% 0;}
+.dzTicket.jolt{animation:dzjolt .22s cubic-bezier(.36,.07,.19,.97);}
+@keyframes dzjolt{20%{transform:translate(-3px,1px) rotate(-.5deg)}60%{transform:translate(3px,-1px) rotate(.4deg)}100%{transform:none}}
+.dzTicket::before{content:''; position:absolute; inset:0; pointer-events:none; mix-blend-mode:multiply; opacity:.9;
+  background-image:
+    repeating-radial-gradient(circle at 18% 50%, transparent 0 7px, rgba(74,48,4,.075) 7px 7.7px),
+    repeating-radial-gradient(circle at 82% 50%, transparent 0 7px, rgba(74,48,4,.075) 7px 7.7px),
+    repeating-linear-gradient(48deg, transparent 0 5px, rgba(74,48,4,.05) 5px 6px);}
+.dzTicket::after{content:''; position:absolute; top:-60%; bottom:-60%; width:70px; left:-90px;
+  transform:skewX(-18deg); pointer-events:none; opacity:0;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.72), transparent);}
+.dzTicket.sweep::after{animation:dzsweep 1s cubic-bezier(.3,.1,.3,1) forwards;}
+@keyframes dzsweep{0%{left:-90px;opacity:0}12%{opacity:.95}100%{left:112%;opacity:0}}
+.dzStub{position:relative; flex:0 0 52px; display:flex; flex-direction:column; align-items:center;
+  justify-content:center; gap:5px; border-right:2px dashed rgba(74,48,4,.45);}
+.dzStub img{width:32px; display:block; opacity:.9;}
+.dzStub span{font:700 8px 'JetBrains Mono'; letter-spacing:.12em; color:rgba(58,38,2,.8);}
+.dzNotch{position:absolute; left:52px; width:13px; height:13px; border-radius:99px;
+  background:#100E09; transform:translateX(-50%); z-index:3;}
+.dzNotch.t{top:-7px} .dzNotch.b{bottom:-7px}
+.dzBody{flex:1; padding:8px 11px; min-width:0; position:relative; z-index:2;}
+.dzMicro{font:400 4.6px/6px 'JetBrains Mono'; letter-spacing:.42px; color:rgba(58,38,2,.42);
+  white-space:nowrap; overflow:hidden;}
+.dzHead{display:flex; justify-content:space-between; align-items:center; margin:3px 0 1px;}
+.dzHead img{height:10px; display:block; opacity:.88;}
+.dzHead span{font:400 8px 'JetBrains Mono'; letter-spacing:.14em; color:rgba(50,32,0,.5);}
+.dzNum{display:flex; align-items:center; justify-content:center; gap:3px; margin:1px 0 2px;}
+.dzNo{font:700 16px var(--display,'Bodoni Moda',serif); color:rgba(50,32,0,.72); margin-right:3px; transform:translateY(-9px);}
+.dzSep{font:700 42px/var(--dzcell) 'JetBrains Mono'; color:rgba(50,32,0,.6); width:13px; text-align:center; transform:translateY(6px);}
+.dzReel{position:relative; width:38px; height:var(--dzcell); overflow:hidden;
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 26%,#000 74%,transparent);
+          mask-image:linear-gradient(180deg,transparent,#000 26%,#000 74%,transparent);}
+.dzReel,.dzSep{transition:width .45s cubic-bezier(.2,.8,.2,1), opacity .35s, margin .45s;}
+.dzReel.hide,.dzSep.hide{width:0; opacity:0; margin-left:-3px;}
+.dzReel .st{will-change:transform;}
+.dzReel .cl{height:var(--dzcell); display:flex; align-items:center; justify-content:center;
+  font:700 43px 'JetBrains Mono'; color:var(--dzink); text-shadow:0 1px 0 rgba(255,246,210,.55);
+  font-variant-numeric:tabular-nums;}
+.dzReel.spin{filter:blur(.7px);}
+.dzReel.hit{animation:dzhit .34s ease-out;}
+@keyframes dzhit{0%{filter:brightness(2.4) contrast(1.2)}100%{filter:none}}
+.dzFoot{display:flex; justify-content:space-between; align-items:center; gap:6px;}
+.dzSrc{font:700 7.5px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.12em; color:rgba(50,32,0,.62);
+  opacity:0; transition:opacity .4s; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
+.dzTk.won .dzSrc{opacity:1;}
+.dzSeal{flex:none; font:700 7.5px 'JetBrains Mono'; letter-spacing:.14em; color:rgba(50,32,0,.85);
+  border:1.2px solid rgba(50,32,0,.6); border-radius:4px; padding:3px 6px;
+  opacity:0; transform:rotate(-12deg) scale(2.4);}
+.dzSeal.on{animation:dzstamp .5s cubic-bezier(.2,1.4,.4,1) forwards;}
+@keyframes dzstamp{0%{opacity:0;transform:rotate(-16deg) scale(2.4)}
+  60%{opacity:1;transform:rotate(-7deg) scale(.94)} 100%{opacity:.9;transform:rotate(-7deg) scale(1)}}
+
+/* source + holdings — deliberately OUTSIDE the ticket, so the room can read it */
+.dzMeta{display:grid; grid-template-columns:1.35fr 1fr; gap:8px; margin:11px auto 0; max-width:322px;
+  opacity:0; transform:translateY(8px);
+  transition:opacity .5s .35s, transform .5s .35s cubic-bezier(.2,.9,.3,1);}
+.dzDraw.reveal .dzMeta{opacity:1; transform:none;}
+.dzCell{border:1px solid var(--line); border-radius:12px; padding:8px 7px; text-align:center;
+  background:linear-gradient(180deg, rgba(232,193,90,.07), transparent);}
+body.rehearsing .dzCell{background:linear-gradient(180deg, rgba(126,155,255,.07), transparent);}
+.dzK{display:block; font:600 7.5px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.18em;
+  color:var(--dim); margin-bottom:6px;}
+.dzV{display:block; font:700 12px/1.2 'JetBrains Mono','Noto Sans SC'; letter-spacing:.03em; color:var(--gold);
+  overflow-wrap:anywhere;}
+.dzV small{display:block; margin-top:4px; font:400 9px/1.35 Inter,'Noto Sans SC'; letter-spacing:0; color:var(--dim);}
+.dzMute{position:absolute; top:8px; right:8px; z-index:6; width:34px; height:34px; border-radius:99px;
+  border:1px solid var(--line); background:rgba(10,9,7,.6); color:var(--gold); font-size:15px;
+  line-height:1; display:grid; place-items:center; cursor:pointer; padding:0;}
+.dzMute.off{opacity:.4;}
+@media (prefers-reduced-motion:reduce){
+  .dzTicket,.dzGlow,.dzName .w b,.dzMeta,.dzWho{transition:none !important; animation:none !important}
+}
+
+/* live winner lists */
+.lstrip{display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:0 20px; margin-top:14px;}
+.lbox{background:var(--navy); border:1px solid var(--line); border-radius:12px; padding:12px 14px; text-align:center;}
+.lbox b{display:block; font:700 20px 'JetBrains Mono'; color:var(--gold);}
+.lbox i{font-style:normal; font:600 8px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.18em; color:var(--dim);}
+.fairbox{margin:20px 20px 0; border-radius:16px; padding:18px; background:var(--navy); border:1px solid var(--line);}
+.fairbox h4{font:700 11px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.22em; color:var(--gold); margin-bottom:11px;}
+.fairbox ul{list-style:none; display:flex; flex-direction:column; gap:10px;}
+.fairbox li{display:flex; gap:10px; font-size:11.5px; color:#C6BFA9; line-height:1.6;}
+.fairbox li span{flex:none; color:var(--gold);}
+.fairbox li b{color:var(--gold); font-weight:600;}
+.tierhead{display:flex; align-items:center; gap:10px; margin:20px 0 10px;}
+.tierhead .tt{font-family:var(--display); font-weight:700; font-size:15px; letter-spacing:.06em;}
+.tierhead .tp{font:600 9px 'JetBrains Mono'; color:var(--dim); letter-spacing:.06em;}
+.tierhead::after{content:''; height:1px; flex:1; background:linear-gradient(90deg, rgba(232,193,90,.4), transparent);}
+.tierhead.gr .tt{background:var(--gold-foil); -webkit-background-clip:text; background-clip:text; color:transparent; font-size:18px;}
+.winners{display:flex; flex-direction:column; gap:7px;}
+.slot{display:flex; align-items:center; gap:12px; background:var(--navy); border:1px solid rgba(232,193,90,.5); border-radius:12px; padding:12px 15px;
+  animation:slotin .45s cubic-bezier(.3,1.3,.4,1);}
+@keyframes slotin{from{transform:translateY(-14px); opacity:0}}
+@media (prefers-reduced-motion:reduce){ .slot{animation:none} }
+.slot .no{flex:none; font:700 10px 'JetBrains Mono'; color:var(--dim); width:20px;}
+.slot .nm{font:700 14px 'JetBrains Mono'; letter-spacing:.02em; word-break:break-word;}
+.slot .icx{font:500 9.5px 'JetBrains Mono'; color:var(--dim); margin-top:2px;}
+.slot .tk{margin-left:auto; color:var(--gold); font:700 12px Inter; white-space:nowrap;}
+.winners.gr .slot{padding:17px 16px; border-color:rgba(232,193,90,.9); background:linear-gradient(135deg,#251D0A,#0F0E09 72%);}
+.winners.gr .slot .nm{font-size:17px;}
+.dstatus{margin:14px 20px 0; border-radius:12px; padding:13px 16px; text-align:center; background:var(--navy); border:1px solid var(--line);}
+.dstatus b{display:block; font:700 11px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.16em; color:var(--gold);}
+.dstatus i{font-style:normal; font-size:10.5px; color:var(--dim); display:block; margin-top:5px; line-height:1.55;}
+
+/* flash / banner / confetti / finale */
+.flash{position:fixed; inset:0; z-index:70; pointer-events:none; opacity:0;
+  background:radial-gradient(circle at 50% 42%, rgba(255,244,208,.95), rgba(232,193,90,.35) 45%, transparent 75%);}
+.flash.go{animation:flashx .5s ease-out;}
+@keyframes flashx{0%{opacity:0} 18%{opacity:1} 100%{opacity:0}}
+.banner{position:fixed; left:50%; top:42%; transform:translate(-50%,-50%) scale(.85); z-index:75; pointer-events:none;
+  background:var(--gold-foil); color:#241A02; border-radius:16px; padding:17px 26px; text-align:center; opacity:0;
+  font:700 14px Inter,'Noto Sans SC'; letter-spacing:.1em; box-shadow:0 24px 70px rgba(232,193,90,.45); transition:.3s;}
+.banner.show{opacity:1; transform:translate(-50%,-50%) scale(1);}
+.cf{position:fixed; top:-20px; z-index:60; animation:fall linear forwards; pointer-events:none;}
+@keyframes fall{to{transform:translateY(115vh) rotate(680deg); opacity:.5}}
+.finale{position:fixed; inset:0; z-index:80; background:rgba(4,3,1,.9); backdrop-filter:blur(8px);
+  display:none; place-items:center; text-align:center; padding:30px;}
+.finale.show{display:grid;}
+.finale .f901{font-family:var(--display); font-weight:700; font-size:72px;
+  background:var(--gold-foil); -webkit-background-clip:text; background-clip:text; color:transparent;
+  filter:drop-shadow(0 12px 36px rgba(232,193,90,.35));}
+.finale h2{font-family:var(--display); font-weight:700; font-size:22px; letter-spacing:.08em; margin-top:14px;}
+.finale p{font:600 10px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.24em; color:var(--gold); margin-top:12px; line-height:2;}
+
+/* modals */
+.overlay{position:fixed; inset:0; background:rgba(4,3,1,.82); backdrop-filter:blur(6px); z-index:50;
+  display:none; align-items:flex-end; justify-content:center;}
+.overlay.show{display:flex; animation:fadein .2s;}
+.overlay.center{align-items:center; padding:22px;}
+@keyframes fadein{from{opacity:0}}
+.sheet{width:100%; max-width:430px; background:#12100A; border:1px solid rgba(232,193,90,.3); border-bottom:0;
+  border-radius:22px 22px 0 0; padding:20px 20px 26px; max-height:86vh; overflow-y:auto; animation:up .28s cubic-bezier(.3,1.2,.4,1);}
+@keyframes up{from{transform:translateY(60px); opacity:0}}
+.sheet .grab{width:38px; height:4px; border-radius:99px; background:rgba(232,193,90,.35); margin:0 auto 16px;}
+.sheet h3{font:700 12px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.24em; color:var(--gold); text-align:center;}
+.exrow{display:flex; gap:12px; padding:14px 0; border-bottom:1px dashed rgba(226,199,132,.16); align-items:flex-start;}
+.exrow:last-of-type{border-bottom:0}
+.exi{flex:none; width:32px; height:32px; border-radius:9px; display:grid; place-items:center; font-size:15px;
+  background:rgba(232,193,90,.09); border:1px solid rgba(232,193,90,.3);}
+.exrow h5{font-size:12.5px; font-weight:700;}
+.exrow p{font-size:10.5px; color:var(--dim); margin-top:3px; line-height:1.55;}
+.expts{margin-left:auto; flex:none; font:700 11px 'JetBrains Mono','Noto Sans SC'; color:var(--gold); white-space:nowrap;}
+.nightly{display:flex; gap:9px; align-items:flex-start; margin-top:12px; border-radius:11px; padding:11px 13px;
+  background:rgba(232,193,90,.07); border:1px solid rgba(232,193,90,.26);}
+.nightly span{font-size:13px; line-height:1.1; flex:none;}
+.nightly p{font-size:10.5px; color:#C6BFA9; line-height:1.6;}
+.qrcard{width:100%; max-width:320px; background:#fff; color:#241A02; border-radius:22px; padding:24px 22px; text-align:center;
+  animation:up .28s cubic-bezier(.3,1.2,.4,1); box-shadow:0 30px 80px rgba(232,193,90,.2);}
+.qrcard h3{font:700 11px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.22em; color:#8A6420;}
+.qrcard .big{display:flex; justify-content:center; margin:16px 0 14px; min-height:224px; align-items:center;}
+.qrcard .big img, .qrcard .big canvas, .qrcard .big table{width:224px !important; height:224px !important;}
+.qrcard .nm{font-weight:700; font-size:15px;}
+.qrcard .icx{font:700 11px 'JetBrains Mono'; opacity:.6; margin-top:3px;}
+.qrcard .sub{font-size:10.5px; line-height:1.6; margin-top:10px; color:#6b6250;}
+.qrcard .priv{font-size:9.5px; color:#9a9080; margin-top:8px; line-height:1.5;}
+.qrcard button{margin-top:14px; width:100%; border:0; border-radius:12px; padding:13px; background:#241A02; color:#F3DFA0;
+  font:700 12px Inter,'Noto Sans SC'; letter-spacing:.1em; cursor:pointer;}
+
+/* toast + misc */
+.toast{position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(20px); opacity:0;
+  background:#171307; border:1px solid rgba(232,193,90,.5); color:var(--paper); border-radius:12px;
+  padding:13px 20px; font:600 12.5px Inter,'Noto Sans SC'; z-index:99; transition:.25s; pointer-events:none; max-width:88vw; text-align:center;}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+footer{margin-top:32px; text-align:center; font:500 9px 'JetBrains Mono'; color:#5C5442; letter-spacing:.2em; padding:0 20px; line-height:2;}
+.page{display:none}.page.show{display:block}
+</style>
+</head>
+<body>
+<div class="bg"><div class="halo"></div><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+<div class="veil"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="ic-ig"><path fill="#fff" d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.757 6.162 6.162 6.162 3.405 0 6.162-2.757 6.162-6.162 0-3.402-2.757-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.645-1.44-1.44 0-.794.646-1.439 1.44-1.439.793 0 1.44.645 1.44 1.439z"/></g>
+    <g id="ic-fb"><path fill="#fff" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></g>
+    <g id="ic-tt"><path fill="#fff" d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></g>
+  </defs>
+</svg>
+
+<div class="phone">
+  <div class="top">
+    <div class="brand"><img class="mark" src="assets/logo.png" alt=""><img class="wm" src="assets/wordmark.png" alt="X FITNESS"></div>
+    <div class="langs">
+      <button class="on" data-lang="en">EN</button><button data-lang="zh">中文</button><button data-lang="ms">BM</button>
+    </div>
+  </div>
+
+  <!-- ================= LANDING ================= -->
+  <div class="page show" id="pgHome">
+    <div class="hero">
+      <div class="annv"><b data-i18n="anniv">1ST ANNIVERSARY</b></div>
+      <div class="h901">9.01</div>
+      <div class="hsub" data-i18n="gld">GRAND LUCKY DRAW</div>
+      <div class="hthin" data-i18n="wtl">LET'S CELEBRATE TOGETHER.</div>
+      <div class="rule"></div>
+      <div class="count">
+        <div class="cbox"><b id="dd">--</b><i data-i18n="dD">DAYS</i></div>
+        <div class="cbox"><b id="hh">--</b><i data-i18n="dH">HRS</i></div>
+        <div class="cbox"><b id="mm">--</b><i data-i18n="dM">MIN</i></div>
+        <div class="cbox"><b id="ss">--</b><i data-i18n="dS">SEC</i></div>
+      </div>
+      <div class="clabel" data-i18n="liveAt">LIVE DRAW · 1 SEPT 8:00 PM</div>
+    </div>
+
+    <div class="ctas">
+      <button class="bgold" onclick="go('pgJoin')" data-i18n="join">Join the draw — it's free</button>
+      <button class="bline" onclick="go('pgLogin')" data-i18n="login">Already joined? Log in</button>
+    </div>
+
+    <!-- prize showcase -->
+    <div class="section">
+      <div class="stitle"><b data-i18n="przT">THE PRIZES</b><span data-i18n="przS">28 winners · one evening</span></div>
+
+      <div class="stage grand">
+        <div class="shalo"></div><div class="beam"></div>
+        <div class="pqty2">×1</div>
+        <img class="prod" src="assets/hero-iphone.webp" alt="iPhone 17 Pro Max" loading="lazy">
+        <div class="ptag" data-i18n="grandTag">1ST · GRAND PRIZE</div>
+        <h3>iPhone 17 Pro Max</h3>
+        <div class="spec">512GB · COSMIC ORANGE</div>
+      </div>
+
+      <div class="twoup">
+        <div class="stage second">
+          <div class="shalo" style="opacity:.5"></div>
+          <div class="pqty2">×1</div>
+          <img class="prod" src="assets/hero-watch.webp" alt="Apple Watch Series 11" style="animation-delay:.8s" loading="lazy">
+          <div class="ptag ghost" data-i18n="tag2">2ND</div>
+          <h3>Apple Watch<br>Series 11</h3>
+          <div class="spec">46MM · SILVER</div>
+        </div>
+        <div class="stage second third">
+          <div class="shalo" style="opacity:.5"></div>
+          <div class="pqty2">×1</div>
+          <img class="prod" src="assets/hero-airpods.webp" alt="AirPods Pro 3" style="animation-delay:1.6s" loading="lazy">
+          <div class="ptag ghost" data-i18n="tag3">3RD</div>
+          <h3>AirPods<br>Pro 3</h3>
+          <div class="spec" data-i18n="specANC">LATEST GENERATION | NOISE CANCELLATION</div>
+        </div>
+      </div>
+
+      <div class="gsub"><b data-i18n="giftT">MEMBERSHIP GIFT CARDS</b><span data-i18n="giftS">4 tiers · 19 cards</span></div>
+      <div class="gwrap">
+        <div class="gcard">
+          <span class="gtier" data-i18n="t4">4TH</span><span class="gqty">×1</span>
+          <img src="assets/gc-12.webp" alt="12-Month gift card" loading="lazy">
+          <div class="gname">"The Commitment"</div>
+          <div class="gsubname" data-i18n="m12">12-Month Membership</div>
+        </div>
+        <div class="gcard">
+          <span class="gtier" data-i18n="t5">5TH</span><span class="gqty">×3</span>
+          <img src="assets/gc-6.webp" alt="6-Month gift card" loading="lazy">
+          <div class="gname">"The Evolution"</div>
+          <div class="gsubname" data-i18n="m6">6-Month Membership</div>
+        </div>
+        <div class="gcard">
+          <span class="gtier" data-i18n="t6">6TH</span><span class="gqty">×5</span>
+          <img src="assets/gc-3.webp" alt="3-Month gift card" loading="lazy">
+          <div class="gname">"The Habit"</div>
+          <div class="gsubname" data-i18n="m3">3-Month Membership</div>
+        </div>
+        <div class="gcard">
+          <span class="gtier" data-i18n="t7">7TH</span><span class="gqty">×10</span>
+          <img src="assets/gc-1.webp" alt="1-Month gift card" loading="lazy">
+          <div class="gname">"The Kickstart"</div>
+          <div class="gsubname" data-i18n="m1">1-Month Membership</div>
+        </div>
+      </div>
+      <div class="gsub"><b data-i18n="spnT">SPONSOR PRIZE</b><span data-i18n="spnS">by RULE 1</span></div>
+      <div class="prow">
+        <span class="gtier" data-i18n="t8">8TH</span><span class="gqty">×6</span>
+        <img src="assets/hero-protein.webp" alt="RULE 1 Whey Protein" loading="lazy">
+        <div class="pinfo">
+          <div class="gname">RULE 1 Whey Protein</div>
+          <div class="gsubname" data-i18n="p8">Chocolate Fudge · 1lb</div>
+        </div>
+      </div>
+      <div class="totalstrip">🎟 <span data-i18n="total">28 WINNERS · ONE PRIZE PER PERSON</span></div>
+    </div>
+
+    <!-- ================= 9.01 WEEK ================= -->
+    <div class="section" id="secWeek">
+      <div class="wkblk">
+        <div class="legend"><b data-i18n="wkT">THE 9.01 WEEK</b><span data-i18n="wkS">25 Aug – 1 Sept</span></div>
+
+        <div class="phase"><b data-i18n="preT">PRE-EVENT WEEK</b></div>
+
+        <div class="ecard wkTix">
+          <div class="ehead">
+            <span class="edate" data-i18n="d1">25 – 31 AUG</span>
+            <span class="estat">&nbsp;</span>
+          </div>
+          <h3 data-i18n="tixT">Stack your lucky tickets</h3>
+          <div class="chips">
+            <span data-i18n="c1">Train</span><i>&rsaquo;</i><span data-i18n="c2">Follow us</span><i>&rsaquo;</i><span data-i18n="c3">Tag Friend</span>
+          </div>
+          <p data-i18n="tixD">Log in any time to see your ticket total. The window closes 31 Aug, 11:59 PM sharp.</p>
+        </div>
+
+        <div class="ecard wkPromo">
+          <div class="ehead">
+            <span class="edate" data-i18n="d2">30 AUG – 1 SEPT</span>
+            <span class="only" data-i18n="only3">3 DAYS ONLY</span>
+            <span class="estat">&nbsp;</span>
+          </div>
+          <h3 data-i18n="promoT">Membership promotion</h3>
+          <div class="kick" data-i18n="promoK">BIGGEST PROMO OF THE YEAR</div>
+          <div class="pricerow">
+            <div class="price"><i>RM</i><b>901</b></div>
+            <div class="pdiv"></div>
+            <div class="months"><b>9<em>+</em>1</b><i data-i18n="mth">MONTHS</i></div>
+            <div class="fl"><img src="assets/gift-flask.webp" alt="Matrix thermal flask" loading="lazy"></div>
+          </div>
+          <div class="gline">
+            <b data-i18n="flaskT">FREE FLASK &times;50</b>
+            <span data-i18n="flaskD">First 50 to sign up. While stocks last. From Matrix Fitness.</span>
+          </div>
+          <p data-i18n="promoD">No joining fee — RM100 waived.</p>
+        </div>
+
+        <div class="phase" style="margin-top:22px"><b data-i18n="dayT">MAIN EVENT DAY</b><em data-i18n="dayD">1 SEPTEMBER</em></div>
+
+        <div class="tl">
+          <div class="tli">
+            <span class="dot"></span>
+            <div class="tcard">
+              <span class="twhen" data-i18n="w1">WHOLE DAY</span>
+              <h4 data-i18n="e1t">Free entry for everyone</h4>
+              <p data-i18n="e1d">Walk in and train with us — no membership needed.</p>
+            </div>
+          </div>
+          <div class="tli">
+            <span class="dot"></span>
+            <div class="tcard">
+              <span class="twhen" data-i18n="w2">6:00 – 9:00 PM</span>
+              <h4 data-i18n="e2t">Anniversary celebration</h4>
+              <p data-i18n="e2d">Free protein shakes and grilled chicken breast, from our sponsors:</p>
+              <div class="spon">
+                <img src="assets/spon-rule1.webp" alt="RULE 1" loading="lazy">
+                <img class="dc" src="assets/spon-diet.webp" alt="Diet Chicken" loading="lazy">
+              </div>
+            </div>
+          </div>
+          <div class="tli peak wkDraw">
+            <span class="dot"></span>
+            <div class="tcard">
+            <span class="twhen" data-i18n="w3">8:00 PM</span>
+            <h4 data-i18n="e3t">Grand lucky draw</h4>
+            <p data-i18n="e3d">28 winners, drawn live one by one.</p>
+            <div class="venue"><svg class="pin" width="11" height="14" viewBox="0 0 11 14" fill="currentColor" aria-hidden="true"><path d="M5.5 0C2.46 0 0 2.4 0 5.36 0 9.38 5.5 14 5.5 14S11 9.38 11 5.36C11 2.4 8.54 0 5.5 0zm0 7.4a2.1 2.1 0 110-4.2 2.1 2.1 0 010 4.2z"/></svg><b>X FITNESS</b> <span data-i18n="venue">(Nusa Bestari)</span></div>
+            <div class="lv" data-i18n="lvTxt">LIVE ON IG &amp; FACEBOOK</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="stitle"><b data-i18n="howT">HOW IT WORKS</b></div>
+      <div class="steps">
+        <div class="step"><div class="snum">1</div><div><h4 data-i18n="s1t">Join free</h4><p data-i18n="s1d">IC + WhatsApp — one minute, no payment.</p></div></div>
+        <div class="step"><div class="snum">2</div><div><h4 data-i18n="s2t">Stack your tickets</h4><p data-i18n="s2d">Train, renew, follow, repost — every ticket is one more chance.</p></div></div>
+        <div class="step"><div class="snum">3</div><div><h4 data-i18n="s3t">Watch the live draw</h4><p data-i18n="s3d">1 Sept, 8:00 PM — drawn live winner by winner, on this page and on the gym screen.</p></div></div>
+      </div>
+    </div>
+
+    <div class="ctas" style="padding-top:16px">
+      <button class="bgold" onclick="go('pgJoin')" data-i18n="join">Join the draw — it's free</button>
+      <button class="bline" onclick="go('pgLive')" data-i18n="openLive">Open live draw page →</button>
+    </div>
+
+    <div class="outro">
+      <div class="ohr"></div>
+      <img src="assets/slogan-x.webp" alt="This is just the Beginning" loading="lazy">
+      <div class="ocomm">FOR OUR COMMUNITY · MADE TO BE REMEMBERED</div>
+    </div>
+
+    <footer>X FITNESS · 1ST ANNIVERSARY · 9.01<br>
+      <a href="/terms" target="_blank" rel="noopener" class="tlink" data-i18n="tncLink">Terms &amp; Conditions</a></footer>
+  </div>
+
+  <!-- ================= REGISTER ================= -->
+  <div class="page" id="pgJoin">
+    <button class="back" onclick="goBack()" data-i18n="back">← Back</button>
+    <div class="pgtitle" data-i18n="joinT">Join the draw</div>
+    <div class="pgsub" data-i18n="joinS">One minute. Four fields. Free for everyone.</div>
+    <div class="section">
+      <div class="card">
+        <div class="warn">
+          <div class="wi">🪪</div>
+          <div>
+            <h5 data-i18n="warnT">YOUR IC &amp; NAME MUST BE EXACT</h5>
+            <p data-i18n="warnP">Winners must bring their <b>physical IC or passport</b> to the gym to verify identity before collecting a prize. If the number or name doesn't match, the prize is forfeited and redrawn. Please double-check before submitting.</p>
+          </div>
+        </div>
+
+        <div class="fld"><label><span data-i18n="fDoc">DOCUMENT TYPE</span> <em>*</em></label>
+          <div class="seg">
+            <div class="segb on" data-doc="my">🇲🇾 <span data-i18n="docMy">Malaysian · IC</span></div>
+            <div class="segb" data-doc="pp">🌍 <span data-i18n="docPp">Foreigner · Passport</span></div>
+          </div>
+        </div>
+        <div class="fld"><label><span id="lblIc" data-i18n="fIc12">IC NUMBER — 12 DIGITS, NO DASHES</span> <em>*</em></label>
+          <input id="rIc" inputmode="numeric" autocomplete="off" maxlength="12" placeholder="990101011234"></div>
+        <div class="fld"><label><span data-i18n="fName">FULL NAME (AS PER IC / PASSPORT)</span> <em>*</em></label>
+          <input id="rName" autocomplete="name" lang="en" autocapitalize="characters"
+                 autocorrect="off" spellcheck="false" placeholder="LIM WEI MING">
+          <div class="fhint" id="nameHint" style="display:none" data-i18n="errNameChars">English letters only, exactly as printed on your IC — symbols like / @ ' - . are fine.</div></div>
+        <div class="fld"><label><span data-i18n="fPhone">PHONE (WHATSAPP)</span> <em>*</em></label>
+          <div class="ccrow">
+            <select id="rCc" aria-label="Country code"></select>
+            <input id="rPhone" inputmode="numeric" autocomplete="tel-national" placeholder="123456789">
+          </div></div>
+
+        <div class="fld">
+          <label><span data-i18n="fPlat">YOUR MAIN SOCIAL PLATFORM</span> <em>*</em></label>
+          <div class="seg">
+            <div class="segb on" data-plat="instagram" data-ph="@username">
+              <span class="si si-ig"><svg viewBox="0 0 24 24"><use href="#ic-ig"/></svg></span>Instagram</div>
+            <div class="segb" data-plat="facebook" data-ph="Profile name">
+              <span class="si si-fb"><svg viewBox="0 0 24 24"><use href="#ic-fb"/></svg></span>Facebook</div>
+          </div>
+          <div class="hwrap ig" id="hWrap"><span class="hpre">@</span>
+            <input id="rHandle" autocomplete="off" placeholder="username"></div>
+          <div class="fhint" data-i18n="fHint">We use this handle to check your follow, tag and story repost when prizes are claimed. Pick the account you actually use.</div>
+        </div>
+
+        <label class="consent"><input type="checkbox" id="rAgree" checked> <span data-i18n="consent">I agree to the <a href="/terms" target="_blank" rel="noopener" class="tlink">campaign T&amp;Cs</a> and confirm my IC number and name are correct. My IC is stored encrypted and never shown publicly.</span></label>
+        <div class="err" id="rErr"></div>
+        <button class="bgold" style="width:100%" id="rBtn" data-i18n="rBtn">Activate my tickets</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= LOGIN ================= -->
+  <div class="page" id="pgLogin">
+    <button class="back" onclick="goBack()" data-i18n="back">← Back</button>
+    <div class="pgtitle" data-i18n="loginT">Welcome back</div>
+    <div class="pgsub" data-i18n="loginS">Enter the IC / passport you registered with.</div>
+    <div class="section">
+      <div class="card">
+        <div class="fld"><label data-i18n="fIcL">IC / PASSPORT NO.</label>
+          <input id="lIc" autocomplete="off" placeholder="990101011234">
+          <div class="fhint" data-i18n="lHint">Numbers only — no dashes needed. Passport holders: type it exactly as you registered.</div></div>
+        <div class="err" id="lErr"></div>
+        <button class="bgold" style="width:100%" id="lBtn" data-i18n="lBtn">View my tickets</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= DASHBOARD ================= -->
+  <div class="page" id="pgMe">
+    <div class="section" style="padding-top:20px">
+      <div class="stitle"><b data-i18n="myTickets">MY TICKETS</b></div>
+
+      <div class="woncard" id="wonCard" style="display:none">
+        <span class="wtag" data-i18n="wonTag">🏆 YOU WON</span>
+        <h3 id="wonName">–</h3>
+        <div class="wsub" id="wonSub">–</div>
+        <img id="wonImg" src="" alt="" style="display:none">
+        <div class="wnote" id="wonNote"></div>
+        <div class="claimedpill" id="wonClaimed" style="display:none"></div>
+      </div>
+
+      <div class="ticket">
+        <div class="shine"></div>
+        <div class="trow">
+          <div><div class="tlabel" data-i18n="luckyT">LUCKY TICKETS</div>
+            <div class="tnum"><span id="tTotal">–</span><small> <span data-i18n="unit">TICKETS</span></small></div></div>
+          <div><div class="tname" id="tName">–</div><div class="tic" id="tIc">–</div></div>
+        </div>
+        <div class="tperf"></div>
+
+        <div class="qzone" onclick="openModal('qrModal')">
+          <div class="qbox"><div id="qrSmall"></div></div>
+          <div class="qtxt">
+            <b data-i18n="qrTitle">FRONT DESK CHECK-IN</b>
+            <p data-i18n="qrDesc">Show this QR when you come train, 25–31 Aug. +3 tickets a day — on the spot.</p>
+            <span class="qtap" data-i18n="qrTap">TAP TO ENLARGE</span>
+          </div>
+        </div>
+
+        <div class="tbreak">
+          <div class="tb"><b id="tCheckin">0</b><i data-i18n="bdCheckin">CHECK-IN</i></div>
+          <div class="tb"><b id="tRenewal">0</b><i data-i18n="bdRenew">RENEWAL</i></div>
+          <div class="tb"><b id="tSocial">0</b><i data-i18n="bdSocial">SOCIAL</i></div>
+          <div class="tb"><b id="tRepost">0</b><i data-i18n="bdRepost">REPOST</i></div>
+          <div class="tb adj" id="tAdjChip" style="display:none"><b id="tAdjust">0</b><i data-i18n="bdAdjust">ADJUSTED</i></div>
+        </div>
+        <div class="adjbox" id="adjBox">
+          <b data-i18n="adjT">MANUAL CORRECTION</b>
+          <div class="lst" id="adjList"></div>
+        </div>
+        <div class="tser" id="tSer" style="display:none" onclick="openModal('serModal')">
+          <span class="k" data-i18n="serK">TICKET №</span>
+          <span class="v" id="tSerV">–</span>
+        </div>
+      </div>
+
+      <div class="howpill">
+        <button id="serPill" style="display:none" onclick="openModal('serModal')"><i>№</i><span data-i18n="serBtn">My ticket numbers</span></button>
+        <button onclick="openModal('rulesModal')"><i>?</i><span data-i18n="howBtn">How to earn tickets</span></button>
+        <button onclick="openModal('weekModal')"><i><svg viewBox="0 0 14 14" width="9" height="9" fill="#241A02" aria-hidden="true"><path d="M3 0v1.4H1.4A1.4 1.4 0 000 2.8v9.8A1.4 1.4 0 001.4 14h11.2a1.4 1.4 0 001.4-1.4V2.8a1.4 1.4 0 00-1.4-1.4H11V0H9.6v1.4H4.4V0H3zm-1.6 5.6h11.2v7H1.4v-7z"/></svg></i><span data-i18n="wkBtn">Event schedule</span></button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="streak">
+        <div class="shead"><b data-i18n="streakT">COME TRAIN</b><span data-i18n="streakS">+3 / day · 25–31 AUG</span></div>
+        <div class="dots" id="streakDots"></div>
+        <div class="sfoot"><b id="streakStat">0</b><span data-i18n="streakNote">Scan at the front desk — your tickets land instantly.</span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="stitle"><b data-i18n="quickW">QUICK WINS</b><span data-i18n="quickWs">tap · follow · +3 instantly</span></div>
+      <div class="tasks" id="taskList"></div>
+      <div class="tasknote">⚠️ <span data-i18n="verify">Follows are checked when you win. Unfollowed or fake entries are disqualified and the prize is redrawn.</span></div>
+    </div>
+
+    <div class="section">
+      <div class="stitle"><b data-i18n="bonus">BONUS MISSION</b><span data-i18n="bonusS">+6 · one-time</span></div>
+      <div class="mission">
+        <div class="mh">
+          <span class="si si-ig"><svg viewBox="0 0 24 24"><use href="#ic-ig"/></svg></span>
+          <span class="si si-fb"><svg viewBox="0 0 24 24"><use href="#ic-fb"/></svg></span>
+          <span class="mtag" id="mTag">+6</span>
+        </div>
+        <h4 data-i18n="bonusH">TAG 3 FRIENDS &amp; REPOST</h4>
+        <div class="mdesc" data-i18n="bonusD">Tag <b>3 friends</b> under our 9.01 post and repost it to your <b>story</b>. Tickets land <b>instantly</b> — keep both up until 1 Sept, we check them when prizes are claimed.</div>
+        <div class="mfoot">
+          <a id="mOpen" href="#" target="_blank" rel="noopener" data-i18n="openPost">Open the post</a>
+          <button id="mBtn" data-i18n="mDo">I've done it</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="livecard">
+        <div class="ld" data-i18n="live">LIVE DRAW</div>
+        <h3 data-i18n="liveD">1 SEPT · 8:00 PM</h3>
+        <p data-i18n="liveS">Your tickets are in the pool. Watch it live here or on the big screen at the gym.</p>
+        <button class="bgold" onclick="go('pgLive')" data-i18n="openLive">Open live draw page →</button>
+      </div>
+    </div>
+
+    <div class="section"><button class="bline" style="width:100%" onclick="logout()" data-i18n="logout">Log out</button></div>
+    <footer>X FITNESS · 1ST ANNIVERSARY · 9.01<br>
+      <a href="/terms" target="_blank" rel="noopener" class="tlink" data-i18n="tncLink">Terms &amp; Conditions</a></footer>
+  </div>
+
+  <!-- ================= LIVE DRAW ================= -->
+  <div class="page" id="pgLive">
+    <div id="rehBanner" style="display:none; margin:0 0 4px; padding:13px 16px; border-radius:12px;
+         background:repeating-linear-gradient(135deg,#1B2A6B,#1B2A6B 14px,#16225A 14px,#16225A 28px);
+         border:1px solid #3D53B8; text-align:center;">
+      <div style="font:800 14px var(--display,Inter); letter-spacing:.12em; color:#BFD0FF;">
+        ⚠ REHEARSAL — NOT THE REAL DRAW
+      </div>
+      <div style="font-size:11.5px; color:#8FA6E8; margin-top:4px; line-height:1.5;">
+        Practice run using real ticket data. No prize is awarded and nothing here is final.<br>
+        彩排测试 · 非正式抽奖 &nbsp;·&nbsp; Raptai sahaja · Bukan cabutan sebenar
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; justify-content:space-between; padding-right:20px;">
+      <button class="back" onclick="goBack()" data-i18n="back">← Back</button>
+      <span class="livechip">LIVE · 9.01</span>
+    </div>
+
+    <!-- prize spotlight -->
+    <div class="spot">
+      <div class="shalo"></div>
+      <div class="spHint" id="spHint" data-i18n="spSwipe">‹ SWIPE TO SEE ALL PRIZES ›</div>
+      <div class="spCar" id="spCar"><div class="spSlide"><div class="spTier" data-i18n="spWait">WAITING TO START</div></div></div>
+      <div class="spNav" id="spNav"></div>
+    </div>
+
+    <!-- arena -->
+    <div class="arena" id="arena">
+      <button class="dzMute" id="dzMute" type="button" aria-label="Sound">&#128266;</button>
+      <div class="ring"><i></i><i></i><i></i></div>
+      <div class="stateBox" id="stIdle">
+        <div class="idleTxt" data-i18n="arWait">WAITING FOR THE HOST</div>
+        <div class="idleHint" data-i18n="arHint">We press the button on stage — the system picks the name by weighted random.</div>
+      </div>
+      <div class="stateBox dzDraw" id="stDraw" style="display:none">
+        <div class="dzStat" id="dzStat">–</div>
+        <div class="dzCount" id="dzCount"></div>
+        <div class="dzTick" id="dzTick"><b id="dzTickTxt"></b></div>
+
+        <div class="dzWho"><div>
+          <span class="winTag" id="winTag" data-i18n="arWin">WINNER</span>
+          <div class="winName dzName" id="winName"></div>
+          <div class="winMeta" id="winMeta">–</div>
+          <div class="winSocial" id="winSocial" style="display:none"></div>
+        </div></div>
+
+        <div class="dzTk" id="dzTk">
+          <div class="dzGlow"></div>
+          <div class="dzTicket" id="dzTicket">
+            <span class="dzNotch t"></span><span class="dzNotch b"></span>
+            <div class="dzStub"><img src="assets/logo-ink.png" alt="" width="32"><span>9.01</span></div>
+            <div class="dzBody">
+              <div class="dzMicro" id="dzMicro1"></div>
+              <div class="dzHead"><img src="assets/wordmark-ink.png" alt="X FITNESS" height="10"><span>1 SEP 2026</span></div>
+              <div class="dzNum" id="dzNum"><span class="dzNo">№</span></div>
+              <div class="dzFoot"><span class="dzSrc" id="dzSrc"></span><span class="dzSeal" id="dzSeal">VERIFIED</span></div>
+              <div class="dzMicro" id="dzMicro2"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dzMeta">
+          <div class="dzCell"><span class="dzK" data-i18n="tkSrcK">TICKET SOURCE</span><span class="dzV" id="dzVSrc">–</span></div>
+          <div class="dzCell"><span class="dzK" data-i18n="tkHoldK">HOLDS</span><span class="dzV" id="dzVHold">–</span></div>
+        </div>
+        <div class="winPrize" id="winPrize">–</div>
+      </div>
+    </div>
+
+    <div class="lstrip">
+      <div class="lbox"><b id="sPart">–</b><i data-i18n="lbPart">PARTICIPANTS</i></div>
+      <div class="lbox"><b id="sTick">–</b><i data-i18n="lbTick">TICKETS IN POOL</i></div>
+      <div class="lbox"><b id="sLeft">–</b><i data-i18n="lbLeft">PRIZES LEFT</i></div>
+      <div class="lbox"><b id="sLock" style="font-size:16px">–</b><i data-i18n="lbLock">POOL LOCKS</i></div>
+    </div>
+
+    <div class="dstatus" id="dstatus">
+      <b data-i18n="dsWaitT">WAITING TO START</b>
+      <i data-i18n="dsWaitS">The draw begins at 8:00 PM on 1 Sept — one winner at a time, lowest tier first.</i>
+    </div>
+
+    <div class="hero" style="padding-top:14px; padding-bottom:0">
+      <div class="count" style="margin-top:0">
+        <div class="cbox"><b id="ldd">--</b><i data-i18n="dD">DAYS</i></div>
+        <div class="cbox"><b id="lhh">--</b><i data-i18n="dH">HRS</i></div>
+        <div class="cbox"><b id="lmm">--</b><i data-i18n="dM">MIN</i></div>
+        <div class="cbox"><b id="lss">--</b><i data-i18n="dS">SEC</i></div>
+      </div>
+    </div>
+
+    <div class="fairbox">
+      <h4 data-i18n="fairT">WHY THIS IS FAIR</h4>
+      <ul>
+        <li><span>◆</span><div data-i18n="fair1">The ticket pool <b>locks 31 Aug, 11:59 PM</b> — a full day before the draw. Totals are shown on screen. Nothing can be added or removed after that.</div></li>
+        <li><span>◆</span><div data-i18n="fair2">We press the button for each winner on stage — but the <b>system picks the name by weighted random</b>. More tickets, higher chance. Nobody can choose or veto a winner.</div></li>
+        <li><span>◆</span><div data-i18n="fair3"><b>One prize per person.</b> Once you're drawn you leave the remaining pool.</div></li>
+        <li><span>◆</span><div data-i18n="fair4">Every result appears on <b>every screen within seconds</b>, then locks permanently and gets published.</div></li>
+      </ul>
+    </div>
+
+    <div class="section" id="liveStage" style="padding-top:6px"></div>
+    <footer>DRAW ID #901-2026 · RESULTS LOCKED &amp; PUBLISHED</footer>
+  </div>
+</div>
+
+<!-- rules bottom sheet -->
+<div class="overlay" id="rulesModal" onclick="if(event.target===this)closeModal('rulesModal')">
+  <div class="sheet">
+    <div class="grab"></div>
+    <h3 data-i18n="rulesT">HOW TO EARN TICKETS</h3>
+    <div class="exrow"><div class="exi">🏋️</div>
+      <div><h5 data-i18n="r1h">Daily check-in</h5><p data-i18n="r1p">Come train any day from 25 to 31 Aug and show your QR at the front desk. Instant. Max 7 days — last scan 11:59 PM on 31 Aug.</p></div>
+      <div class="expts" data-i18n="r1b">3 / day</div></div>
+    <div class="exrow"><div class="exi">🔄</div>
+      <div><h5 data-i18n="r2h">Membership renewal</h5><p data-i18n="r2p">1 ticket per month renewed in the past 12 months. Loaded automatically from our records.</p></div>
+      <div class="expts" data-i18n="r2b">1 / month</div></div>
+    <div class="exrow"><div class="exi">⚡</div>
+      <div><h5 data-i18n="r3h">Social follow</h5><p data-i18n="r3p">Follow Instagram, Facebook, TikTok and 小红书. Instantly — {s} tickets each.</p></div>
+      <div class="expts" data-i18n="r3b">+3 each</div></div>
+    <div class="exrow"><div class="exi">📣</div>
+      <div><h5 data-i18n="r4h">Story repost mission</h5><p data-i18n="r4p">Tag 3 friends under our 9.01 post + repost to your story. Instant. Checked against your handle when you claim a prize.</p></div>
+      <div class="expts" data-i18n="r4b">+6</div></div>
+    <div class="nightly"><span>⚡</span><p data-i18n="rNote">Every ticket lands instantly. Keep your tag and story up until 1 Sept — we check it when prizes are claimed.</p></div>
+    <button class="bline" style="margin-top:16px; width:100%" onclick="closeModal('rulesModal')" data-i18n="close">CLOSE</button>
+  </div>
+</div>
+
+<!-- 9.01 schedule bottom sheet -->
+<div class="overlay" id="weekModal" onclick="if(event.target===this)closeModal('weekModal')">
+  <div class="sheet" id="weekSheet">
+    <div class="grab"></div>
+    <h3 data-i18n="wkmT">THE 9.01 WEEK</h3>
+    <!-- filled from the landing page block on first open, so there is exactly
+         one copy of this markup to keep in sync -->
+  </div>
+</div>
+
+<!-- ticket numbers bottom sheet -->
+<div class="overlay" id="serModal" onclick="if(event.target===this)closeModal('serModal')">
+  <div class="sheet">
+    <div class="grab"></div>
+    <h3 data-i18n="serT">MY TICKET NUMBERS</h3>
+    <div class="serhead" id="serHead">–</div>
+    <div id="serList"></div>
+    <div class="nightly"><span>№</span><p data-i18n="serNote">Numbers are handed out in the order tickets are earned, so yours are spread across the pool. A number is never reused and never renumbered.</p></div>
+    <button class="bline" style="margin-top:16px; width:100%" onclick="closeModal('serModal')" data-i18n="close">CLOSE</button>
+  </div>
+</div>
+
+<!-- big QR modal -->
+<div class="overlay center" id="qrModal" onclick="if(event.target===this)closeModal('qrModal')">
+  <div class="qrcard">
+    <h3 data-i18n="qrmT">MY CHECK-IN QR</h3>
+    <div class="big"><div id="qrBig"></div></div>
+    <div class="nm" id="qrName">–</div>
+    <div class="icx" id="qrIc">–</div>
+    <div class="sub" data-i18n="qrmS">Show this at the front desk · turn your brightness up</div>
+    <div class="priv" data-i18n="qrmP">This code contains your member code only — never your IC number.</div>
+    <button onclick="closeModal('qrModal')" data-i18n="close">CLOSE</button>
+  </div>
+</div>
+
+<div class="flash" id="flash"></div>
+<div class="banner" id="banner"></div>
+<div class="finale" id="finale" onclick="this.classList.remove('show')">
+  <div>
+    <div class="f901">9.01</div>
+    <img class="fslogan" src="assets/slogan-x.webp" alt="This is just the Beginning">
+    <h2 data-i18n="finT">ALL 28 PRIZES DRAWN</h2>
+    <p data-i18n="finS">X FITNESS · 1ST ANNIVERSARY · THANK YOU</p>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="config.js"></script>
+<script>
+/* ========== helpers ========== */
+const $  = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+  ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+let toastTimer;
+function toast(msg){
+  const t = $('toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.classList.remove('show'), 2800);
+}
+function showErr(el, msg){ el.textContent = msg; el.classList.add('show'); }
+function hideErr(el){ el.classList.remove('show'); }
+function openModal(id){
+  if (id === 'weekModal') buildWeekSheet();
+  $(id).classList.add('show'); document.body.style.overflow='hidden';
+}
+/* One source of truth for the schedule markup: the landing page block is cloned
+   into the sheet the first time it is opened, then repainted like any other copy. */
+let WKSHEET = false;
+function buildWeekSheet(){
+  if (WKSHEET) return;
+  const src = $('secWeek').querySelector('.wkblk');
+  if (!src) return;
+  const copy = src.cloneNode(true);
+  const btn = document.createElement('button');
+  btn.className = 'bline'; btn.style.cssText = 'margin-top:16px; width:100%';
+  btn.setAttribute('data-i18n','close'); btn.textContent = T('close');
+  btn.onclick = () => closeModal('weekModal');
+  $('weekSheet').append(copy, btn);
+  WKSHEET = true;
+  paintWeek(true);
+}
+function closeModal(id){ $(id).classList.remove('show'); document.body.style.overflow=''; }
+
+/* ========== i18n ========== */
+const I18N = {
+en:{
+ anniv:'1ST ANNIVERSARY', gld:'GRAND LUCKY DRAW', wtl:"LET'S CELEBRATE TOGETHER.",
+ fDoc:'DOCUMENT TYPE', docMy:'Malaysian · IC', docPp:'Foreigner · Passport',
+ fIc12:'IC NUMBER — 12 DIGITS, NO DASHES', fPp:'PASSPORT NUMBER', fIcL:'IC / PASSPORT NO.',
+ lHint:'Numbers only — no dashes needed. Passport holders: type it exactly as you registered.',
+ errIc12:'Your IC must be exactly 12 digits — numbers only, no dashes.',
+ errIcBad:'That IC number is not valid. Please check it against your MyKad.',
+ errPp:'Passport number should be 6–20 letters and numbers.',
+ errNameChars:"English letters only, exactly as printed on your IC — symbols like / @ ' - . are fine.",
+ spSwipe:'‹ SWIPE TO SEE ALL PRIZES ›', phIGu:'username',
+ dD:'DAYS', dH:'HRS', dM:'MIN', dS:'SEC', liveAt:'LIVE DRAW · 1 SEPT 8:00 PM',
+ join:"Join the draw — it's free", login:'Already joined? Log in', openLive:'Open live draw page →',
+ przT:'THE PRIZES', przS:'28 winners · one evening',
+ grandTag:'1ST · GRAND PRIZE', tag2:'2ND', tag3:'3RD', specANC:'LATEST GENERATION |\u00A0NOISE\u00A0CANCELLATION',
+ giftT:'MEMBERSHIP GIFT CARDS', giftS:'4 tiers · 19 cards',
+ t4:'4TH', t5:'5TH', t6:'6TH', t7:'7TH', t8:'8TH',
+ spnT:'SPONSOR PRIZE', spnS:'by RULE 1', p8:'Chocolate Fudge · 1lb',
+ m12:'12-Month Membership', m6:'6-Month Membership', m3:'3-Month Membership', m1:'1-Month Membership',
+ total:'28 WINNERS · ONE PRIZE PER PERSON',
+ wkBtn:'Event schedule', wkmT:'THE 9.01 WEEK',
+ wkT:'THE 9.01 WEEK', wkS:'25 Aug – 1 Sept', preT:'PRE-EVENT WEEK',
+ d1:'25 – 31 AUG', d2:'30 AUG – 1 SEPT', only3:'3 DAYS ONLY',
+ tixT:'Stack your lucky tickets', c1:'Train', c2:'Follow us', c3:'Tag Friend',
+ tixD:'Log in any time to see your ticket total. The window closes 31 Aug, 11:59 PM sharp.',
+ promoT:'Membership promotion', promoK:'BIGGEST PROMO OF THE YEAR', mth:'MONTHS',
+ flaskT:'FREE FLASK &times;50', flaskD:'First 50 to sign up. While stocks last. From Matrix Fitness.',
+ promoD:'No joining fee — RM100 waived.',
+ dayT:'MAIN EVENT DAY', dayD:'1 SEPTEMBER',
+ w1:'WHOLE DAY', e1t:'Free entry for everyone', e1d:'Walk in and train with us — no membership needed.',
+ w2:'6:00 – 9:00 PM', e2t:'Anniversary celebration',
+ e2d:'Free protein shakes and grilled chicken breast, from our sponsors:',
+ w3:'8:00 PM', e3t:'Grand lucky draw', e3d:'28 winners, drawn live one by one.',
+ venue:'(Nusa Bestari)', lvTxt:'LIVE ON IG &amp; FACEBOOK',
+ lvNow:'LIVE NOW — WATCH HERE', lvDone:'DRAW COMPLETE',
+ stSoon:'OPENS IN', stClosing:'CLOSES IN', stDone:'CLOSED', unD:'D', unH:'H',
+ howT:'HOW IT WORKS',
+ s1t:'Join free', s1d:'IC + WhatsApp — one minute, no payment.',
+ s2t:'Stack your tickets', s2d:'Train, renew, follow, repost — every ticket is one more chance.',
+ s3t:'Watch the live draw', s3d:'1 Sept, 8:00 PM — drawn live winner by winner, on this page and on the gym screen.',
+ back:'← Back',
+ joinT:'Join the draw', joinS:'One minute. Four fields. Free for everyone.',
+ warnT:'YOUR IC &amp; NAME MUST BE EXACT',
+ warnP:'Winners must bring their <b>physical IC or passport</b> to the gym to verify identity before collecting a prize. If the number or name doesn\'t match, the prize is forfeited and redrawn. We also contact winners by <b>WhatsApp</b> on the number below and you must <b>reply within 24 hours</b> — so make sure it is a number you actually use. Please double-check before submitting.',
+ fIc:'IC / PASSPORT NO.', fName:'FULL NAME (AS PER IC / PASSPORT)', fPhone:'PHONE (WHATSAPP)',
+ fPlat:'YOUR MAIN SOCIAL PLATFORM',
+ fHint:'We use this handle to check your follow, tag and story repost when prizes are claimed. Pick the account you actually use.',
+ consent:'I agree to the <a href="/terms" target="_blank" rel="noopener" class="tlink">campaign T&amp;Cs</a> and confirm my IC number and name are correct. My IC is stored encrypted and never shown publicly.',
+ rBtn:'Activate my tickets',
+ loginT:'Welcome back', loginS:'Enter the IC / passport you registered with.', lBtn:'View my tickets',
+ myTickets:'MY TICKETS', wonTag:'🏆 YOU WON', luckyT:'LUCKY TICKETS', unit:'TICKETS',
+ qrTitle:'FRONT DESK CHECK-IN', qrDesc:'Show this QR when you come train, 25–31 Aug. +{c} tickets a day — on the spot.',
+ qrTap:'TAP TO ENLARGE',
+ bdCheckin:'CHECK-IN', bdRenew:'RENEWAL', bdSocial:'SOCIAL', bdRepost:'REPOST',
+ bdAdjust:'ADJUSTED',
+ tkSrcK:'TICKET SOURCE', tkHoldK:'HOLDS', tkHoldV:'%N% TICKETS',
+ tkOdds:'%P%% of the pool', arSpin:'SPINNING · TICKET №', arLastD:'LAST DIGIT',
+ arVerif:'TICKET VERIFIED', arStandby:'GRAND PRIZE · STAND BY', arFrom:'DRAWING FROM %N% TICKETS',
+ wtK:'WINNING TICKET', serK:'TICKET №', serBtn:'My ticket numbers', serT:'MY TICKET NUMBERS',
+ serHd:'You hold %A% of the %B% numbers in the pool right now.',
+ serNote:'Numbers are handed out in the order tickets are earned, so yours are spread across the pool. A number is never reused and never renumbered.',
+ serNone:'No numbers yet. Earn a ticket and yours will appear here.',
+ srcCheckin:'CHECKED IN', srcRenewal:'SUBSCRIPTION MONTHS', srcSocial:'FOLLOWED',
+ srcRepost:'TAG & REPOST', srcAdjust:'MANUAL CORRECTION',
+ adjT:'MANUAL CORRECTION', howBtn:'How to earn tickets',
+ streakT:'COME TRAIN', streakS:'+{c} / day · 25–31 AUG',
+ streakNote:'Scan at the front desk — your tickets land instantly.',
+ quickW:'QUICK WINS', quickWs:'tap · follow · +{s} instantly',
+ verify:'Follows are checked when you win. Unfollowed or fake entries are disqualified and the prize is redrawn.',
+ bonus:'BONUS MISSION', bonusS:'+{r} · one-time', bonusH:'TAG 3 FRIENDS &amp; REPOST',
+ bonusD:'Tag <b>3 friends</b> under our 9.01 post and repost it to your <b>story</b>. Tickets land <b>instantly</b> — keep both up until 1 Sept, we check them when prizes are claimed.',
+ openPost:'Open the post', mDo:"I've done it",
+ live:'LIVE DRAW', liveD:'1 SEPT · 8:00 PM',
+ liveS:'Your tickets are in the pool. Watch it live here or on the big screen at the gym.',
+ logout:'Log out',
+ spWait:'WAITING TO START', arWait:'WAITING FOR THE HOST',
+ arHint:'We press the button on stage — the system picks the name by weighted random.',
+ arDraw:'DRAWING…', arWin:'WINNER',
+ lbPart:'PARTICIPANTS', lbTick:'TICKETS IN POOL', lbLeft:'PRIZES LEFT', lbLock:'POOL LOCKS',
+ dsWaitT:'WAITING TO START', dsWaitS:'The draw begins at 8:00 PM on 1 Sept — one winner at a time, lowest tier first.',
+ dsGoT:'DRAW IN PROGRESS', dsDoneT:'ALL PRIZES DRAWN',
+ dsDoneS:'Results are locked and published. Congratulations to every winner!',
+ nextUp:'Next up: ', fairT:'WHY THIS IS FAIR',
+ fair1:'The ticket pool <b>locks 31 Aug, 11:59 PM</b> — a full day before the draw. Totals are shown on screen. Nothing can be added or removed after that.',
+ fair2:'We press the button for each winner on stage — but the <b>system picks the name by weighted random</b>. More tickets, higher chance. Nobody can choose or veto a winner.',
+ fair3:'<b>One prize per person.</b> Once you\'re drawn you leave the remaining pool.',
+ fair4:'Every result appears on <b>every screen within seconds</b>, then locks permanently and gets published.',
+ rulesT:'HOW TO EARN TICKETS',
+ r1h:'Daily check-in', r1p:'Come train any day from 25 to 31 Aug and show your QR at the front desk. Instant. Max {m} days — last scan 11:59 PM on 31 Aug.', r1b:'{c} / day',
+ r2h:'Subscription renewal', r2p:'Tickets are added for every month you renewed in the past 12 months — {n} per month. Loaded automatically from our records.', r2b:'{n} / month',
+ r3h:'Social follow', r3p:'Follow Instagram, Facebook, TikTok and 小红书. Instantly — {s} tickets each.', r3b:'+{s} each',
+ r4h:'Story repost mission', r4p:'Tag 3 friends under our 9.01 post + repost to your story. Instagram or Facebook. Instant.', r4b:'+{r}',
+ rNote:'Every ticket lands instantly. Keep your tag and story up until 1 Sept — we check them when prizes are claimed.',
+ close:'CLOSE',
+ qrmT:'MY CHECK-IN QR', qrmS:'Show this at the front desk · turn your brightness up',
+ qrmP:'This code contains your entrant code only — never your ID number.',
+ finT:'ALL 28 PRIZES DRAWN', finS:'X FITNESS · 1ST ANNIVERSARY · THANK YOU',
+ /* dynamic */
+ tierC:'COMPLETE', notAwarded:'— NOT AWARDED —', poolOut:'pool exhausted',
+ ticketsW:'tickets', dayLbl:'DAY', todayLbl:'TODAY', ofDays:' / {m} days',
+ taskDone:'DONE', tPlus:'+{s} TICKETS', cta:'Follow',
+ tIG:'Follow us on Instagram', tFB:'Like our Facebook page', tTT:'Follow us on TikTok',
+ tXHS:'Follow us on 小红书',
+ phIG:'Your Instagram @username', phFB:'Your Facebook profile name', phTT:'Your TikTok @username',
+ phXHS:'Your XHS ID',
+ done1:'+{s} tickets added.', doneBtn:'Done +{s}', enterHandle:'Please enter your username first.',
+ netErr:'Network problem — please try again.', submitted:'Submitted — your ticket lands by tomorrow morning.',
+ approved:'Approved ✓', pending:'Pending review', notApproved:'Not approved',
+ active:' · ACTIVE ✓', dq:' · DISQUALIFIED',
+ wonNoteTxt:'<span class="wurg">⏱ We will WhatsApp the number you registered. <b>Reply within 24 hours</b> or the prize is forfeited and redrawn.</span>Collect <b>within 7 days</b> at X FITNESS Nusa Bestari, in person, with your <b>physical IC / passport</b> and this screen. A photo is taken when we hand the prize over. One prize per person — if the name or IC does not match, the prize is forfeited and redrawn.',
+ wonClaimedTxt:'✓ COLLECTED',
+ agreeBox:'Please tick the box to agree to the T&Cs.', tncLink:'Terms &amp; Conditions', activating:'Activating…', checking:'Checking…',
+ errLocked:'Ticket entries closed on 31 Aug, 11:59 PM. The draw is 1 Sept, 8:00 PM — come and watch.',
+ errClosed:'Registration is closed for this campaign.',
+ errIc:'That IC / passport number looks too short. Please check it.',
+ errName:'Please enter your full name exactly as printed on your IC.',
+ errPhone:'Please enter a valid phone number.',
+ errPlat:'Please choose Instagram or Facebook.',
+ errHandle:'Please enter your username on that platform.',
+ errExists:'This IC is already registered. Use "Log in" instead.',
+ errBusy:'Too many sign-ups from this connection just now. Please wait a minute and try again.',
+ errNotFound:'We could not find that IC. Please register first.',
+ errGeneric:'Something went wrong. Please try again.'
+},
+zh:{
+ anniv:'一周年庆', gld:'年度大抽奖', wtl:'一起来庆祝。',
+ fDoc:'证件类型', docMy:'马来西亚人 · IC', docPp:'外国人 · 护照',
+ fIc12:'IC号码 — 12位数字，不含"-"', fPp:'护照号码', fIcL:'IC / 护照号码',
+ lHint:'只需输入数字，不用打"-"。护照用户请照登记时的号码输入。',
+ errIc12:'IC必须是12位数字，不含任何符号。',
+ errIcBad:'这个IC号码无效，请对照你的大马卡再确认一次。',
+ errPp:'护照号码应为6–20位字母或数字。',
+ errNameChars:'只能用英文字母，与IC完全一致（/ @ \' - . 这些IC上的符号可以用）。',
+ spSwipe:'‹ 左右滑动查看全部奖品 ›', phIGu:'用户名',
+ dD:'天', dH:'时', dM:'分', dS:'秒', liveAt:'现场开奖 · 9月1日 晚上8点',
+ join:'免费参加抽奖', login:'已参加？登入查看', openLive:'进入现场开奖页面 →',
+ przT:'奖品阵容', przS:'28位得奖者 · 一个晚上',
+ grandTag:'第一大奖', tag2:'第二', tag3:'第三', specANC:'最新一代 | 主动降噪',
+ giftT:'会员礼卡', giftS:'4个等级 · 19张',
+ t4:'第四', t5:'第五', t6:'第六', t7:'第七', t8:'第八',
+ spnT:'赞助奖品', spnS:'由 RULE 1 赞助', p8:'巧克力软糖口味 · 1lb',
+ m12:'12个月会员', m6:'6个月会员', m3:'3个月会员', m1:'1个月会员',
+ total:'28位得奖者 · 每人限中一奖',
+ wkBtn:'活动时间表', wkmT:'9.01 活动周',
+ wkT:'9.01 活动周', wkS:'8月25日 – 9月1日', preT:'开奖前一周',
+ d1:'8月25 – 31日', d2:'8月30 – 9月1日', only3:'只有3天',
+ tixT:'累积你的幸运票', c1:'训练', c2:'追踪我们', c3:'标签朋友',
+ tixD:'随时登录查看你的总票数。累积在 8月31日 晚上11:59 准时截止。',
+ promoT:'会员优惠', promoK:'全年最大优惠', mth:'个月',
+ flaskT:'免费保温瓶 &times;50', flaskD:'首50位签配套者。先到先得，送完为止。由 Matrix Fitness 赞助。',
+ promoD:'免入会费 — 减免 RM100。',
+ dayT:'活动当天', dayD:'9月1日',
+ w1:'全天', e1t:'全民免费入场', e1d:'直接进来一起练，无需会员。',
+ w2:'晚上6点 – 9点', e2t:'周年庆祝会',
+ e2d:'免费蛋白饮品与烤鸡胸，由赞助商提供：',
+ w3:'晚上8点', e3t:'幸运大抽奖', e3d:'28位得奖者，现场一位一位抽出。',
+ venue:'(Nusa Bestari)', lvTxt:'IG &amp; FACEBOOK 直播',
+ lvNow:'正在直播 — 点击观看', lvDone:'抽奖已结束',
+ stSoon:'还有', stClosing:'还剩', stDone:'已结束', unD:'天', unH:'小时',
+ howT:'怎么玩',
+ s1t:'免费登记', s1d:'IC + WhatsApp，一分钟搞定，无需付费。',
+ s2t:'累积抽奖券', s2d:'来训练、续配套、追踪、转发 — 每张券都是多一次机会。',
+ s3t:'看现场开奖', s3d:'9月1日晚上8点 — 一位一位现场抽出，这个页面和健身房大屏幕同步。',
+ back:'← 返回',
+ joinT:'参加抽奖', joinS:'一分钟 · 四个栏位 · 完全免费。',
+ warnT:'IC 和姓名必须完全正确',
+ warnP:'得奖者必须带 <b>IC / 护照正本</b> 到健身房核对身份才能领奖。号码或姓名对不上，奖品作废并重抽。我们也会以 <b>WhatsApp</b> 联络下面这个号码，你必须<b>在24小时内回覆</b> — 请填你真正在用的号码。提交前请再检查一次。',
+ fIc:'IC / 护照号码', fName:'全名（须与 IC / 护照相同）', fPhone:'电话（WhatsApp）',
+ fPlat:'你主要用的社交平台',
+ fHint:'领奖时我们会用这个账号核对追踪、标签和限时动态。请填你真正在用的账号。',
+ consent:'我同意<a href="/terms" target="_blank" rel="noopener" class="tlink">活动条款</a>，并确认 IC 号码与姓名正确无误。IC 以加密方式储存，绝不公开显示。',
+ rBtn:'启动我的抽奖券',
+ loginT:'欢迎回来', loginS:'输入你登记时用的 IC / 护照号码。', lBtn:'查看我的抽奖券',
+ myTickets:'我的抽奖券', wonTag:'🏆 你中奖了', luckyT:'幸运抽奖券', unit:'张',
+ qrTitle:'柜台打卡', qrDesc:'8月25日至31日来训练时出示这个QR码，每天 +{c} 张，即时入账。',
+ qrTap:'点击放大',
+ bdCheckin:'打卡', bdRenew:'续配套', bdSocial:'社交', bdRepost:'转发',
+ bdAdjust:'人工调整',
+ tkSrcK:'票源', tkHoldK:'持票', tkHoldV:'%N% 张',
+ tkOdds:'占票池 %P%%', arSpin:'滚动中 · 票号', arLastD:'最后一位',
+ arVerif:'票号已核实', arStandby:'第一大奖 · 准备', arFrom:'从 %N% 张票中抽出',
+ wtK:'中奖票号', serK:'票号', serBtn:'我的票号', serT:'我的票号',
+ serHd:'你持有 %A% 个号码，目前票池共 %B% 个。',
+ serNote:'号码按赚到票的先后发出，所以你的号码是分散在整个票池里的。号码发出后永不重用、永不重排。',
+ serNone:'还没有号码。赚到票之后就会出现在这里。',
+ srcCheckin:'到店打卡', srcRenewal:'续订月份', srcSocial:'追踪',
+ srcRepost:'标签与转发', srcAdjust:'人工调整',
+ adjT:'人工调整记录', howBtn:'如何赚取抽奖券',
+ streakT:'来训练', streakS:'每天 +{c} · 8月25日–31日',
+ streakNote:'在柜台扫描 — 抽奖券即时入账。',
+ quickW:'快速加券', quickWs:'点击 · 追踪 · 即时 +{s}',
+ verify:'中奖后我们会核对追踪状态。取消追踪或造假者取消资格并重抽。',
+ bonus:'额外任务', bonusS:'+{r} · 只限一次', bonusH:'标签3位朋友 + 转发限时动态',
+ bonusD:'在我们的 9.01 帖文下 <b>标签3位朋友</b>，并转发到你的 <b>限时动态</b>。<b>即时入账</b> — 请保留到9月1日，领奖时我们会核对。',
+ openPost:'打开帖文', mDo:'我做好了',
+ live:'现场开奖', liveD:'9月1日 · 晚上8点',
+ liveS:'你的抽奖券已在奖池里。可在这里看直播，或来健身房看大屏幕。',
+ logout:'登出',
+ spWait:'尚未开始', arWait:'等待主持人开始',
+ arHint:'我们在台上按按钮 — 名字由系统按抽奖券加权随机抽出。',
+ arDraw:'抽奖中…', arWin:'得奖者',
+ lbPart:'参加人数', lbTick:'奖池总券数', lbLeft:'剩余奖品', lbLock:'奖池锁定',
+ dsWaitT:'尚未开始', dsWaitS:'9月1日晚上8点开始 — 一位一位抽，由最小奖开始。',
+ dsGoT:'开奖进行中', dsDoneT:'全部奖品已抽出',
+ dsDoneS:'成绩已锁定并公布。恭喜所有得奖者！',
+ nextUp:'接下来：', fairT:'为什么这是公平的',
+ fair1:'奖池在 <b>8月31日晚上11点59分锁定</b>，开奖前整整一天。总数会显示在屏幕上，之后不能加、也不能减。',
+ fair2:'每一位得奖者由我们在台上按按钮 — 但 <b>名字由系统加权随机抽出</b>。券越多机会越大。没有人能指定或否决得奖者。',
+ fair3:'<b>每人限中一奖。</b>被抽中后即离开剩余奖池。',
+ fair4:'每个结果几秒内 <b>同步显示在所有屏幕</b>，然后永久锁定并公布。',
+ rulesT:'如何赚取抽奖券',
+ r1h:'每日打卡', r1p:'8月25日至31日任何一天来训练，在柜台出示QR码。即时入账，最多{m}天 — 8月31日晚上11点59分截止。', r1b:'每天{c}张',
+ r2h:'续订服务', r2p:'过去12个月内每续1个月得{n}张，系统自动读取记录。', r2b:'每月{n}张',
+ r3h:'社交追踪', r3p:'追踪 Instagram、Facebook、TikTok、小红书。即时入账，每个 +{s} 张。', r3b:'各 +{s}',
+ r4h:'限时动态任务', r4p:'在 9.01 帖文标签3位朋友 + 转发到限时动态。限 Instagram 或 Facebook。即时入账。', r4b:'+{r}',
+ rNote:'所有抽奖券即时入账。请保留标签和限时动态到9月1日 — 领奖时我们会核对。',
+ close:'关闭',
+ qrmT:'我的打卡QR码', qrmS:'在柜台出示 · 请调高屏幕亮度',
+ qrmP:'这个码只包含你的参加代码，绝不含证件号码。',
+ finT:'28份奖品全部抽出', finS:'X FITNESS · 一周年 · 感谢有你',
+ tierC:'完成', notAwarded:'— 未颁出 —', poolOut:'奖池已用尽',
+ ticketsW:'张券', dayLbl:'日', todayLbl:'今天', ofDays:' / {m} 天',
+ taskDone:'已完成', tPlus:'+{s} 张券', cta:'追踪',
+ tIG:'追踪我们的 Instagram', tFB:'赞我们的 Facebook 专页', tTT:'追踪我们的 TikTok',
+ tXHS:'关注我们的小红书',
+ phIG:'你的 Instagram @用户名', phFB:'你的 Facebook 名字', phTT:'你的 TikTok @用户名',
+ phXHS:'你的小红书号',
+ done1:'已加 +{s} 张券。', doneBtn:'完成 +{s}', enterHandle:'请先填写你的用户名。',
+ netErr:'网络问题 — 请再试一次。', submitted:'已提交 — 抽奖券明早入账。',
+ approved:'已批准 ✓', pending:'审核中', notApproved:'未通过',
+ active:' · 有效 ✓', dq:' · 已取消资格',
+ wonNoteTxt:'<span class="wurg">⏱ 我们会 WhatsApp 你登记的号码。<b>请在24小时内回覆</b>，逾时奖品作废并重抽。</span>请于 <b>7天内</b> 亲自到 X FITNESS Nusa Bestari 领奖，携带 <b>IC / 护照正本</b> 和这个页面。交付时我们会拍照存档。每人限中一奖 — 姓名或IC对不上，奖品作废并重抽。',
+ wonClaimedTxt:'✓ 已领取',
+ agreeBox:'请勾选同意活动条款。', tncLink:'活动条款', activating:'处理中…', checking:'检查中…',
+ errLocked:'抽奖券已于8月31日晚上11点59分截止。开奖是9月1日晚上8点 — 欢迎来现场观看。',
+ errClosed:'本次活动已停止登记。',
+ errIc:'IC / 护照号码太短，请检查。',
+ errName:'请填写与 IC 完全相同的全名。',
+ errPhone:'请填写有效的电话号码。',
+ errPlat:'请选择 Instagram 或 Facebook。',
+ errHandle:'请填写你在该平台的用户名。',
+ errExists:'这个 IC 已经登记过了，请用「登入」。',
+ errBusy:'这个网络刚才登记太频繁了，请等一分钟再试。',
+ errNotFound:'找不到这个 IC，请先登记。',
+ errGeneric:'出了点问题，请再试一次。'
+},
+ms:{
+ anniv:'ULANG TAHUN PERTAMA', gld:'CABUTAN BERTUAH', wtl:'MARI RAIKAN BERSAMA.',
+ fDoc:'JENIS DOKUMEN', docMy:'Warganegara · IC', docPp:'Warga asing · Pasport',
+ fIc12:'NO. IC — 12 DIGIT, TANPA SENGKANG', fPp:'NO. PASPORT', fIcL:'NO. IC / PASPORT',
+ lHint:'Nombor sahaja — tanpa sengkang. Pemegang pasport: taip seperti yang didaftarkan.',
+ errIc12:'IC mesti tepat 12 digit — nombor sahaja.',
+ errIcBad:'Nombor IC ini tidak sah. Sila semak semula dengan MyKad anda.',
+ errPp:'No. pasport mestilah 6–20 huruf dan nombor.',
+ errNameChars:"Huruf Inggeris sahaja, sama seperti IC — simbol / @ ' - . dibenarkan.",
+ spSwipe:'‹ LERET UNTUK LIHAT SEMUA HADIAH ›', phIGu:'username',
+ dD:'HARI', dH:'JAM', dM:'MIN', dS:'SAAT', liveAt:'CABUTAN LANGSUNG · 1 SEPT 8:00 MALAM',
+ join:'Sertai cabutan — percuma', login:'Sudah sertai? Log masuk', openLive:'Buka halaman cabutan langsung →',
+ przT:'HADIAH', przS:'28 pemenang · satu malam',
+ grandTag:'HADIAH UTAMA', tag2:'KE-2', tag3:'KE-3', specANC:'GENERASI TERKINI |\u00A0PEMBATALAN\u00A0BUNYI',
+ giftT:'KAD HADIAH KEAHLIAN', giftS:'4 peringkat · 19 kad',
+ t4:'KE-4', t5:'KE-5', t6:'KE-6', t7:'KE-7', t8:'KE-8',
+ spnT:'HADIAH PENAJA', spnS:'oleh RULE 1', p8:'Chocolate Fudge · 1lb',
+ m12:'Keahlian 12 Bulan', m6:'Keahlian 6 Bulan', m3:'Keahlian 3 Bulan', m1:'Keahlian 1 Bulan',
+ total:'28 PEMENANG · SATU HADIAH SEORANG',
+ wkBtn:'Jadual acara', wkmT:'MINGGU 9.01',
+ wkT:'MINGGU 9.01', wkS:'25 Ogos – 1 Sept', preT:'MINGGU PRA-ACARA',
+ d1:'25 – 31 OGOS', d2:'30 OGOS – 1 SEPT', only3:'3 HARI SAHAJA',
+ tixT:'Kumpul tiket bertuah anda', c1:'Berlatih', c2:'Ikut kami', c3:'Tag kawan',
+ tixD:'Log masuk bila-bila untuk semak jumlah tiket anda. Tutup 31 Ogos, 11:59 malam tepat.',
+ promoT:'Promosi keahlian', promoK:'PROMOSI TERBESAR TAHUN INI', mth:'BULAN',
+ flaskT:'BOTOL PERCUMA &times;50', flaskD:'50 pendaftar pertama. Selagi stok ada. Daripada Matrix Fitness.',
+ promoD:'Tiada yuran pendaftaran — RM100 dikecualikan.',
+ dayT:'HARI ACARA UTAMA', dayD:'1 SEPTEMBER',
+ w1:'SEPANJANG HARI', e1t:'Masuk percuma untuk semua', e1d:'Datang dan berlatih bersama kami — tanpa keahlian.',
+ w2:'6:00 – 9:00 MALAM', e2t:'Sambutan ulang tahun',
+ e2d:'Minuman protein dan dada ayam panggang percuma, daripada penaja kami:',
+ w3:'8:00 MALAM', e3t:'Cabutan bertuah', e3d:'28 pemenang, dicabut seorang demi seorang.',
+ venue:'(Nusa Bestari)', lvTxt:'SIARAN LANGSUNG IG &amp; FACEBOOK',
+ lvNow:'SIARAN LANGSUNG — TONTON', lvDone:'CABUTAN SELESAI',
+ stSoon:'BUKA DALAM', stClosing:'TUTUP DALAM', stDone:'TUTUP', unD:'H', unH:'J',
+ howT:'CARA IANYA BERFUNGSI',
+ s1t:'Daftar percuma', s1d:'IC + WhatsApp — satu minit, tanpa bayaran.',
+ s2t:'Kumpul tiket anda', s2d:'Datang bersenam, perbaharui, follow, repost — setiap tiket satu peluang lagi.',
+ s3t:'Tonton cabutan langsung', s3d:'1 Sept, 8:00 malam — dicabut seorang demi seorang di halaman ini dan skrin gim.',
+ back:'← Kembali',
+ joinT:'Sertai cabutan', joinS:'Satu minit. Empat ruangan. Percuma untuk semua.',
+ warnT:'IC &amp; NAMA MESTI TEPAT',
+ warnP:'Pemenang mesti membawa <b>IC atau pasport asal</b> ke gim untuk pengesahan sebelum menuntut hadiah. Jika nombor atau nama tidak sepadan, hadiah terbatal dan dicabut semula. Kami juga menghubungi pemenang melalui <b>WhatsApp</b> pada nombor di bawah dan anda mesti <b>membalas dalam masa 24 jam</b> — pastikan ia nombor yang anda benar-benar guna. Sila semak sebelum hantar.',
+ fIc:'NO. IC / PASPORT', fName:'NAMA PENUH (SEPERTI IC / PASPORT)', fPhone:'TELEFON (WHATSAPP)',
+ fPlat:'PLATFORM SOSIAL UTAMA ANDA',
+ fHint:'Kami guna handle ini untuk semak follow, tag dan repost story semasa menuntut hadiah. Pilih akaun yang anda betul-betul guna.',
+ consent:'Saya bersetuju dengan <a href="/terms" target="_blank" rel="noopener" class="tlink">terma kempen</a> dan mengesahkan nombor IC serta nama saya betul. IC disimpan secara disulitkan dan tidak dipaparkan.',
+ rBtn:'Aktifkan tiket saya',
+ loginT:'Selamat kembali', loginS:'Masukkan IC / pasport yang anda daftar.', lBtn:'Lihat tiket saya',
+ myTickets:'TIKET SAYA', wonTag:'🏆 ANDA MENANG', luckyT:'TIKET BERTUAH', unit:'TIKET',
+ qrTitle:'DAFTAR MASUK KAUNTER', qrDesc:'Tunjuk QR ini bila datang bersenam, 25–31 Ogos. +{c} tiket sehari — serta-merta.',
+ qrTap:'TEKAN UNTUK BESARKAN',
+ bdCheckin:'HADIR', bdRenew:'PERBAHARUI', bdSocial:'SOSIAL', bdRepost:'REPOST',
+ bdAdjust:'PEMBETULAN',
+ tkSrcK:'SUMBER TIKET', tkHoldK:'PEGANG', tkHoldV:'%N% TIKET',
+ tkOdds:'%P%% daripada kolam', arSpin:'MEMUTAR · TIKET №', arLastD:'DIGIT AKHIR',
+ arVerif:'TIKET DISAHKAN', arStandby:'HADIAH UTAMA · BERSEDIA', arFrom:'CABUTAN DARIPADA %N% TIKET',
+ wtK:'NOMBOR TIKET MENANG', serK:'NO. TIKET', serBtn:'Nombor tiket saya', serT:'NOMBOR TIKET SAYA',
+ serHd:'Anda memegang %A% daripada %B% nombor dalam kolam sekarang.',
+ serNote:'Nombor dikeluarkan mengikut urutan tiket diperoleh, jadi nombor anda tersebar dalam kolam. Nombor tidak pernah digunakan semula atau dinomborkan semula.',
+ serNone:'Belum ada nombor. Dapatkan tiket dan nombor anda akan muncul di sini.',
+ srcCheckin:'DAFTAR MASUK', srcRenewal:'BULAN LANGGANAN', srcSocial:'FOLLOW',
+ srcRepost:'TAG & REPOST', srcAdjust:'PEMBETULAN MANUAL',
+ adjT:'PEMBETULAN MANUAL', howBtn:'Cara kumpul tiket',
+ streakT:'DATANG BERSENAM', streakS:'+{c} / hari · 25–31 OGOS',
+ streakNote:'Imbas di kaunter — tiket masuk serta-merta.',
+ quickW:'TIKET SEGERA', quickWs:'tekan · follow · +{s} serta-merta',
+ verify:'Follow disemak apabila anda menang. Unfollow atau entri palsu akan dibatalkan dan hadiah dicabut semula.',
+ bonus:'MISI BONUS', bonusS:'+{r} · sekali sahaja', bonusH:'TAG 3 KAWAN &amp; REPOST',
+ bonusD:'Tag <b>3 kawan</b> di post 9.01 kami dan repost ke <b>story</b> anda. Tiket masuk <b>serta-merta</b> — kekalkan sehingga 1 Sept, kami semak semasa menuntut hadiah.',
+ openPost:'Buka post', mDo:'Saya dah buat',
+ live:'CABUTAN LANGSUNG', liveD:'1 SEPT · 8:00 MALAM',
+ liveS:'Tiket anda sudah dalam kolam. Tonton langsung di sini atau di skrin besar gim.',
+ logout:'Log keluar',
+ spWait:'BELUM BERMULA', arWait:'MENUNGGU HOS',
+ arHint:'Kami tekan butang di pentas — sistem pilih nama secara rawak berwajaran.',
+ arDraw:'MENCABUT…', arWin:'PEMENANG',
+ lbPart:'PESERTA', lbTick:'TIKET DALAM KOLAM', lbLeft:'HADIAH TINGGAL', lbLock:'KOLAM DIKUNCI',
+ dsWaitT:'BELUM BERMULA', dsWaitS:'Cabutan bermula 8:00 malam 1 Sept — seorang demi seorang, hadiah terendah dahulu.',
+ dsGoT:'CABUTAN SEDANG BERJALAN', dsDoneT:'SEMUA HADIAH TELAH DICABUT',
+ dsDoneS:'Keputusan dikunci dan diterbitkan. Tahniah kepada semua pemenang!',
+ nextUp:'Seterusnya: ', fairT:'KENAPA INI ADIL',
+ fair1:'Kolam tiket <b>dikunci 31 Ogos, 11:59 malam</b> — sehari penuh sebelum cabutan. Jumlahnya dipaparkan dan tiada apa boleh ditambah atau dibuang selepas itu.',
+ fair2:'Kami tekan butang untuk setiap pemenang di pentas — tetapi <b>sistem memilih nama secara rawak berwajaran</b>. Lebih banyak tiket, lebih tinggi peluang. Tiada siapa boleh pilih atau tolak pemenang.',
+ fair3:'<b>Satu hadiah seorang.</b> Setelah dicabut, anda keluar dari kolam yang tinggal.',
+ fair4:'Setiap keputusan muncul di <b>semua skrin dalam beberapa saat</b>, kemudian dikunci kekal dan diterbitkan.',
+ rulesT:'CARA KUMPUL TIKET',
+ r1h:'Daftar masuk harian', r1p:'Datang bersenam mana-mana hari dari 25 hingga 31 Ogos dan tunjuk QR di kaunter. Serta-merta. Maksimum {m} hari — imbasan terakhir 11:59 malam 31 Ogos.', r1b:'{c} / hari',
+ r2h:'Pembaharuan langganan', r2p:'{n} tiket bagi setiap bulan diperbaharui dalam 12 bulan lepas. Dimuat automatik dari rekod kami.', r2b:'{n} / bulan',
+ r3h:'Follow media sosial', r3p:'Follow Instagram, Facebook, TikTok dan 小红书. Serta-merta — {s} tiket setiap satu.', r3b:'+{s} setiap satu',
+ r4h:'Misi repost story', r4p:'Tag 3 kawan di post 9.01 + repost ke story anda. Instagram atau Facebook. Serta-merta.', r4b:'+{r}',
+ rNote:'Semua tiket masuk serta-merta. Kekalkan tag dan story sehingga 1 Sept — kami semak semasa menuntut hadiah.',
+ close:'TUTUP',
+ qrmT:'QR DAFTAR MASUK SAYA', qrmS:'Tunjuk di kaunter · tingkatkan kecerahan skrin',
+ qrmP:'Kod ini mengandungi kod peserta anda sahaja — bukan nombor pengenalan.',
+ finT:'SEMUA 28 HADIAH DICABUT', finS:'X FITNESS · ULANG TAHUN PERTAMA · TERIMA KASIH',
+ tierC:'SELESAI', notAwarded:'— TIDAK DIBERI —', poolOut:'kolam habis',
+ ticketsW:'tiket', dayLbl:'HARI', todayLbl:'HARI INI', ofDays:' / {m} hari',
+ taskDone:'SELESAI', tPlus:'+{s} TIKET', cta:'Follow',
+ tIG:'Follow Instagram kami', tFB:'Like halaman Facebook kami', tTT:'Follow TikTok kami',
+ tXHS:'Follow 小红书 kami',
+ phIG:'@username Instagram anda', phFB:'Nama profil Facebook anda', phTT:'@username TikTok anda',
+ phXHS:'ID XHS anda',
+ done1:'+{s} tiket ditambah.', doneBtn:'Selesai +{s}', enterHandle:'Sila masukkan username anda dahulu.',
+ netErr:'Masalah rangkaian — sila cuba lagi.', submitted:'Dihantar — tiket anda masuk esok pagi.',
+ approved:'Diluluskan ✓', pending:'Menunggu semakan', notApproved:'Tidak diluluskan',
+ active:' · AKTIF ✓', dq:' · DIBATALKAN',
+ wonNoteTxt:'<span class="wurg">⏱ Kami akan WhatsApp nombor yang anda daftarkan. <b>Balas dalam masa 24 jam</b> atau hadiah terbatal dan dicabut semula.</span>Tuntut <b>dalam masa 7 hari</b> di X FITNESS Nusa Bestari, datang sendiri dengan <b>IC / pasport asal</b> dan skrin ini. Gambar diambil semasa penyerahan hadiah. Satu hadiah seorang — jika nama atau IC tidak sepadan, hadiah terbatal dan dicabut semula.',
+ wonClaimedTxt:'✓ TELAH DITUNTUT',
+ agreeBox:'Sila tandakan kotak untuk bersetuju dengan terma.', tncLink:'Terma &amp; Syarat', activating:'Mengaktifkan…', checking:'Menyemak…',
+ errLocked:'Kemasukan tiket ditutup 31 Ogos, 11:59 malam. Cabutan pada 1 Sept, 8:00 malam — datang saksikan.',
+ errClosed:'Pendaftaran ditutup untuk kempen ini.',
+ errIc:'Nombor IC / pasport nampak terlalu pendek. Sila semak.',
+ errName:'Sila masukkan nama penuh persis seperti pada IC anda.',
+ errPhone:'Sila masukkan nombor telefon yang sah.',
+ errPlat:'Sila pilih Instagram atau Facebook.',
+ errHandle:'Sila masukkan username anda di platform itu.',
+ errExists:'IC ini sudah didaftarkan. Sila guna "Log masuk".',
+ errBusy:'Terlalu banyak pendaftaran dari sambungan ini. Tunggu seminit dan cuba lagi.',
+ errNotFound:'IC tidak dijumpai. Sila daftar dahulu.',
+ errGeneric:'Ada masalah. Sila cuba lagi.'
+}};
+let LANG = localStorage.getItem('xf901_lang') || 'en';
+/* Ticket values are fetched from the server (xf_points) so the copy can never
+   promise a number the draw will not pay. config.js is only a fallback for the
+   split second before that call returns, or if it fails. */
+let PTS = Object.assign({checkin:3, max_days:7, social:3, repost:6, renewal:1},
+                        (window.XF && window.XF.PTS) || {});
+const PTOK = () => ({c:PTS.checkin, m:PTS.max_days, s:PTS.social, r:PTS.repost, n:PTS.renewal});
+/* Fills the two entrant-specific tokens the shared PTOK map cannot know. */
+const Tv = (k, vars) => T(k).replace(/\{([gd])\}/g, (_, t) => vars[t]);
+
+const T = k => {
+  const raw = (I18N[LANG] && I18N[LANG][k] != null) ? I18N[LANG][k] : (I18N.en[k] || '');
+  if (raw.indexOf('{') < 0) return raw;
+  const v = PTOK();
+  return raw.replace(/\{([cmsrn])\}/g, (_, t) => v[t]);
+};
+
+async function loadPoints(){
+  try {
+    const r = await rpc('xf_points', {});
+    if (r && typeof r === 'object'){
+      PTS = {
+        checkin:  r.checkin_pts_per_day   ?? PTS.checkin,
+        max_days: r.checkin_max_days      ?? PTS.max_days,
+        social:   r.social_points         ?? PTS.social,
+        repost:   r.repost_points         ?? PTS.repost,
+        renewal:  r.renewal_pts_per_month ?? PTS.renewal
+      };
+      /* Poster links are typed into the admin console, not into config.js,
+         so there is exactly one place to change them. Empty = fall back to
+         the profile page. */
+      window.XF.POSTER = r.poster || {};
+    }
+  } catch (e) {}   // keep the fallback and carry on
+}
+
+function applyLang(){
+  document.documentElement.lang = LANG === 'zh' ? 'zh' : (LANG === 'ms' ? 'ms' : 'en');
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = T(el.dataset.i18n); });
+  document.querySelectorAll('.langs button').forEach(b => b.classList.toggle('on', b.dataset.lang === LANG));
+  if (ME && ME.ok) renderMe();
+  paintWeek(true);          // the pills are computed, applyLang would blank them
+  if (LIVE_LAST){ SP.sig = null; paintLive(LIVE_LAST); }
+}
+document.querySelectorAll('.langs button').forEach(b => b.onclick = () => {
+  LANG = b.dataset.lang; localStorage.setItem('xf901_lang', LANG); applyLang();
+});
+
+const ERRORS = {
+  closed:'errClosed', locked:'errLocked', bad_ic:'errIc', bad_name:'errName', bad_phone:'errPhone',
+  bad_platform:'errPlat', bad_handle:'errHandle', exists:'errExists', not_found:'errNotFound',
+  too_many:'errBusy'
+};
+const msgFor = e => T(ERRORS[e] || 'errGeneric');
+
+/* ========== state ========== */
+const STORE = 'xf901_ic';
+let IC   = localStorage.getItem(STORE) || null;
+let ME   = null;
+let PLAT = 'instagram';
+
+/* ========== countdown ========== */
+const target = new Date(window.XF.DRAW_AT).getTime();
+function tick(){
+  const d = Math.max(0, target - Date.now());
+  const f = n => String(n).padStart(2,'0');
+  const D=f(Math.floor(d/86400000)), H=f(Math.floor(d/3600000)%24),
+        M=f(Math.floor(d/60000)%60), S=f(Math.floor(d/1000)%60);
+  $('dd').textContent=D; $('hh').textContent=H; $('mm').textContent=M; $('ss').textContent=S;
+  $('ldd').textContent=D; $('lhh').textContent=H; $('lmm').textContent=M; $('lss').textContent=S;
+}
+tick(); setInterval(tick, 1000);
+
+/* ========== 9.01 week · live status ==========
+   The poster is frozen; this section is not. Each window paints itself as
+   upcoming / open / closed, and the draw node goes red when 8 PM arrives.
+   Driven off the same one-second tick, and it only touches the DOM when the
+   text it would write has actually changed. */
+const WKWIN = {
+  tix:  [Date.parse('2026-08-25T00:00:00+08:00'), Date.parse('2026-08-31T23:59:59+08:00')],
+  promo:[Date.parse('2026-08-30T00:00:00+08:00'), Date.parse('2026-09-01T23:59:59+08:00')],
+  draw: [Date.parse('2026-09-01T20:00:00+08:00'), Date.parse('2026-09-01T22:00:00+08:00')]
+};
+let WKSIG = null;
+function wkGap(ms){
+  const h = Math.floor(ms / 3600000), d = Math.floor(h / 24);
+  return d > 0 ? d + T('unD') + ' ' + (h % 24) + T('unH') : Math.max(1, h) + T('unH');
+}
+function wkCard(sel, key, now){
+  const [a, b] = WKWIN[key];
+  document.querySelectorAll(sel).forEach(card => {
+    const pill = card.querySelector('.estat');
+    card.classList.remove('live','done'); pill.classList.remove('on');
+    if (now < a)       pill.textContent = T('stSoon') + ' ' + wkGap(a - now);
+    else if (now <= b){ card.classList.add('live'); pill.classList.add('on');
+                        pill.textContent = T('stClosing') + ' ' + wkGap(b - now); }
+    else              { card.classList.add('done'); pill.textContent = T('stDone'); }
+  });
+}
+/* The block appears twice — landing page and the dashboard sheet — so every
+   selector below is a class, and both copies paint from the same pass. */
+function paintWeek(force){
+  const now = Date.now();
+  const sig = LANG + '|' + Math.floor(now / 60000);
+  if (!force && sig === WKSIG) return;
+  WKSIG = sig;
+  wkCard('.wkTix',   'tix',   now);
+  wkCard('.wkPromo', 'promo', now);
+  document.querySelectorAll('.wkDraw').forEach(peak => {
+    const lv = peak.querySelector('.lv');
+    peak.classList.remove('now','done'); lv.classList.remove('now','tap'); lv.onclick = null;
+    if (now > WKWIN.draw[1]){ peak.classList.add('done'); lv.innerHTML = T('lvDone'); }
+    else if (now >= WKWIN.draw[0]){
+      peak.classList.add('now'); lv.classList.add('now','tap'); lv.innerHTML = T('lvNow');
+      lv.onclick = () => {                /* the badge says WATCH HERE — make it true */
+        const ov = lv.closest('.overlay');
+        if (ov) closeModal(ov.id);
+        go('pgLive');
+      };
+    }
+    else lv.innerHTML = T('lvTxt');
+  });
+}
+setInterval(paintWeek, 1000);
+
+/* ========== routing ==========
+   Real history entries so the phone's back-swipe steps back INSIDE the site
+   instead of leaving it. */
+const HASH_FOR = {pgHome:'', pgJoin:'#join', pgLogin:'#login', pgMe:'#me', pgLive:'#live'};
+let NAVD = 0;
+
+function show(id){
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('show'));
+  $(id).classList.add('show');
+  window.scrollTo({top:0});
+  if (id === 'pgLive'){ L.first = true; loadLive(); startLivePoll(); } else { stopLivePoll(); }
+}
+function go(id){
+  show(id);
+  const h = (REHEARSAL && id === 'pgLive') ? '#rehearsal' : HASH_FOR[id];
+  NAVD++;
+  history.pushState({d:NAVD}, '', h || location.pathname + location.search);
+}
+function goBack(){
+  if (NAVD > 0){ history.back(); }
+  else { show('pgHome'); history.replaceState({d:0}, '', location.pathname + location.search); }
+}
+function routeFromHash(){
+  const h = location.hash, reh = h === '#rehearsal';
+  setRehearsal(reh);
+  let id = reh || h === '#live' ? 'pgLive'
+         : h === '#join'  ? 'pgJoin'
+         : h === '#login' ? 'pgLogin'
+         : h === '#me'    ? 'pgMe'
+         : 'pgHome';
+  if (id === 'pgMe' && !(ME && ME.ok)) id = IC ? 'pgHome' : 'pgLogin';
+  show(id);
+}
+window.addEventListener('popstate', e => {
+  NAVD = (e.state && e.state.d) || 0;
+  routeFromHash();
+});
+
+/* ========== Malaysian IC validation ==========
+   Ported from the walk-in system (my-ic.ts v2.18.0). Three layers:
+     1. exactly 12 digits
+     2. YYMMDD is a real date in the past (round-trip check kills 31 Feb,
+        non-leap 29 Feb, month 13, and anything dated in the future)
+     3. digits 7-8 are a place-of-birth code JPN actually issues
+   Never issued: 00, 17-20, 69, 70, 73, 80, 81, 94-97. That third layer is
+   what does most of the work — about 97% of randomly mashed 12-digit
+   strings fail all three combined.
+
+   It CANNOT prove an IC belongs to the person holding it: JPN has never
+   published a checksum for the last four digits, so anyone who knows the
+   format can generate a passing number. Real verification is the physical
+   MyKad at prize collection. */
+const MY_PB_OK = new Set([
+  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,                       // states, KL, Labuan, Putrajaya
+  21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,     // second state range
+  40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,
+  60,61,62,63,64,65,66,67,68,                                   // ASEAN
+  71,72,74,75,76,77,78,79,                                      // born abroad
+  82,83,84,85,86,87,88,89,90,91,92,93,98,99                     // regions, stateless
+]);
+
+function validMyIc(raw){
+  const d = String(raw || '').replace(/\D/g, '');
+  if (d.length !== 12) return false;
+
+  const yy = +d.slice(0,2), mm = +d.slice(2,4), dd = +d.slice(4,6);
+  if (mm < 1 || mm > 12 || dd < 1 || dd > 31) return false;
+  const year = yy <= 29 ? 2000 + yy : 1900 + yy;      // pivot holds until ~2030
+  const dob = new Date(year, mm - 1, dd);
+  if (dob.getFullYear() !== year || dob.getMonth() !== mm - 1 || dob.getDate() !== dd) return false;
+  if (dob.getTime() > Date.now()) return false;
+
+  return MY_PB_OK.has(+d.slice(6,8));
+}
+
+/* ========== register ========== */
+
+/* document type: Malaysian IC (12 digits) vs foreign passport */
+let DOC = 'my';
+const CCODES = [
+ ['MY','+60','🇲🇾'],['SG','+65','🇸🇬'],['ID','+62','🇮🇩'],['TH','+66','🇹🇭'],['VN','+84','🇻🇳'],
+ ['PH','+63','🇵🇭'],['MM','+95','🇲🇲'],['KH','+855','🇰🇭'],['LA','+856','🇱🇦'],['BN','+673','🇧🇳'],
+ ['CN','+86','🇨🇳'],['HK','+852','🇭🇰'],['TW','+886','🇹🇼'],['MO','+853','🇲🇴'],['JP','+81','🇯🇵'],
+ ['KR','+82','🇰🇷'],['IN','+91','🇮🇳'],['BD','+880','🇧🇩'],['NP','+977','🇳🇵'],['LK','+94','🇱🇰'],
+ ['PK','+92','🇵🇰'],['AE','+971','🇦🇪'],['SA','+966','🇸🇦'],['QA','+974','🇶🇦'],['KW','+965','🇰🇼'],
+ ['OM','+968','🇴🇲'],['BH','+973','🇧🇭'],['TR','+90','🇹🇷'],['EG','+20','🇪🇬'],['NG','+234','🇳🇬'],
+ ['KE','+254','🇰🇪'],['ZA','+27','🇿🇦'],['AU','+61','🇦🇺'],['NZ','+64','🇳🇿'],['GB','+44','🇬🇧'],
+ ['IE','+353','🇮🇪'],['FR','+33','🇫🇷'],['DE','+49','🇩🇪'],['NL','+31','🇳🇱'],['BE','+32','🇧🇪'],
+ ['ES','+34','🇪🇸'],['PT','+351','🇵🇹'],['IT','+39','🇮🇹'],['CH','+41','🇨🇭'],['AT','+43','🇦🇹'],
+ ['SE','+46','🇸🇪'],['NO','+47','🇳🇴'],['DK','+45','🇩🇰'],['FI','+358','🇫🇮'],['PL','+48','🇵🇱'],
+ ['CZ','+420','🇨🇿'],['RO','+40','🇷🇴'],['GR','+30','🇬🇷'],['RU','+7','🇷🇺'],['UA','+380','🇺🇦'],
+ ['US','+1','🇺🇸'],['CA','+1','🇨🇦'],['MX','+52','🇲🇽'],['BR','+55','🇧🇷'],['AR','+54','🇦🇷'],
+ ['CL','+56','🇨🇱'],['CO','+57','🇨🇴'],['PE','+51','🇵🇪']
+];
+$('rCc').innerHTML = CCODES.map(c =>
+  '<option value="' + c[1] + '"' + (c[0]==='MY' ? ' selected' : '') + '>' + c[2] + ' ' + c[0] + ' ' + c[1] + '</option>').join('');
+
+function updateDocUI(){
+  const my = DOC === 'my';
+  $('lblIc').dataset.i18n = my ? 'fIc12' : 'fPp';
+  $('lblIc').textContent = T(my ? 'fIc12' : 'fPp');
+  const ic = $('rIc');
+  ic.placeholder = my ? '990101011234' : 'A12345678';
+  ic.setAttribute('inputmode', my ? 'numeric' : 'text');
+  ic.maxLength = my ? 12 : 20;
+  ic.value = my ? ic.value.replace(/\D/g,'') : ic.value.replace(/[^A-Za-z0-9]/g,'').toUpperCase();
+}
+document.querySelectorAll('[data-doc]').forEach(b => b.onclick = () => {
+  document.querySelectorAll('[data-doc]').forEach(x => x.classList.remove('on'));
+  b.classList.add('on'); DOC = b.dataset.doc; updateDocUI();
+});
+document.querySelectorAll('[data-plat]').forEach(b => b.onclick = () => {
+  document.querySelectorAll('[data-plat]').forEach(x => x.classList.remove('on'));
+  b.classList.add('on');
+  PLAT = b.dataset.plat;
+  const ig = PLAT === 'instagram';
+  $('hWrap').classList.toggle('ig', ig);
+  $('rHandle').placeholder = ig ? T('phIGu') : T('phFB');
+  $('rHandle').value = ig ? $('rHandle').value.replace(/^@+/,'').replace(/[^A-Za-z0-9._]/g,'').slice(0,30)
+                          : $('rHandle').value.slice(0,40);
+});
+
+/* ========== live input filters — IME safe ==========
+   Rewriting .value while an input method editor is mid-composition (a
+   Chinese keyboard on iOS is the usual case) makes the composition buffer
+   replay itself, so "TAN AH MENG" came out as "tttaaannn aaahhh...".
+   So: never touch the value while composing, apply once on
+   compositionend, and keep the caret where the user left it. */
+function liveFilter(el, fn, onFilter){
+  let composing = false;
+  const apply = () => {
+    const before = el.value, after = fn(before);
+    if (onFilter) onFilter(after.length < before.length);
+    if (after === before) return;
+    const pos = el.selectionStart;
+    el.value = after;
+    const p = Math.max(0, pos - (before.length - after.length));
+    try { el.setSelectionRange(p, p); } catch (e) {}
+  };
+  el.addEventListener('compositionstart', () => { composing = true; });
+  el.addEventListener('compositionend',   () => { composing = false; apply(); });
+  el.addEventListener('input', () => { if (!composing) apply(); });
+  el.addEventListener('blur', apply);
+}
+
+liveFilter($('rIc'), v => DOC === 'my'
+  ? v.replace(/\D/g,'').slice(0,12)
+  : v.replace(/[^A-Za-z0-9]/g,'').toUpperCase().slice(0,20));
+
+/* The name field is A-Z only because it has to match the IC. When we drop
+   a character we say so, otherwise it just looks like a broken keyboard. */
+liveFilter($('rName'),
+  v => v.toUpperCase().replace(/[^A-Z \/@'.-]/g,''),
+  stripped => { $('nameHint').style.display = stripped ? 'block' : 'none'; });
+
+liveFilter($('rPhone'), v => v.replace(/\D/g,'').slice(0,12));
+
+/* Instagram usernames really are ASCII. A Facebook profile name is a
+   display name — Chinese, Tamil, anything — so only control characters
+   and length are enforced there. */
+liveFilter($('rHandle'), v => PLAT === 'instagram'
+  ? v.replace(/^@+/,'').replace(/[^A-Za-z0-9._]/g,'').slice(0,30)
+  : v.replace(/^@+/,'').replace(/[\u0000-\u001F\u007F]/g,'').slice(0,40));
+
+$('rBtn').onclick = async () => {
+  const btn = $('rBtn'), err = $('rErr');
+  hideErr(err);
+  const ic = $('rIc').value.trim(),
+        name = $('rName').value.trim().replace(/\s+/g,' '),
+        nat  = $('rPhone').value.replace(/\D/g,'').replace(/^0+/,''),   // trunk 0: 0123456789 -> +60123456789
+        phone = $('rCc').value + nat,
+        handle = $('rHandle').value.trim();
+
+  ['rIc','rName','rPhone','rHandle'].forEach(i => $(i).classList.remove('bad'));
+  if (DOC === 'my'  && !/^\d{12}$/.test(ic))        { $('rIc').classList.add('bad');   return showErr(err, T('errIc12')); }
+  if (DOC === 'my'  && !validMyIc(ic))               { $('rIc').classList.add('bad');   return showErr(err, T('errIcBad')); }
+  if (DOC === 'pp'  && !/^[A-Z0-9]{6,20}$/.test(ic)) { $('rIc').classList.add('bad');   return showErr(err, T('errPp')); }
+  if ((name.match(/[A-Z]/g) || []).length < 3)       { $('rName').classList.add('bad'); return showErr(err, T('errNameChars')); }
+  if (nat.length < 7 || nat.length > 12)             { $('rPhone').classList.add('bad');return showErr(err, T('errPhone')); }
+  if (handle.length < 2)                             { $('rHandle').classList.add('bad');return showErr(err, T('errHandle')); }
+  if (!$('rAgree').checked)                          { return showErr(err, T('agreeBox')); }
+
+  btn.disabled = true; btn.textContent = T('activating');
+  try {
+    const r = await rpc('xf_register', {p_ic:ic, p_name:name, p_phone:phone, p_platform:PLAT, p_handle:handle});
+    if (!r.ok) { showErr(err, msgFor(r.error)); return; }
+    IC = ic; localStorage.setItem(STORE, IC); ME = r;
+    renderMe(); go('pgMe'); toast(T('done1'));
+  } catch (e) { showErr(err, T('netErr')); }
+  finally { btn.disabled = false; btn.textContent = T('rBtn'); }
+};
+$('rHandle').addEventListener('keydown', e => { if (e.key === 'Enter') $('rBtn').click(); });
+
+/* ========== login ========== */
+$('lBtn').onclick = async () => {
+  const btn = $('lBtn'), err = $('lErr'), ic = $('lIc').value.trim();
+  hideErr(err);
+  if (ic.replace(/[^A-Za-z0-9]/g,'').length < 6) return showErr(err, T('errIc'));
+  // 12 pure digits (letters would mean a passport) → check it's a real IC, so a
+  // typo says "check your MyKad" instead of a confusing "not found".
+  if (/^\d{12}$/.test(ic.replace(/[\s-]/g,'')) && !validMyIc(ic)) return showErr(err, T('errIcBad'));
+  btn.disabled = true; btn.textContent = T('checking');
+  try {
+    const r = await rpc('xf_login', {p_ic: ic});
+    if (!r.ok) { showErr(err, msgFor(r.error)); return; }
+    IC = ic; localStorage.setItem(STORE, IC); ME = r;
+    renderMe(); go('pgMe');
+  } catch (e) { showErr(err, T('netErr')); }
+  finally { btn.disabled = false; btn.textContent = T('lBtn'); }
+};
+$('lIc').addEventListener('keydown', e => { if (e.key === 'Enter') $('lBtn').click(); });
+$('lIc').addEventListener('input', () => {
+  $('lIc').value = $('lIc').value.replace(/[^A-Za-z0-9]/g,'').toUpperCase().slice(0,20);
+});
+
+function logout(){
+  localStorage.removeItem(STORE); IC = null; ME = null; NAVD = 0;
+  show('pgHome'); history.replaceState({d:0}, '', location.pathname + location.search);
+}
+
+/* ========== dashboard ========== */
+const TASKS = [
+  {key:'instagram', cls:'si-ig',  ic:'ic-ig', lk:'tIG',  sub:'@YOUR_HANDLE', ph:'phIG',  cta:'cta'},
+  {key:'facebook',  cls:'si-fb',  ic:'ic-fb', lk:'tFB',  sub:'',             ph:'phFB',  cta:'cta'},
+  {key:'tiktok',    cls:'si-tt',  ic:'ic-tt', lk:'tTT',  sub:'@YOUR_HANDLE', ph:null,    cta:'cta', solo:true},
+  {key:'xhs',       cls:'si-xhs', ic:null,    lk:'tXHS', sub:'',             ph:null,    cta:'cta', solo:true}
+];
+const PRIZE_IMG = {1:'assets/hero-iphone.webp', 2:'assets/hero-watch.webp', 3:'assets/hero-airpods.webp',
+                   4:'assets/gc-12.webp', 5:'assets/gc-6.webp', 6:'assets/gc-3.webp', 7:'assets/gc-1.webp',
+                   8:'assets/hero-protein.webp'};
+/* The check-in window as calendar dates. The strip shows the first
+   PTS.max_days of these, so shortening max_days shortens the strip. */
+const CAMPAIGN_DAYS = ['2026-08-25','2026-08-26','2026-08-27','2026-08-28',
+                       '2026-08-29','2026-08-30','2026-08-31'];
+const todayMYT = () => new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Kuala_Lumpur'}).format(new Date());
+
+function renderMe(){
+  if (!ME || !ME.ok) return;
+  const t = ME.tickets || {};
+  $('tTotal').textContent   = t.total   || 0;
+  $('tCheckin').textContent = t.checkin || 0;
+  $('tRenewal').textContent = t.renewal || 0;
+  $('tSocial').textContent  = t.social  || 0;
+  $('tRepost').textContent  = t.repost  || 0;
+  /* v9.10 — a fifth chip so CHECK-IN + RENEWAL + SOCIAL + REPOST + ADJUSTED
+     really do add up to the headline number. Before this, an entrant with a
+     manual correction saw four chips summing to 24 above a total of 27.
+     tickets.adjust already came back from xf_me; it just was not shown. */
+  const adjN = t.adjust || 0, adjChip = $('tAdjChip');
+  adjChip.style.display = adjN ? '' : 'none';
+  adjChip.classList.toggle('neg', adjN < 0);
+  $('tAdjust').textContent = (adjN > 0 ? '+' : '') + adjN;
+  $('tName').textContent    = ME.name || '';
+  $('tIc').textContent      = 'IC ****' + (ME.ic_last4 || '') + (ME.disqualified ? T('dq') : T('active'));
+
+  /* winner card — shown the moment their name is drawn */
+  const pz = ME.prize;
+  if (pz){
+    $('wonCard').style.display = 'block';
+    $('wonName').textContent = pz.name || '';
+    $('wonSub').textContent  = (pz.subtitle || '').toUpperCase();
+    const img = PRIZE_IMG[pz.tier];
+    if (img){ $('wonImg').src = img; $('wonImg').style.display = 'inline-block'; }
+    $('wonNote').innerHTML = T('wonNoteTxt');
+    if (pz.claimed){
+      $('wonClaimed').style.display = 'inline-block';
+      $('wonClaimed').textContent = T('wonClaimedTxt') + (pz.claimed_at ? ' · ' + pz.claimed_at : '');
+      $('wonNote').style.display = 'none';
+    } else {
+      $('wonClaimed').style.display = 'none';
+      $('wonNote').style.display = 'block';
+    }
+  } else {
+    $('wonCard').style.display = 'none';
+  }
+
+  /* manual corrections are always shown to the entrant, with the reason */
+  const adj = ME.adjustments || [];
+  if (adj.length){
+    $('adjList').innerHTML = adj.map(a =>
+      '<div class="row"><span class="d' + (a.delta < 0 ? ' neg' : '') + '">' +
+      (a.delta > 0 ? '+' : '') + a.delta + '</span>' +
+      '<span class="why">' + esc(a.reason) +
+      '<span class="when">' + esc(a.at) + '</span></span></div>').join('');
+    $('adjBox').style.display = 'block';
+  } else {
+    $('adjBox').style.display = 'none';
+  }
+
+  renderQR();
+  renderStreak();
+  renderTasks();
+  loadSerials();
+
+  const st = ME.repost || 'none', mb = $('mBtn');
+  const _pf = ME.platform === 'facebook' ? 'facebook' : 'instagram';
+  $('mOpen').href = (window.XF.POSTER && window.XF.POSTER[_pf]) || window.XF.LINKS[_pf];
+  if (st === 'approved'){ mb.textContent = T('approved'); mb.disabled = true; }
+  else if (st === 'pending'){ mb.textContent = T('pending'); mb.disabled = true; }
+  else if (st === 'rejected'){ mb.textContent = T('notApproved'); mb.disabled = true; }
+  else { mb.textContent = T('mDo'); mb.disabled = false; }
+}
+
+/* ========== ticket numbers ==========
+   Every ticket carries a permanent serial, handed out in the real order the
+   tickets were earned. The ledger lives server-side in draw_tickets; this only
+   reads it. xf_my_serials brings the ledger up to date itself before answering,
+   so there is no second round trip and no race with a check-in that just landed.
+   The whole block stays hidden if app_config.ticket_numbers_public is off. */
+const SRC_KEY = {checkin:'srcCheckin', renewal:'srcRenewal', social:'srcSocial',
+                 repost:'srcRepost',  adjust:'srcAdjust'};
+/* Proper nouns — identical in all three languages, so not i18n keys. */
+const PLAT_NAME = {instagram:'INSTAGRAM', facebook:'FACEBOOK', tiktok:'TIKTOK', xhs:'小红书'};
+const nfmt = n => Number(n || 0).toLocaleString();
+const serRange = e => e.n > 1 ? '№ ' + nfmt(e.from) + ' – ' + nfmt(e.to) : '№ ' + nfmt(e.from);
+/* '2026-08-25' -> '25 Aug'. Uses visit_date, which can differ from the scan
+   time if a check-in was backdated or imported. */
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function fmtDay(d){
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(d || ''));
+  return m ? Number(m[3]) + ' ' + MON[Number(m[2]) - 1] : String(d || '');
+}
+
+let SER = null;
+
+function hideSerials(){
+  $('tSer').style.display = 'none';
+  $('serPill').style.display = 'none';
+}
+
+async function loadSerials(){
+  if (!IC) return hideSerials();
+  if (SER) renderSerials();   /* instant repaint on a language switch */
+  try {
+    const r = await rpc('xf_my_serials', {p_ic: IC});
+    if (!r || !r.ok || !r.ready) return hideSerials();
+    SER = r;
+    renderSerials();
+  } catch (e) { hideSerials(); }
+}
+
+function renderSerials(){
+  if (!SER) return hideSerials();
+  const ev = SER.events || [];
+
+  $('tSer').style.display   = 'flex';
+  $('serPill').style.display = 'inline-flex';
+  $('tSerV').textContent = ev.length
+    ? (SER.total > 1 ? '№ ' + nfmt(SER.first) + ' … ' + nfmt(SER.last) : '№ ' + nfmt(SER.first))
+    : '–';
+
+  $('serHead').textContent = T('serHd')
+    .replace('%A%', nfmt(SER.total)).replace('%B%', nfmt(SER.pool));
+
+  $('serList').innerHTML = ev.length
+    ? ev.map(e => {
+        let label = T(SRC_KEY[e.source] || 'srcAdjust');
+        let sub   = e.at || '';
+        if (e.source === 'social')                   { label = PLAT_NAME[e.detail] || label; }
+        else if (e.source === 'checkin' && e.detail) { sub = fmtDay(e.detail); }
+        else if (e.source === 'adjust'  && e.detail) { sub = e.detail; }
+        return '<div class="serow"><div><div class="l">' + esc(label) + '</div>' +
+               '<div class="d">' + esc(sub) + '</div></div>' +
+               '<span class="r">' + esc(serRange(e)) + '</span></div>';
+      }).join('')
+    : '<div class="serow"><div class="d">' + esc(T('serNone')) + '</div></div>';
+}
+
+/* QR — the payload is a one-way hash of the IC, never the IC itself */
+function drawQR(el, size){
+  el.innerHTML = '';
+  const payload = ME && ME.qr;
+  if (!payload) return;
+  if (typeof QRCode === 'undefined'){
+    el.innerHTML = '<div class="qfall">' + esc(payload.slice(0, 46)) + '…</div>';
+    return;
+  }
+  new QRCode(el, {text: payload, width: size, height: size,
+    colorDark:'#000000', colorLight:'#ffffff', correctLevel: QRCode.CorrectLevel.M});
+}
+function renderQR(){
+  drawQR($('qrSmall'), 96);
+  $('qrName').textContent = ME.name || '';
+  $('qrIc').textContent   = 'IC ****' + (ME.ic_last4 || '');
+}
+const _openQR = openModal;
+openModal = function(id){ _openQR(id); if (id === 'qrModal') drawQR($('qrBig'), 224); };
+
+function renderStreak(){
+  const done = new Set(ME.checkin_dates || []);
+  const today = todayMYT();
+  $('streakDots').innerHTML = CAMPAIGN_DAYS.slice(0, PTS.max_days).map(d => {
+    const isDone = done.has(d), isToday = d === today;
+    return '<div class="dot ' + (isDone ? 'done' : '') + (isToday && !isDone ? ' today' : '') + '">' +
+      '<div class="dcirc">' + Number(d.slice(8)) + '</div>' +
+      '<em>' + (isDone ? '+' + PTS.checkin : (isToday ? T('todayLbl') : '')) + '</em></div>';
+  }).join('');
+  $('streakStat').textContent = done.size + T('ofDays');
+}
+
+function renderBadges(){
+  const t = $('mTag'); if (t) t.textContent = '+' + PTS.repost;
+}
+
+function renderTasks(){
+  const done = ME.social || {};
+  $('taskList').innerHTML = TASKS.map(t => {
+    const isDone = !!done[t.key];
+    const icon = t.ic ? '<svg viewBox="0 0 24 24"><use href="#' + t.ic + '"/></svg>' : '小红书';
+    return '<div class="task ' + (isDone ? 'done' : '') + '" data-k="' + t.key + '">' +
+      '<div class="taskrow">' +
+        '<div class="si ' + t.cls + '">' + icon + '</div>' +
+        '<div class="tinfo">' +
+          '<div class="thead"><h5>' + esc(T(t.lk)) + '</h5>' +
+            '<span class="tpts">+' + PTS.social + '</span></div>' +
+          '<p>' + (t.sub ? esc(t.sub) + ' · ' : '') +
+            (isDone ? T('taskDone') : T('tPlus')) + '</p></div>' +
+        (isDone ? '<span class="tbtn">✓</span>'
+                : '<a class="tbtn" href="' + window.XF.LINKS[t.key] + '" target="_blank" rel="noopener">' + esc(T(t.cta)) + '</a>') +
+      '</div>' +
+      (isDone ? '' : t.solo
+        ? '<div class="taskform solo"><button>' + esc(T('doneBtn')) + '</button></div>'
+        : '<div class="taskform"><input placeholder="' + esc(T(t.ph)) + '"><button>' + esc(T('doneBtn')) + '</button></div>') +
+    '</div>';
+  }).join('');
+
+  $('taskList').querySelectorAll('.task').forEach(el => {
+    const link = el.querySelector('a.tbtn');
+    if (link) link.addEventListener('click', () => el.querySelector('.taskform').classList.add('show'));
+    const btn = el.querySelector('.taskform button');
+    if (btn) btn.onclick = () => claimSocial(el);
+  });
+}
+
+async function claimSocial(el){
+  const key = el.dataset.k;
+  const input = el.querySelector('.taskform input');   // null for one-tap tasks
+  const btn = el.querySelector('.taskform button');
+  const handle = input ? input.value.trim() : '';
+  if (input && handle.length < 2){ input.focus(); return toast(T('enterHandle')); }
+  btn.disabled = true; btn.textContent = '…';
+  try {
+    const r = await rpc('xf_claim_social', {p_ic: IC, p_platform: key, p_handle: handle});
+    if (!r.ok){ toast(msgFor(r.error)); btn.disabled = false; btn.textContent = T('doneBtn'); return; }
+    ME = r; renderMe(); toast(T('done1'));
+  } catch (e) {
+    btn.disabled = false; btn.textContent = T('doneBtn');
+    toast(T('netErr'));
+  }
+}
+
+$('mBtn').onclick = async () => {
+  const b = $('mBtn');
+  b.disabled = true; b.textContent = '…';
+  try {
+    const r = await rpc('xf_claim_repost', {p_ic: IC});
+    if (!r.ok){ toast(msgFor(r.error)); b.disabled = false; b.textContent = T('mDo'); return; }
+    ME = r; renderMe(); toast(T('submitted'));
+  } catch (e) {
+    b.disabled = false; b.textContent = T('mDo');
+    toast(T('netErr'));
+  }
+};
+
+/* ========== LIVE DRAW — one press, one winner ========== */
+const TIER_L = {
+  en:{1:'GRAND PRIZE',2:'2ND PRIZE',3:'3RD PRIZE',4:'4TH PRIZE',5:'5TH PRIZE',6:'6TH PRIZE',7:'7TH PRIZE',8:'8TH PRIZE'},
+  zh:{1:'第一大奖',2:'第二奖',3:'第三奖',4:'第四奖',5:'第五奖',6:'第六奖',7:'第七奖',8:'第八奖'},
+  ms:{1:'HADIAH UTAMA',2:'HADIAH KE-2',3:'HADIAH KE-3',4:'HADIAH KE-4',5:'HADIAH KE-5',6:'HADIAH KE-6',7:'HADIAH KE-7',8:'HADIAH KE-8'}
+};
+const tierLabel = n => (TIER_L[LANG] || TIER_L.en)[n] || ('TIER ' + n);
+
+/* Winner's social identity, shown publicly on /#live.
+   Instagram → @handle (lower case, that's how handles read)
+   Facebook  → profile name as given, no @ (it is a name, not a handle) */
+/* The winning ticket's origin, e.g. 'TRAINED · 26 AUG' or 'INSTAGRAM'.
+   Returns '' for a winner drawn before ticket numbers existed. */
+function tixSrc(w){
+  if (!w || w.serial == null) return '';
+  if (w.source === 'social')  return PLAT_NAME[w.detail] || T('srcSocial');
+  if (w.source === 'checkin') return T('srcCheckin') + ' · ' + fmtDay(w.detail);
+  return T(SRC_KEY[w.source] || 'srcAdjust');
+}
+function tixNo(w){ return (w && w.serial != null) ? '№ ' + nfmt(w.serial) : ''; }
+
+function socialTag(w){
+  const h = (w && w.handle ? String(w.handle) : '').trim();
+  if (!h) return '';
+  return (w.platform === 'instagram') ? '@' + h.replace(/^@/, '') : h.toUpperCase();
+}
+
+let REHEARSAL = false, livePoll = null, LIVE_LAST = null;
+const L = {first:true, seen:new Set(), queue:[], playing:false, finaleDone:false};
+
+function setRehearsal(on){
+  if (REHEARSAL === !!on){
+    document.body.classList.toggle('rehearsing', REHEARSAL);
+    $('rehBanner').style.display = REHEARSAL ? 'block' : 'none';
+    return;
+  }
+  REHEARSAL = !!on;
+  L.first = true; L.seen.clear(); L.queue.length = 0; L.playing = false; L.finaleDone = false;
+  SP.sig = null;
+  document.body.classList.toggle('rehearsing', REHEARSAL);
+  $('rehBanner').style.display = REHEARSAL ? 'block' : 'none';
+}
+function startLivePoll(){
+  stopLivePoll(); livePoll = setInterval(loadLive, 3000);
+  sfxPaintBtn();
+  /* iOS only lets an AudioContext start inside a gesture — the first touch
+     anywhere on the live page is enough, and it only has to happen once. */
+  document.addEventListener('pointerdown', function once(){
+    document.removeEventListener('pointerdown', once); if (SFX_ON) sfxCtx();
+  }, {passive:true});
+}
+function stopLivePoll(){ if (livePoll){ clearInterval(livePoll); livePoll = null; } }
+
+async function loadLive(){
+  try {
+    const r = await rpc(REHEARSAL ? 'xf_rehearsal_results' : 'xf_live_results', {});
+    LIVE_LAST = r;
+    paintStats(r);
+
+    const flat = [];
+    (r.tiers || []).slice().sort((a,b) => a.draw_seq - b.draw_seq).forEach(t => {
+      (t.winners || []).slice().sort((a,b) => a.seq - b.seq).forEach(w => {
+        flat.push({tier:t.tier, prize:t.name, subtitle:t.subtitle, qty:t.qty, closed:t.closed, seq:w.seq, w:w});
+      });
+    });
+
+    if (L.first){
+      L.first = false;
+      flat.forEach(x => L.seen.add(x.tier + '-' + x.seq));
+      if ((r.stats || {}).prizes_left === 0) L.finaleDone = true;   // already finished: no popup on arrival
+      paintStatus(r); renderLists(r); restSpotlight(r);
+      return;
+    }
+
+    let added = 0;
+    flat.forEach(x => {
+      const k = x.tier + '-' + x.seq;
+      if (!L.seen.has(k)){ L.seen.add(k); L.queue.push(x); added++; }
+    });
+    paintStatus(r);
+    if (!L.playing && L.queue.length) playNext();
+    else if (!L.playing && !added){ renderLists(r); restSpotlight(r); }
+  } catch (e) { /* keep the last good frame on a hiccup */ }
+}
+
+function paintStats(r){
+  const s = r.stats || {};
+  $('sPart').textContent = (s.participants || 0).toLocaleString();
+  $('sTick').textContent = (s.tickets || 0).toLocaleString();
+  $('sLeft').textContent = s.prizes_left != null ? s.prizes_left : '–';
+  /* Lock time comes from app_config.pool_locks_at via xf_public_stats — the
+     same value xf_pool_locked() enforces. Never hardcode it here again. */
+  if (s.pool_locks_at){
+    const d = new Date(s.pool_locks_at);
+    const f = o => new Intl.DateTimeFormat('en-GB',
+      Object.assign({timeZone:'Asia/Kuala_Lumpur'}, o)).format(d);
+    $('sLock').textContent = f({day:'numeric', month:'short'}).toUpperCase() + ' ' +
+                             f({hour:'2-digit', minute:'2-digit', hour12:false});
+  }
+}
+
+function paintStatus(r){
+  const s = r.stats || {}, tiers = (r.tiers || []).slice().sort((a,b) => a.draw_seq - b.draw_seq);
+  const started = tiers.some(t => (t.winners || []).length > 0);
+  if (s.prizes_left === 0){
+    $('dstatus').innerHTML = '<b>' + T('dsDoneT') + '</b><i>' + T('dsDoneS') + '</i>';
+  } else if (started){
+    const next = tiers.find(t => (t.winners || []).length < t.qty && !t.closed);
+    $('dstatus').innerHTML = '<b>' + T('dsGoT') + '</b><i>' +
+      (next ? T('nextUp') + esc(tierLabel(next.tier)) : '…') + '</i>';
+  } else {
+    $('dstatus').innerHTML = '<b>' + T('dsWaitT') + '</b><i>' + T('dsWaitS') + '</i>';
+  }
+}
+
+/* ---- prize spotlight: a swipeable carousel of all six prizes ----
+   Before the draw starts (and again after it finishes) the audience can swipe
+   through every prize. The moment the draw is running it locks and follows
+   the real progress — nobody can scroll it off the live tier. */
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const SP = {sig:null, order:[], slides:{}, lockedNow:false};
+
+function buildCarousel(r){
+  const tiers = (r.tiers || []).slice().sort((a,b) => a.draw_seq - b.draw_seq);
+  if (!tiers.length) return;
+  const sig = tiers.map(t => t.tier).join(',') + '|' + LANG;
+  if (SP.sig === sig){
+    tiers.forEach(t => updateSlide(t.tier, (t.winners || []).length, t.qty));
+    return;
+  }
+  SP.sig = sig; SP.order = tiers.map(t => t.tier); SP.slides = {};
+  $('spCar').innerHTML = tiers.map(t =>
+    '<div class="spSlide" data-tier="' + t.tier + '">' +
+      '<div class="spTier">' + esc(tierLabel(t.tier)) + '</div>' +
+      '<div class="spImgWrap"><img src="' + PRIZE_IMG[t.tier] + '" alt="" loading="lazy"></div>' +
+      '<div class="spName' + (t.tier === 2 ? ' silver' : t.tier === 3 ? ' copper' : '') + '">' +
+        esc(t.name || '') + '</div>' +
+      '<div class="spSub">' + esc((t.subtitle || '').toUpperCase()) + '</div>' +
+      '<div class="prog"><span class="pdw"></span><span class="pcount"></span></div>' +
+    '</div>').join('');
+  $('spNav').innerHTML = tiers.map((t,i) =>
+    '<button class="snd" data-i="' + i + '" aria-label="' + esc(tierLabel(t.tier)) + '"></button>').join('');
+  $('spCar').querySelectorAll('.spSlide').forEach(el => {
+    SP.slides[el.dataset.tier] = {el, dots: el.querySelector('.pdw'), count: el.querySelector('.pcount')};
+  });
+  $('spNav').querySelectorAll('.snd').forEach(b =>
+    b.onclick = () => { if (!SP.lockedNow) scrollToIdx(+b.dataset.i, true); });
+  $('spCar').onscroll = () => {
+    const c = $('spCar');
+    highlightNav(Math.round(c.scrollLeft / Math.max(1, c.clientWidth)));
+  };
+  tiers.forEach(t => updateSlide(t.tier, (t.winners || []).length, t.qty));
+  highlightNav(0);
+}
+function updateSlide(tier, drawn, qty){
+  const sl = SP.slides[tier]; if (!sl) return;
+  let d = '';
+  for (let i = 1; i <= (qty || 1); i++) d += '<span class="pd ' + (i <= drawn ? 'on' : '') + '"></span>';
+  sl.dots.innerHTML = d;
+  sl.count.textContent = (drawn || 0) + '/' + (qty || 1);
+}
+function scrollToIdx(i, smooth){
+  const c = $('spCar');
+  c.scrollTo({left: i * c.clientWidth, behavior: smooth && !RM ? 'smooth' : 'auto'});
+  highlightNav(i);
+}
+function scrollToTier(tier, smooth){
+  const i = SP.order.indexOf(tier);
+  if (i >= 0) scrollToIdx(i, smooth);
+}
+function highlightNav(i){
+  $('spNav').querySelectorAll('.snd').forEach((b,j) => b.classList.toggle('on', j === i));
+}
+function setCarLock(on){
+  SP.lockedNow = !!on;
+  $('spCar').classList.toggle('locked', SP.lockedNow);
+  $('spHint').style.display = SP.lockedNow ? 'none' : 'block';
+}
+function setSpotlight(tier, prize, subtitle, drawn, qty){
+  updateSlide(tier, drawn, qty);
+  scrollToTier(tier, true);
+}
+function restSpotlight(r){
+  buildCarousel(r);
+  const tiers = (r.tiers || []).slice().sort((a,b) => a.draw_seq - b.draw_seq);
+  if (!tiers.length) return;
+  const started  = tiers.some(t => (t.winners || []).length > 0);
+  const finished = (r.stats || {}).prizes_left === 0;
+  if (started && !finished){
+    const cur = tiers.find(t => (t.winners || []).length < t.qty && !t.closed) || tiers[tiers.length - 1];
+    setCarLock(true);
+    scrollToTier(cur.tier, true);
+  } else {
+    setCarLock(false);          // free browsing before the start and after the finale
+  }
+  showState('idle');
+  if (finished){
+    $('stIdle').querySelector('.idleTxt').textContent = T('dsDoneT');
+    $('stIdle').querySelector('.idleHint').textContent = T('dsDoneS');
+  } else {
+    $('stIdle').querySelector('.idleTxt').textContent = T('arWait');
+    $('stIdle').querySelector('.idleHint').textContent = T('arHint');
+  }
+}
+function showState(which){
+  $('stIdle').style.display = which === 'idle' ? 'block' : 'none';
+  $('stDraw').style.display = which === 'draw' ? 'block' : 'none';
+  if (which === 'draw'){ $('arena').classList.add('hot'); $('arena').classList.remove('won'); }
+  else { $('arena').classList.remove('hot','won'); dzStop(); }
+}
+const wait = ms => new Promise(r => setTimeout(r, ms));
+
+/* ══════════════ v9.12 · SOUND ══════════════
+   Everything is synthesised in the browser — no audio files, no extra
+   requests, nothing to fail on a bad hall wifi. iOS will not let an
+   AudioContext start outside a gesture, so the first tap anywhere on the
+   live page unlocks it; until then every call is a silent no-op. */
+const SFX_KEY = 'xf901_sfx';
+let SFX_ON = true, SFX_AC = null, SFX_OUT = null;
+try { SFX_ON = localStorage.getItem(SFX_KEY) !== '0'; } catch (e) {}
+function sfxCtx(){
+  if (!SFX_AC){
+    const C = window.AudioContext || window.webkitAudioContext;
+    if (!C) return null;
+    SFX_AC = new C();
+    SFX_OUT = SFX_AC.createGain(); SFX_OUT.gain.value = .9; SFX_OUT.connect(SFX_AC.destination);
+  }
+  if (SFX_AC.state === 'suspended') SFX_AC.resume();
+  return SFX_AC;
+}
+function sfxBlip(freq, dur, type, peak, slideTo){
+  if (!SFX_ON) return; const c = sfxCtx(); if (!c) return;
+  const t = c.currentTime, o = c.createOscillator(), g = c.createGain();
+  o.type = type || 'sine'; o.frequency.setValueAtTime(freq, t);
+  if (slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, t + dur);
+  g.gain.setValueAtTime(.0001, t);
+  g.gain.exponentialRampToValueAtTime(peak || .15, t + .008);
+  g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+  o.connect(g); g.connect(SFX_OUT); o.start(t); o.stop(t + dur + .03);
+}
+function sfxHiss(dur, f0, f1, peak, type){
+  if (!SFX_ON) return; const c = sfxCtx(); if (!c) return;
+  const t = c.currentTime, n = Math.floor(c.sampleRate * (dur + .05));
+  const b = c.createBuffer(1, n, c.sampleRate), d = b.getChannelData(0);
+  for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+  const src = c.createBufferSource(); src.buffer = b;
+  const f = c.createBiquadFilter(); f.type = type || 'bandpass'; f.Q.value = 1.2;
+  f.frequency.setValueAtTime(f0, t); f.frequency.exponentialRampToValueAtTime(f1, t + dur);
+  const g = c.createGain();
+  g.gain.setValueAtTime(.0001, t);
+  g.gain.exponentialRampToValueAtTime(peak || .12, t + dur * .25);
+  g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+  src.connect(f); f.connect(g); g.connect(SFX_OUT); src.start(t); src.stop(t + dur + .05);
+}
+const sfxWhoosh = () => sfxHiss(.5, 300, 2600, .10);
+const sfxTick   = () => sfxBlip(2100, .04, 'square', .07, 1500);
+const sfxClunk  = i => { sfxBlip(150 - i * 16, .16, 'sine', .30, 60 - i * 6); sfxHiss(.10, 900, 300, .10, 'lowpass'); };
+const sfxStamp  = () => { sfxBlip(110, .28, 'sine', .36, 48); sfxHiss(.16, 1400, 400, .16, 'lowpass'); sfxBlip(2600, .30, 'triangle', .07, 2100); };
+let SFX_RISE = null, SFX_ROLL = null;
+function sfxRiseOn(ms){
+  if (!SFX_ON) return; const c = sfxCtx(); if (!c) return;
+  const t = c.currentTime, o = c.createOscillator(), f = c.createBiquadFilter(), g = c.createGain();
+  o.type = 'sawtooth';
+  o.frequency.setValueAtTime(70, t);  o.frequency.exponentialRampToValueAtTime(300, t + ms / 1000);
+  f.type = 'lowpass';
+  f.frequency.setValueAtTime(320, t); f.frequency.exponentialRampToValueAtTime(2600, t + ms / 1000);
+  g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.055, t + .5);
+  o.connect(f); f.connect(g); g.connect(SFX_OUT); o.start(t);
+  SFX_RISE = {o, g};
+}
+function sfxRiseOff(){
+  if (!SFX_RISE || !SFX_AC) { SFX_RISE = null; return; }
+  const t = SFX_AC.currentTime;
+  try {
+    SFX_RISE.g.gain.cancelScheduledValues(t);
+    SFX_RISE.g.gain.setValueAtTime(SFX_RISE.g.gain.value || .001, t);
+    SFX_RISE.g.gain.exponentialRampToValueAtTime(.0001, t + .25);
+    SFX_RISE.o.stop(t + .3);
+  } catch (e) {}
+  SFX_RISE = null;
+}
+function sfxRollOn(ms){
+  if (!SFX_ON) return;
+  let i = 0; const n = Math.max(1, Math.floor(ms / 70));
+  SFX_ROLL = setInterval(() => {
+    i++; sfxHiss(.045, 3000, 1200, .03 + Math.min(.05, i / n * .06), 'bandpass');
+    if (i % 4 === 0) sfxBlip(88, .05, 'sine', .06);
+  }, 70);
+}
+function sfxRollOff(){ if (SFX_ROLL){ clearInterval(SFX_ROLL); SFX_ROLL = null; } }
+function sfxWin(grand){
+  if (!SFX_ON) return;
+  [523.25, 659.25, 783.99, 1046.5].forEach((f, i) =>
+    setTimeout(() => sfxBlip(f, .9, 'triangle', grand ? .16 : .11), i * (grand ? 110 : 80)));
+  if (grand) setTimeout(() => { sfxBlip(1318.5, 1.4, 'sine', .10); sfxBlip(1567.98, 1.4, 'sine', .08); }, 480);
+  sfxHiss(.9, 600, 5200, grand ? .10 : .07);
+}
+function sfxPaintBtn(){
+  const b = $('dzMute'); if (!b) return;
+  b.textContent = SFX_ON ? '\uD83D\uDD0A' : '\uD83D\uDD07';
+  b.classList.toggle('off', !SFX_ON);
+}
+
+/* ══════════════ v9.12 · PACING ══════════════
+   Owner's call: the small tiers move, the subscription prizes get room, and
+   the top three get the whole stage. Tier 1–3 = AirPods / Watch / iPhone,
+   4–5 = 12- and 6-month memberships, 6–8 = 3-month, 1-month, protein. */
+const DZ_PACE = {
+  fast : {arm:600,  spin:2200, lockEach:380, crawl:420,  lastLock:620,  stamp:520,  hold:1200, beat:0,   dwell:2200, grand:false},
+  std  : {arm:1200, spin:4500, lockEach:620, crawl:850,  lastLock:950,  stamp:900,  hold:1600, beat:0,   dwell:2800, grand:false},
+  grand: {arm:2600, spin:6500, lockEach:900, crawl:1600, lastLock:1400, stamp:1500, hold:2600, beat:900, dwell:4200, grand:true}
+};
+const dzPaceFor = t => t <= 3 ? DZ_PACE.grand : t <= 5 ? DZ_PACE.std : DZ_PACE.fast;
+
+/* ══════════════ v9.12 · THE REELS ══════════════ */
+const DZ = {reels:[], sep:null, dig:0, raf:0, last:0, idle:0, timers:[], ticker:null, crawl:null};
+function dzAt(ms, fn){ DZ.timers.push(setTimeout(fn, ms)); }
+function dzClear(){ DZ.timers.forEach(clearTimeout); DZ.timers.length = 0; }
+function dzStart(){ if (!DZ.raf){ DZ.last = performance.now(); DZ.idle = 0; DZ.raf = requestAnimationFrame(dzFrame); } }
+function dzStop(){ if (DZ.raf){ cancelAnimationFrame(DZ.raf); DZ.raf = 0; } }
+function dzFrame(now){
+  const dt = Math.min((now - DZ.last) / 1000, .05); DZ.last = now;
+  const h = DZ.reels.length ? (DZ.reels[0].el.offsetHeight || 62) : 62;
+  let busy = false;
+  for (let i = 0; i < DZ.reels.length; i++){
+    const r = DZ.reels[i];
+    if (r.tw){
+      const t = Math.min((now - r.tw.t0) / r.tw.dur, 1), c1 = .6, c3 = c1 + 1, u = t - 1;
+      r.pos = r.tw.from + (r.tw.to - r.tw.from) * (1 + c3 * u * u * u + c1 * u * u);
+      if (t >= 1){ r.pos = r.tw.to; r.tw = null; }
+      busy = true;
+    } else if (r.speed){ r.pos += r.speed * dt; busy = true; }
+    r.st.style.transform = 'translateY(' + (-(((r.pos % 10) + 10) % 10) * h) + 'px)';
+  }
+  DZ.idle = busy ? 0 : DZ.idle + 1;
+  if (DZ.idle > 40){ DZ.raf = 0; return; }   /* park the loop once it settles */
+  DZ.raf = requestAnimationFrame(dzFrame);
+}
+/* Build (or rebuild) the reel row. One comma, in the thousands slot, so a
+   4-digit pool reads 5,146 and a 5-digit one reads 12,345. */
+function dzEnsure(dig){
+  if (DZ.dig === dig && DZ.reels.length) return;
+  DZ.dig = dig; DZ.reels = []; DZ.sep = null;
+  const row = $('dzNum');
+  row.innerHTML = '<span class="dzNo">\u2116</span>';
+  const comma = dig > 3 ? dig - 3 : -1;
+  for (let i = 0; i < dig; i++){
+    if (i === comma){
+      DZ.sep = document.createElement('span');
+      DZ.sep.className = 'dzSep'; DZ.sep.textContent = ','; row.appendChild(DZ.sep);
+    }
+    const el = document.createElement('div'); el.className = 'dzReel';
+    const st = document.createElement('div'); st.className = 'st';
+    for (let k = 0; k < 11; k++){
+      const c = document.createElement('div'); c.className = 'cl'; c.textContent = k % 10; st.appendChild(c);
+    }
+    el.appendChild(st); row.appendChild(el);
+    DZ.reels.push({el, st, pos: Math.random() * 10, speed: 0, tw: null});
+  }
+}
+function dzLock(i, digit, dur){
+  const r = DZ.reels[i]; if (!r) return;
+  let to = Math.ceil(r.pos / 10) * 10 + 20 + digit;
+  while (to - r.pos < 14) to += 10;
+  r.tw = {t0: performance.now(), from: r.pos, to, dur}; r.speed = 0; dzStart();
+  dzAt(Math.max(0, dur - 90), () => {
+    r.el.classList.remove('spin'); r.el.classList.add('hit');
+    dzJolt(); sfxClunk(i);
+    dzAt(360, () => r.el.classList.remove('hit'));
+  });
+}
+function dzJolt(){
+  const t = $('dzTicket');
+  t.classList.remove('jolt'); void t.offsetWidth; t.classList.add('jolt');
+}
+function dzTickerOn(pool){
+  $('dzTick').classList.add('on');
+  DZ.ticker = setInterval(() => {
+    const a = [];
+    for (let i = 0; i < 3; i++) a.push(String(Math.floor(Math.random() * Math.max(pool, 1)) + 1).padStart(DZ.dig, '0'));
+    $('dzTickTxt').textContent = a.join(' \u00B7 ');
+  }, 90);
+}
+function dzTickerOff(){ if (DZ.ticker){ clearInterval(DZ.ticker); DZ.ticker = null; } $('dzTick').classList.remove('on'); }
+/* Letter-by-letter, but never breaking a word across lines. */
+function dzPaintName(name){
+  const box = $('winName'); box.innerHTML = '';
+  const words = (name || '').split(' ').filter(Boolean);
+  let longest = 0; words.forEach(w => { if (w.length > longest) longest = w.length; });
+  const fit = Math.max(19, Math.min(28, Math.floor(300 / Math.max(longest, (name || '').length * .55) * 1.35)));
+  box.style.fontSize = fit + 'px';
+  const letters = [];
+  words.forEach(w => {
+    const span = document.createElement('span'); span.className = 'w';
+    w.split('').forEach(ch => { const b = document.createElement('b'); b.textContent = ch; span.appendChild(b); letters.push(b); });
+    box.appendChild(span);
+  });
+  letters.forEach((b, i) => dzAt(200 + i * 42, () => b.classList.add('on')));
+}
+function dzArm(pool){
+  dzClear(); dzTickerOff(); sfxRiseOff(); sfxRollOff();
+  if (DZ.crawl){ clearInterval(DZ.crawl); DZ.crawl = null; }
+  dzEnsure(Math.max(4, String(Math.max(pool, 1)).length));
+  $('stDraw').classList.remove('reveal');
+  $('dzTk').classList.remove('in', 'live', 'won');
+  $('dzTk').style.display = '';
+  $('dzTicket').classList.remove('sweep', 'jolt');
+  $('dzSeal').classList.remove('on');
+  $('dzCount').classList.remove('on'); $('dzCount').textContent = '';
+  $('dzSrc').textContent = ''; $('dzTickTxt').textContent = '';
+  $('winName').innerHTML = ''; $('winMeta').textContent = '';
+  $('winSocial').style.display = 'none'; $('winPrize').textContent = '';
+  $('dzVSrc').textContent = '\u2013'; $('dzVHold').textContent = '\u2013';
+  $('dzStat').className = 'dzStat';
+  DZ.reels.forEach(r => { r.speed = 0; r.tw = null; r.el.classList.remove('spin', 'hit', 'hide'); });
+  if (DZ.sep) DZ.sep.classList.remove('hide');
+}
+
+async function playNext(){
+  if (!L.queue.length){
+    L.playing = false;
+    if (LIVE_LAST){ renderLists(LIVE_LAST); restSpotlight(LIVE_LAST); checkFinale(); }
+    return;
+  }
+  L.playing = true;
+  const it = L.queue.shift(), P = dzPaceFor(it.tier), grand = P.grand;
+  const w = it.w || {}, name = (w.name || '').toUpperCase();
+  const serial = (w.serial != null) ? Number(w.serial) : null;
+  const pool = ((LIVE_LAST || {}).stats || {}).tickets || 0;
+
+  setCarLock(true);
+  setSpotlight(it.tier, it.prize, it.subtitle, it.seq - 1, it.qty);
+  showState('draw');
+  dzArm(pool);
+
+  /* ── 1 · ARM ─────────────────────────────────────────────── */
+  $('dzStat').textContent = grand ? T('arStandby') : T('arFrom').replace('%N%', nfmt(pool));
+  dzAt(120, () => { $('dzTk').classList.add('in'); sfxWhoosh(); });
+  if (grand) [3, 2, 1].forEach((n, i) => {
+    dzAt(500 + i * 550, () => {
+      $('dzCount').textContent = n; $('dzCount').classList.add('on');
+      sfxBlip(440 + i * 110, .18, 'triangle', .16);
+    });
+    dzAt(500 + i * 550 + 430, () => $('dzCount').classList.remove('on'));
+  });
+  await wait(P.arm);
+
+  if (serial != null){
+    /* ── 2 · SPIN ──────────────────────────────────────────── */
+    $('dzTk').classList.add('live');
+    $('dzStat').textContent = T('arSpin');
+    dzTickerOn(pool);
+    sfxRiseOn(P.spin + P.lockEach * 3);
+    if (grand) sfxRollOn(P.spin);
+    DZ.reels.forEach((r, i) => { r.speed = 26 + i * 3.5; r.el.classList.add('spin'); });
+    dzStart();
+    await wait(P.spin);
+
+    /* ── 3 · LOCK, left to right ───────────────────────────── */
+    const digs = String(serial).padStart(DZ.dig, '0').split('').map(Number);
+    for (let i = 0; i < DZ.dig - 1; i++){ dzLock(i, digs[i], P.lockEach); await wait(P.lockEach); }
+    sfxRiseOff(); sfxRollOff();
+    if (P.beat){ $('dzStat').textContent = '\u00B7 \u00B7 \u00B7'; await wait(P.beat); }
+    const last = DZ.dig - 1;
+    DZ.reels[last].speed = 3.2; DZ.reels[last].el.classList.remove('spin'); dzStart();
+    $('dzStat').textContent = T('arLastD');
+    DZ.crawl = setInterval(sfxTick, 312);
+    await wait(P.crawl);
+    clearInterval(DZ.crawl); DZ.crawl = null;
+    dzLock(last, digs[last], P.lastLock);
+    await wait(P.lastLock);
+
+    /* ── 4 · STAMP ─────────────────────────────────────────── */
+    dzTickerOff();
+    $('dzTk').classList.remove('live'); $('dzTk').classList.add('won');
+    $('dzTicket').classList.add('sweep');
+    $('dzSrc').textContent = tixSrc(w);
+    let lead = 0; while (lead < DZ.dig - 1 && digs[lead] === 0) lead++;
+    DZ.reels.forEach((r, i) => r.el.classList.toggle('hide', i < lead));
+    if (DZ.sep) DZ.sep.classList.toggle('hide', serial < 1000);
+    $('dzStat').textContent = T('arVerif');
+    dzAt(340, () => { $('dzSeal').classList.add('on'); dzJolt(); sfxStamp(); });
+    await wait(P.stamp);
+  } else {
+    /* A winner from before ticket numbers existed — nothing to roll. */
+    $('dzTk').style.display = 'none';
+    await wait(Math.round(P.spin * .5));
+  }
+
+  /* ── 5 · REVEAL: the name lifts in above the ticket ──────── */
+  $('flash').classList.add('go'); setTimeout(() => $('flash').classList.remove('go'), 520);
+  $('arena').classList.remove('hot'); $('arena').classList.add('won');
+  $('dzStat').className = 'dzStat done';
+  $('dzStat').textContent = tierLabel(it.tier) + ' \u00B7 ' + it.seq + '/' + it.qty;
+  $('winTag').textContent = T('arWin');
+  $('winMeta').textContent = 'IC ****' + (w.ic_last4 || '') + ' \u00B7 ' + (w.tickets || 0) + ' ' + T('ticketsW');
+  const wh = socialTag(w);
+  $('winSocial').textContent = wh;
+  $('winSocial').style.display = wh ? 'block' : 'none';
+  $('winPrize').textContent = tierLabel(it.tier) + ' \u00B7 ' + (it.prize || '').toUpperCase();
+  const tix = w.tickets || 0;
+  $('dzVSrc').textContent = tixSrc(w) || '\u2013';
+  $('dzVHold').innerHTML = esc(T('tkHoldV').replace('%N%', nfmt(tix))) +
+    (pool ? '<small>' + esc(T('tkOdds').replace('%P%', (tix / pool * 100).toFixed(2))) + '</small>' : '');
+  dzPaintName(name);
+  $('stDraw').classList.add('reveal');
+  sfxWin(grand);
+  setSpotlight(it.tier, it.prize, it.subtitle, it.seq, it.qty);
+  if (grand) confetti(140); else if (it.seq >= it.qty) confetti(50);
+  await wait(P.hold);
+
+  if (LIVE_LAST) renderLists(LIVE_LAST);
+  await wait(P.dwell);
+  if (it.seq >= it.qty){ banner(tierLabel(it.tier) + ' ' + T('tierC')); await wait(1400); }
+  playNext();
+}
+
+function renderLists(r){
+  const tiers = (r.tiers || []).filter(t => (t.winners || []).length)
+    .sort((a,b) => b.draw_seq - a.draw_seq);          // newest tier on top
+  if (!tiers.length){ $('liveStage').innerHTML = ''; return; }
+  $('liveStage').innerHTML = tiers.map(t => {
+    const grand = t.tier === 1;
+    return '<div class="tierhead ' + (grand ? 'gr' : '') + '">' +
+        '<span class="tt">' + esc(tierLabel(t.tier)) + '</span>' +
+        '<span class="tp">' + esc((t.name || '').toUpperCase()) +
+          (t.subtitle ? ' · ' + esc(t.subtitle.toUpperCase()) : '') + ' ×' + t.qty + '</span>' +
+      '</div>' +
+      '<div class="winners ' + (grand ? 'gr' : '') + '">' +
+        (t.winners || []).map(w =>
+          '<div class="slot"><span class="no">' + w.seq + '</span><div>' +
+            '<div class="nm">' + esc((w.name || '').toUpperCase()) + '</div>' +
+            '<div class="icx">IC ****' + esc(w.ic_last4) + ' · ' + (w.tickets || 0) + ' ' + T('ticketsW') + '</div>' +
+            (socialTag(w) ? '<div class="sox">' + esc(socialTag(w)) + '</div>' : '') +
+            (tixNo(w) ? '<div class="tno">' + esc(tixNo(w)) + ' · ' + esc(tixSrc(w)) + '</div>' : '') +
+          '</div><div class="tk">✓</div></div>').join('') +
+      '</div>';
+  }).join('');
+}
+
+/* repaint the last known frame — used when the language is switched mid-draw */
+function paintLive(r){
+  if (!r) return;
+  paintStats(r); paintStatus(r);
+  if (!L.playing){ renderLists(r); restSpotlight(r); }
+}
+
+function banner(txt){
+  const b = $('banner'); b.textContent = txt; b.classList.add('show');
+  setTimeout(() => b.classList.remove('show'), 1600);
+}
+function checkFinale(){
+  if (L.finaleDone) return;
+  if (LIVE_LAST && (LIVE_LAST.stats || {}).prizes_left === 0){
+    L.finaleDone = true;
+    $('finale').classList.add('show');
+    confetti(180);
+    setTimeout(() => $('finale').classList.remove('show'), 9000);
+  }
+}
+function confetti(n){
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const cols = REHEARSAL ? ['#7E9BFF','#CFDCFF','#4763C9','#FFFFFF'] : ['#E8C15A','#F9E7AE','#C79A38','#FFFFFF'];
+  for (let i = 0; i < (n || 70); i++){
+    const c = document.createElement('div');
+    c.className = 'cf'; c.textContent = ['✦','●','▮','★'][i % 4];
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.color = cols[i % 4];
+    c.style.animationDuration = (2.4 + Math.random() * 2.4) + 's';
+    c.style.fontSize = (9 + Math.random() * 16) + 'px';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 5400);
+  }
+}
+
+/* ========== performance guard ==========
+   The backdrop (blurred blobs, two spinning conic-gradient halos, floating dust)
+   is beautiful but it is pure GPU fill-rate, and on a high-DPR 120Hz phone that
+   is where the stutter comes from. So: measure real frame times for a moment
+   after load, and if the device isn't holding a smooth frame, drop to LITE.
+   The decision is remembered, so a slow phone never pays the cost twice.
+      #lite  → force lite      #full → force full      #fps → show the meter   */
+const PERF_KEY = 'xf901_lite';
+function setLite(on){
+  document.body.classList.toggle('lite', !!on);
+  try { localStorage.setItem(PERF_KEY, on ? '1' : '0'); } catch (e) {}
+}
+if (location.hash === '#lite')  setLite(true);
+else if (location.hash === '#full') setLite(false);
+else if (localStorage.getItem(PERF_KEY) === '1') document.body.classList.add('lite');
+
+document.addEventListener('visibilitychange', () =>
+  document.body.classList.toggle('bgpaused', document.hidden));
+
+$('dzMute').addEventListener('click', () => {
+  SFX_ON = !SFX_ON;
+  try { localStorage.setItem(SFX_KEY, SFX_ON ? '1' : '0'); } catch (e) {}
+  if (!SFX_ON){ sfxRiseOff(); sfxRollOff(); }
+  else { sfxCtx(); sfxBlip(880, .12, 'triangle', .10); }
+  sfxPaintBtn();
+});
+sfxPaintBtn();
+
+(function perfProbe(){
+  if (document.body.classList.contains('lite')) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  let frames = 0, slow = 0, last = performance.now(), start = last;
+  requestAnimationFrame(function step(now){
+    const dt = now - last; last = now;
+    frames++; if (dt > 20) slow++;              // ~20ms = dropped below 50fps
+    if (now - start < 2500) return requestAnimationFrame(step);
+    // ignore the first few frames, they're always janky during layout
+    if (frames > 30 && slow / frames > 0.18) setLite(true);
+  });
+})();
+
+/* Live FPS meter — open the site with #fps on your own phone to measure. */
+if (location.hash === '#fps'){
+  const b = document.createElement('div');
+  b.id = 'fpsBadge'; b.style.display = 'block'; document.body.appendChild(b);
+  let n = 0, t0 = performance.now(), worst = 0, last = t0;
+  requestAnimationFrame(function loop(now){
+    const dt = now - last; last = now; n++;
+    if (dt > worst) worst = dt;
+    if (now - t0 >= 1000){
+      b.textContent = Math.round(n * 1000 / (now - t0)) + ' fps\nworst ' + worst.toFixed(1) + 'ms' +
+                      (document.body.classList.contains('lite') ? '\nLITE' : '\nFULL');
+      n = 0; t0 = now; worst = 0;
+    }
+    requestAnimationFrame(loop);
+  });
+}
+
+/* ========== gold dust ========== */
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches &&
+    !document.body.classList.contains('lite')){
+  const bgEl = document.querySelector('.bg');
+  for (let i = 0; i < 16; i++){
+    const d = document.createElement('div');
+    d.className = 'dust';
+    const sz = 2 + Math.random() * 3.5;
+    d.style.width = d.style.height = sz + 'px';
+    d.style.left = Math.random() * 100 + '%';
+    d.style.animationDuration = (9 + Math.random() * 10) + 's';
+    d.style.animationDelay = (-Math.random() * 14) + 's';
+    bgEl.appendChild(d);
+  }
+}
+
+/* ========== boot ========== */
+applyLang();
+updateDocUI();
+(async function boot(){
+  history.replaceState({d:0}, '', location.href);
+  routeFromHash();
+  await loadPoints();   // before anything paints a ticket number
+  applyLang();          // repaint the static copy with the real values
+  renderBadges();
+  if (IC){
+    try {
+      const r = await rpc('xf_me', {p_ic: IC});
+      if (r.ok){
+        ME = r; renderMe();
+        if (!location.hash || location.hash === '#me'){ show('pgMe'); history.replaceState({d:0}, '', '#me'); }
+      } else {
+        localStorage.removeItem(STORE); IC = null;
+        if (location.hash === '#me'){ show('pgLogin'); history.replaceState({d:0}, '', '#login'); }
+      }
+    } catch (e) { /* offline — stay on the landing page */ }
+  }
+})();
+
+window.addEventListener('hashchange', routeFromHash);
+</script>
+</body>
+</html>

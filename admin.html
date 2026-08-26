@@ -1,0 +1,3621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>X FITNESS · Draw Console</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#060605">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="500x500" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400..900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ---- iOS FOCUS-ZOOM FLOOR ----------------------------------------------
+   Safari on iOS zooms the whole page whenever a focused form control renders
+   below 16px, and it does not zoom back out when the field is blurred. Form
+   controls also do NOT inherit the page font, so anything without an explicit
+   rule falls through to the UA default (~13px) and triggers it too.
+
+   This is a low-specificity element selector: any class rule still wins, so
+   nothing below may set a form control under 16px. `maximum-scale=1` is NOT
+   an alternative — modern Safari ignores it and it blocks pinch-zoom for
+   anyone who needs it. */
+input:not([type=checkbox]):not([type=radio]), select, textarea{font-size:16px}
+
+:root{
+  --ink:#060605; --panel:linear-gradient(180deg,#17140D,#0D0C08); --panel2:#100E09;
+  --gold:#E8C15A; --paper:#F2F3F9; --dim:#97907E; --line:rgba(226,199,132,.16);
+  --gold-foil:linear-gradient(150deg,#F9E7AE 5%,#E8C15A 42%,#C79A38 68%,#8A6420 100%);
+  --blue:#7E9BFF; --blue-foil:linear-gradient(150deg,#CFDCFF 5%,#7E9BFF 42%,#4763C9 68%,#24357A 100%);
+  --ok:#4FD1A0; --bad:#E08A8A; --wait:#EDAF50; --display:'Bodoni Moda',serif;
+  --txt:#F2F3F9; /* was used in 4 rules but never declared; only worked via inherit */
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Inter,'Noto Sans SC',sans-serif; background:var(--ink); color:var(--paper); padding-bottom:88px;}
+button{font-family:inherit}
+a{color:var(--gold)}
+
+/* ---------- gate ---------- */
+.gate{min-height:100vh; display:grid; place-items:center; padding:24px;}
+.gcard{width:100%; max-width:360px; background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:26px 22px; text-align:center;}
+.gcard .mkrow{display:flex; align-items:center; justify-content:center; gap:9px; margin-bottom:6px;}
+.gcard img.mark{width:30px; height:30px; object-fit:contain;}
+.gcard img.wm{height:14px; width:auto;}
+.gcard h1{font:800 11px 'JetBrains Mono'; letter-spacing:.3em; color:var(--gold); margin:12px 0 18px;}
+.gcard input[type=password]{width:100%; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.16);
+  border-radius:12px; padding:13px 14px; font:600 16px 'JetBrains Mono'; color:var(--paper); outline:none; text-align:center; letter-spacing:.2em;}
+.gcard input[type=password]:focus{border-color:var(--gold)}
+.gcard label{display:flex; align-items:center; justify-content:center; gap:8px; font-size:11px; color:var(--dim); margin-top:12px; cursor:pointer;}
+.err{display:none; border:1px solid rgba(226,87,78,.55); background:rgba(226,87,78,.1); color:#F3A9A3;
+  border-radius:11px; padding:10px 13px; font-size:11.5px; margin-top:12px;}
+.err.show{display:block}
+
+/* ---------- shell / header / nav ---------- */
+.shell{display:none}
+.shell.show{display:block}
+header{position:sticky; top:0; z-index:50; background:rgba(6,6,5,.9); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);}
+.hin{max-width:1080px; margin:0 auto; padding:12px 18px; display:flex; align-items:center; gap:10px;}
+.hin img.mark{width:26px; height:26px; object-fit:contain; flex:none;}
+.hin img.wm{height:12px; width:auto; object-fit:contain; flex:none;}
+.hin .tag{font:700 8px 'JetBrains Mono'; letter-spacing:.22em; color:var(--gold);
+  border:1px solid rgba(232,193,90,.5); border-radius:99px; padding:4px 9px; flex:none;}
+.hin .sp{margin-left:auto; display:flex; align-items:center; gap:10px;}
+.pulse{display:flex; align-items:center; gap:6px; font:700 8.5px 'JetBrains Mono'; letter-spacing:.12em; color:var(--ok); white-space:nowrap;}
+.pulse::before{content:''; width:7px; height:7px; border-radius:50%; background:var(--ok); animation:bl 1.6s infinite; flex:none;}
+@keyframes bl{50%{opacity:.25}}
+.lockb{border:1px solid rgba(224,138,138,.5); background:transparent; color:var(--bad);
+  font:700 9px 'JetBrains Mono'; letter-spacing:.14em; border-radius:99px; padding:7px 12px; cursor:pointer;}
+
+nav{position:fixed; left:0; right:0; bottom:0; z-index:55; background:rgba(10,9,6,.97);
+  backdrop-filter:blur(12px); border-top:1px solid var(--line); display:flex; padding:6px 4px calc(8px + env(safe-area-inset-bottom));}
+nav button{flex:1; border:0; background:transparent; color:var(--dim); cursor:pointer;
+  display:flex; flex-direction:column; align-items:center; gap:4px; padding:7px 0; border-radius:12px;}
+nav button .ic{font-size:17px; line-height:1;}
+nav button .lb{font:700 7.5px 'JetBrains Mono'; letter-spacing:.06em;}
+nav button.on{color:var(--gold); background:rgba(232,193,90,.08);}
+nav button.reh{color:#8FA6E8;}
+nav button.reh.on{color:var(--blue); background:rgba(126,155,255,.1);}
+.main{max-width:1080px; margin:0 auto; padding:16px 18px;}
+@media(min-width:900px){
+  body{padding-bottom:24px; padding-left:196px;}
+  nav{left:12px; right:auto; top:76px; bottom:auto; width:172px; flex-direction:column; border:1px solid var(--line);
+    border-radius:16px; padding:8px;}
+  nav button{flex-direction:row; justify-content:flex-start; gap:11px; padding:11px 13px;}
+  nav button .lb{font-size:10px; letter-spacing:.12em;}
+}
+
+/* ---------- shared ---------- */
+.tab{display:none}.tab.show{display:block}
+.sec{font:700 10px 'JetBrains Mono','Noto Sans SC'; letter-spacing:.26em; color:var(--gold); margin:22px 0 11px; display:flex; align-items:center; gap:10px;}
+.sec:first-child{margin-top:6px}
+.sec::after{content:''; height:1px; flex:1; background:linear-gradient(90deg,rgba(232,193,90,.4),transparent);}
+/* ---- renewal reconcile report (v9.3) ---- */
+.rcmode{display:flex; gap:15px; flex-wrap:wrap; margin:11px 0 3px;}
+.rcmode label{display:flex; align-items:center; gap:6px; font-size:11px; color:var(--dim); cursor:pointer;}
+.rcmode input{accent-color:var(--gold)}
+.rcprog{font:700 10px 'JetBrains Mono'; color:var(--gold); margin-top:10px;}
+.rcbar{display:flex; gap:7px; margin-top:12px; flex-wrap:wrap;}
+.rcchip{border:1px solid var(--line); background:var(--panel2); border-radius:99px;
+  padding:7px 11px; font:700 9px 'JetBrains Mono'; letter-spacing:.05em;
+  color:var(--dim); cursor:pointer; white-space:nowrap;}
+.rcchip b{color:var(--paper); font-size:11px; margin-left:5px;}
+.rcchip.on{border-color:var(--gold); color:var(--gold); background:rgba(232,193,90,.09);}
+.rcchip.good b{color:var(--ok)}
+.rcchip.warn b{color:var(--wait)}
+.rcchip.bad b{color:var(--bad)}
+.rclist{margin-top:11px; max-height:430px; overflow-y:auto; border:1px solid var(--line); border-radius:12px;}
+.rcrow{padding:10px 12px; border-bottom:1px solid var(--line);}
+.rcrow:last-child{border-bottom:0}
+.rcn{font:600 12px Inter; color:var(--paper); line-height:1.4;}
+.rcm{font:500 10px 'JetBrains Mono'; color:var(--dim); margin-top:4px; line-height:1.65; word-break:break-all;}
+.rcm s{color:var(--bad); text-decoration:none} .rcm u{color:var(--ok); text-decoration:none}
+.rcm i{color:var(--gold); font-style:normal}
+.rcact{display:flex; gap:6px; margin-top:8px; flex-wrap:wrap;}
+.rcact button{border:1px solid var(--line); background:transparent; color:var(--gold);
+  border-radius:8px; padding:5px 10px; font:700 9px 'JetBrains Mono'; cursor:pointer;}
+.rcact button:active{background:rgba(232,193,90,.12)}
+.rcempty{padding:24px 12px; text-align:center; color:var(--dim); font-size:11px;}
+.rcalert{margin-top:11px; border:1px solid rgba(224,138,138,.55); background:rgba(224,138,138,.08);
+  border-radius:12px; padding:11px 12px; font-size:11px; color:var(--bad); line-height:1.65;}
+.rcalert b{color:#F3B4B4}
+
+.panel{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:16px;}
+.panel+.panel{margin-top:10px}
+.pgrid{display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-bottom:9px;}
+.pgrid label{display:flex; flex-direction:column; gap:5px;
+  font:700 8.5px 'JetBrains Mono'; letter-spacing:.09em; color:var(--dim); text-transform:uppercase;}
+.pgrid input{background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.16);
+  border-radius:10px; padding:11px 12px; font:800 17px 'JetBrains Mono'; color:var(--gold);
+  outline:none; width:100%; -moz-appearance:textfield;}
+.pgrid input:focus{border-color:var(--gold)}
+.ufield{display:flex; flex-direction:column; gap:5px; margin-bottom:10px;
+  font:700 8.5px 'JetBrains Mono'; letter-spacing:.09em; color:var(--dim); text-transform:uppercase;}
+.ufield input{background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.16);
+  border-radius:10px; padding:10px 12px; font:600 16px 'JetBrains Mono'; color:var(--gold);
+  outline:none; width:100%; text-overflow:ellipsis;}
+.ufield input:focus{border-color:var(--gold)}
+.ufield input::placeholder{color:rgba(255,255,255,.22); font-weight:500;}
+.pgrid input::-webkit-outer-spin-button,.pgrid input::-webkit-inner-spin-button{
+  -webkit-appearance:none; margin:0;}
+.proj{border:1px solid rgba(232,193,90,.22); background:rgba(232,193,90,.045);
+  border-radius:12px; padding:12px 13px; min-height:44px;}
+.proj .ph{font:800 8.5px 'JetBrains Mono'; letter-spacing:.16em; color:var(--gold);
+  opacity:.8; margin-bottom:8px;}
+#proj .prow{display:flex; justify-content:space-between; align-items:baseline; gap:10px;
+  padding:4px 0; font:500 11px Inter; color:var(--dim);}
+#proj .prow b{font:800 14px 'JetBrains Mono'; color:var(--paper);}
+#proj .prow.warn b{color:#E08A8A}
+#proj .prow.good b{color:#8FD6A0}
+.pnote{font:500 10px Inter; color:var(--dim); margin-top:8px; line-height:1.6;
+  border-top:1px solid rgba(255,255,255,.08); padding-top:8px;}
+.ps{font-size:11px; color:var(--dim); line-height:1.65;}
+.ps b{color:var(--gold); font-weight:600}
+.muted{font-size:11px; color:var(--dim);}
+.pill{display:inline-block; font:700 8.5px 'JetBrains Mono'; letter-spacing:.12em; border-radius:99px; padding:4px 10px;}
+.p-gold{background:var(--gold-foil); color:#241A02;}
+.p-ok{border:1px solid rgba(79,209,160,.55); color:var(--ok);}
+.p-wait{border:1px solid rgba(237,175,80,.55); color:var(--wait);}
+.p-bad{border:1px solid rgba(224,138,138,.55); color:var(--bad);}
+.bgold{border:0; border-radius:13px; padding:14px; background:var(--gold-foil); color:#241A02;
+  font:800 12.5px Inter,'Noto Sans SC'; letter-spacing:.08em; cursor:pointer; text-transform:uppercase;
+  box-shadow:0 10px 26px rgba(232,193,90,.22), inset 0 1px 0 rgba(255,255,255,.5);}
+.bgold[disabled]{opacity:.55; cursor:wait}
+.bline{border:1.5px solid rgba(232,193,90,.55); background:transparent; border-radius:11px; padding:11px 14px;
+  color:var(--gold); font:700 11px Inter,'Noto Sans SC'; letter-spacing:.04em; cursor:pointer;}
+.mini{border:1px solid rgba(232,193,90,.45); background:transparent; color:var(--gold);
+  font:700 10px Inter,'Noto Sans SC'; padding:7px 11px; border-radius:99px; cursor:pointer;}
+.mini.red{border-color:rgba(224,138,138,.5); color:var(--bad);}
+.mini.gold{background:var(--gold-foil); color:#241A02; border:0; font-weight:800;}
+.mini.warn{border-color:rgba(224,138,138,.42); color:#E08A8A; opacity:.85;}
+.mini.warn:hover{opacity:1;}
+#voidLog{margin-top:18px;}
+.voidhead{font:800 10px 'JetBrains Mono'; letter-spacing:.16em; color:#E08A8A;
+  opacity:.75; margin:0 0 9px 2px;}
+.voidrow{border:1px solid rgba(224,138,138,.22); background:rgba(224,138,138,.05);
+  border-radius:11px; padding:11px 13px; margin-bottom:8px;}
+.voidrow .nm{font:700 13px Inter; color:#C6BFA9; text-decoration:line-through; opacity:.7;}
+.voidrow .mt{font:500 9.5px 'JetBrains Mono'; color:#8A836F; margin-top:3px; line-height:1.5;}
+.voidrow .rs{font:600 11px Inter; color:#E08A8A; margin-top:6px; opacity:.9;}
+input, textarea, select{font-family:inherit}
+.row{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
+.row input, .row select{background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.14);
+  border-radius:11px; padding:11px 13px; font:500 16px Inter; color:var(--paper); outline:none;}
+.row input:focus, .row select:focus{border-color:var(--gold)}
+.row input{flex:1; min-width:0}
+
+/* ---------- overview ---------- */
+.stats{display:grid; grid-template-columns:1fr 1fr; gap:9px;}
+@media(min-width:900px){.stats{grid-template-columns:repeat(4,1fr)}}
+.st{background:var(--panel); border:1px solid var(--line); border-radius:15px; padding:15px 15px 13px; position:relative;}
+.st b{display:block; font-family:var(--display); font-weight:700; font-size:30px; line-height:1;
+  background:var(--gold-foil); -webkit-background-clip:text; background-clip:text; color:transparent;}
+.st i{font-style:normal; font:700 8px 'JetBrains Mono'; letter-spacing:.16em; color:var(--dim); display:block; margin-top:7px;}
+.st .up{position:absolute; top:12px; right:12px; font:700 8.5px 'JetBrains Mono'; color:var(--ok);}
+.quick{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;}
+.qk{border:1px solid var(--line); background:var(--panel2); border-radius:13px; padding:13px 8px; text-align:center; cursor:pointer; color:var(--paper);}
+.qk .ic{font-size:18px}
+.qk .lb{font:700 8.5px 'JetBrains Mono'; letter-spacing:.08em; color:var(--gold); margin-top:6px;}
+.frow{display:flex; align-items:flex-start; gap:11px; padding:10px 0; border-bottom:1px dashed rgba(226,199,132,.13);}
+.frow:last-child{border:0}
+.frow .ft{flex:none; font:700 9.5px 'JetBrains Mono'; color:var(--dim); width:38px; padding-top:2px;}
+.frow .fbody{min-width:0}
+.frow .fn{font-weight:600; font-size:12px; word-break:break-word;}
+.frow .fd{font-size:10px; color:var(--dim); margin-top:2px;}
+.frow .fk{margin-left:auto; flex:none; font:700 9px 'JetBrains Mono'; letter-spacing:.08em; padding-top:2px;}
+.k-checkin{color:var(--gold)} .k-join{color:var(--ok)} .k-social{color:#B9C6E8} .k-repost{color:var(--wait)}
+.rrow{display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px dashed rgba(226,199,132,.13);}
+.rrow:last-child{border:0}
+.rrow .rinfo{min-width:0}
+.rrow .rnm{font-weight:700; font-size:12.5px;}
+.rrow .rmt{font:500 9.5px 'JetBrains Mono'; color:var(--dim); margin-top:3px; word-break:break-word;}
+.rrow .rend{margin-left:auto; flex:none; display:flex; gap:7px; align-items:center;}
+
+/* ---------- scan ---------- */
+.modes{display:grid; grid-template-columns:1fr 1fr; gap:9px;}
+.scmode{border:1.5px solid var(--line); background:var(--panel2); border-radius:14px; padding:13px; cursor:pointer; text-align:left; color:var(--paper);}
+.scmode b{display:block; font:800 12px Inter; letter-spacing:.04em;}
+.scmode i{font-style:normal; font-size:9.5px; color:var(--dim); display:block; margin-top:4px; line-height:1.5;}
+.scmode.on{border-color:var(--gold); background:rgba(232,193,90,.08);}
+.scmode.on b{color:var(--gold)}
+#scanBox{position:relative; margin-top:12px; border-radius:16px; background:#0B0A07; border:1px solid var(--line);
+  min-height:250px; overflow:hidden; display:grid; place-items:center;}
+#scanBox::after{content:'POINT AT THEIR QR'; position:absolute; font:600 9.5px 'JetBrains Mono';
+  letter-spacing:.2em; color:#544E3E; pointer-events:none;}
+#scanBox.live::after{display:none}
+/* Front camera: mirror the preview so the person can aim at themselves like a
+   mirror. CSS transforms do not touch the frames the decoder reads. */
+#scanBox.mir video{transform:scaleX(-1)}
+#reader{width:100%;}
+.corner{position:absolute; width:32px; height:32px; border:2.5px solid rgba(232,193,90,.7); pointer-events:none; z-index:2;}
+.c1{top:12px; left:12px; border-right:0; border-bottom:0; border-radius:8px 0 0 0;}
+.c2{top:12px; right:12px; border-left:0; border-bottom:0; border-radius:0 8px 0 0;}
+.c3{bottom:12px; left:12px; border-right:0; border-top:0; border-radius:0 0 0 8px;}
+.c4{bottom:12px; right:12px; border-left:0; border-top:0; border-radius:0 0 8px 0;}
+/* ---- live camera status ----
+   Driven by whether frames are actually arriving, never by a flag we set once.
+   The whole point is that the front desk can glance at it instead of picking
+   the phone up to check whether the scanner is still running. */
+.camstat{position:absolute; top:11px; left:50%; transform:translateX(-50%); z-index:5;
+  display:flex; align-items:center; gap:6px; padding:5px 11px; border-radius:99px;
+  background:rgba(6,6,5,.74); border:1px solid rgba(255,255,255,.13);
+  font:700 8.5px 'JetBrains Mono'; letter-spacing:.16em; color:var(--dim);
+  pointer-events:none; white-space:nowrap;}
+.cdot{width:7px; height:7px; border-radius:50%; background:#6B6455; flex:none}
+.camstat.live{border-color:rgba(79,209,160,.45); color:#7FE3BE}
+.camstat.live .cdot{background:var(--ok); animation:cpulse 1.9s ease-in-out infinite}
+.camstat.retry{border-color:rgba(232,193,90,.5); color:var(--gold)}
+.camstat.retry .cdot{background:var(--gold); animation:cpulse .65s ease-in-out infinite}
+@keyframes cpulse{0%,100%{opacity:1} 50%{opacity:.2}}
+body.kioskon .camstat{top:15px; padding:6px 13px; font-size:9.5px}
+@media (prefers-reduced-motion:reduce){.cdot{animation:none !important}}
+.scctl{display:flex; gap:8px; margin-top:10px;}
+.scctl .bgold, .scctl .bline{flex:1}
+.scres{margin-top:12px; border-radius:14px; padding:16px; border:1px solid var(--line); background:var(--panel2);}
+.scres.ok{background:rgba(88,201,134,.09); border-color:rgba(88,201,134,.5);}
+.scres.dup{background:rgba(237,175,80,.09); border-color:rgba(237,175,80,.5);}
+.scres.bad{background:rgba(224,138,138,.09); border-color:rgba(224,138,138,.5);}
+.scres b{display:block; font-weight:800; font-size:17px; margin-top:6px;}
+.scres i{display:block; font-style:normal; font:500 11px 'JetBrains Mono'; color:var(--dim); margin-top:5px; line-height:1.7; word-break:break-word;}
+.scres .big{font:800 23px 'JetBrains Mono'; letter-spacing:.01em; margin-top:9px; color:var(--gold);}
+.scres.ok .big{color:#8fe2ae} .scres.dup .big{color:#f0c778}
+.scres .pill{margin-bottom:4px}
+.claimbtns{display:flex; gap:8px; margin-top:12px; align-items:center; flex-wrap:wrap;}
+
+/* ---------- KIOSK MODE ----------
+   Same page, staff chrome removed. The phone stops being a console and becomes
+   a sign: the person should work out where to point without being told.
+   Pure CSS — the video element is never moved, so the camera keeps running. */
+.kiosk{display:none}
+body.kioskon{overflow:hidden}
+body.kioskon header, body.kioskon nav, body.kioskon #tScan > .sec,
+body.kioskon #tScan > .modes, body.kioskon #tScan > .sndrow,
+body.kioskon #tScan > .scctl, body.kioskon #tScan > .btest,
+body.kioskon #tScan > .ps, body.kioskon #tScan > .row,
+body.kioskon #tScan > #scRes, body.kioskon .kioskbtn{display:none !important}
+body.kioskon .wrap{padding:0 !important; max-width:none !important}
+body.kioskon #tScan{display:flex !important; flex-direction:column; align-items:center;
+  height:100dvh; overflow:hidden; padding:14px 18px calc(14px + env(safe-area-inset-bottom));
+  background:radial-gradient(120% 55% at 50% 0%, rgba(232,193,90,.13), transparent 68%), var(--ink)}
+body.kioskon .kiosk{display:flex; flex-direction:column; align-items:center; width:100%;
+  max-width:520px; flex:none}
+/* the video must fill the frame, not letterbox inside it */
+body.kioskon #scanBox #reader,
+body.kioskon #scanBox #reader > div{width:100% !important; height:100% !important}
+body.kioskon #scanBox video{width:100% !important; height:100% !important; object-fit:cover;
+  border-radius:24px}
+/* the library paints its own green aiming box — off-brand, and we already have
+   gold corners doing that job */
+body.kioskon #qr-shaded-region{display:none !important}
+
+.kiosk .khd{display:flex; align-items:center; justify-content:center; gap:11px; padding:2px 0 4px; width:100%}
+.kiosk .khd img{height:19px}
+.kiosk .k901{font:800 11px 'JetBrains Mono'; letter-spacing:.14em; color:#241A02;
+  background:var(--gold-foil); padding:5px 10px; border-radius:20px}
+.kiosk .kexit{position:absolute; top:8px; right:10px; width:40px; height:40px; border-radius:50%;
+  border:1px solid rgba(226,199,132,.13); background:transparent; color:#3E3931;
+  font:700 15px Inter; cursor:pointer; z-index:5; touch-action:none; transition:.15s}
+.kiosk .kexit.holding{color:var(--gold); border-color:var(--gold); box-shadow:0 0 0 6px rgba(232,193,90,.12)}
+
+.kiosk .kmsg{text-align:center; margin:14px 0 12px}
+.kiosk .kmsg b{display:block; font:800 clamp(24px,7.2vw,34px) Inter,'Noto Sans SC';
+  letter-spacing:-.01em; line-height:1.12;
+  background:var(--gold-foil); -webkit-background-clip:text; background-clip:text; color:transparent}
+.kiosk .kmsg i{display:block; font-style:normal; font:600 clamp(13px,3.9vw,17px) Inter,'Noto Sans SC';
+  color:var(--paper); opacity:.9; margin-top:7px}
+.kiosk .kmsg i + i{margin-top:3px; opacity:.62; font-size:clamp(12px,3.5vw,15px)}
+
+/* the viewfinder itself becomes the instruction */
+body.kioskon #scanBox{width:100%; max-width:430px; flex:1 1 0; min-height:200px; margin:0;
+  border-radius:26px; border-color:rgba(232,193,90,.3)}
+body.kioskon #scanBox .corner{width:46px; height:46px; border-width:4px; border-color:var(--gold)}
+body.kioskon #scanBox::after{font-size:0}
+body.kioskon #scanBox .kscan{display:block}
+.kiosk .kwrap{width:100%; flex:1; display:flex; min-height:0}
+#scanBox .kscan{display:none; position:absolute; left:8%; right:8%; height:2px; z-index:4;
+  background:linear-gradient(90deg,transparent,rgba(249,231,174,.95),transparent);
+  box-shadow:0 0 16px rgba(232,193,90,.65); animation:ksweep 2.6s ease-in-out infinite}
+@keyframes ksweep{0%{top:9%} 50%{top:89%} 100%{top:9%}}
+#scanBox.live .kscan{opacity:.85}
+
+.kiosk .kfoot{margin-top:12px; width:100%}
+.kiosk .kdeal{display:flex; align-items:center; gap:15px; padding:13px 16px;
+  border:1px solid rgba(232,193,90,.38); border-radius:16px;
+  background:radial-gradient(130% 130% at 0% 50%, rgba(232,193,90,.16), transparent 72%), rgba(232,193,90,.05);
+  box-shadow:inset 0 1px 0 rgba(249,231,174,.16)}
+.kiosk .kfig{flex:none; font-family:'Bodoni Moda',serif; font-weight:900;
+  font-size:clamp(40px,12vw,56px); line-height:.86; letter-spacing:-.02em;
+  background:var(--gold-foil); -webkit-background-clip:text; background-clip:text; color:transparent}
+.kiosk .ktx{min-width:0}
+.kiosk .ktx i{display:block; font-style:normal; font:700 clamp(9.5px,2.9vw,12px) 'JetBrains Mono','Noto Sans SC';
+  letter-spacing:.1em; color:var(--paper); line-height:1.45}
+.kiosk .ktx i + i{color:var(--dim); margin-top:3px; letter-spacing:.04em}
+.kiosk .kwhen{display:block; text-align:center; font:700 10px 'JetBrains Mono','Noto Sans SC';
+  letter-spacing:.2em; color:var(--gold); margin-top:9px}
+body.kioskon.kverify .kdeal{display:none}
+.kioskbtn{width:100%; margin-top:8px; border:1px solid rgba(232,193,90,.45); background:rgba(232,193,90,.06);
+  color:var(--gold); border-radius:11px; padding:12px 14px;
+  font:700 10.5px 'JetBrains Mono'; letter-spacing:.14em; cursor:pointer}
+@media (prefers-reduced-motion:reduce){#scanBox .kscan{animation:none; top:49%}}
+
+/* ---------- scan result, full screen ----------
+   The result card lives under the viewfinder, the controls and the manual
+   entry box — roughly a whole screen down. Nobody at a front desk is going to
+   scroll for it, so the outcome takes over the screen instead. z-index sits
+   under the toast (99) and the delete confirm (120). */
+.scflash{position:fixed; inset:0; z-index:80; display:none; padding:26px 22px;
+  background:#050403; align-items:center; justify-content:center; text-align:center;}
+.scflash.show{display:flex; animation:sffade .16s ease-out;}
+@keyframes sffade{from{opacity:0}}
+/* the tint sits on a solid base — a translucent overlay would leave the
+   controls underneath showing through the middle of the name */
+.scflash.ok  {background:radial-gradient(circle at 50% 38%, rgba(79,209,160,.20), transparent 62%), #050403;}
+.scflash.dup {background:radial-gradient(circle at 50% 38%, rgba(237,175,80,.20), transparent 62%), #050403;}
+.scflash.bad {background:radial-gradient(circle at 50% 38%, rgba(224,138,138,.20), transparent 62%), #050403;}
+.scflash.win {background:radial-gradient(circle at 50% 38%, rgba(232,193,90,.28), transparent 64%), #050403;}
+.sfbar{position:absolute; top:0; left:0; height:3px; width:0; background:var(--gold); opacity:.75;}
+.sfin{width:100%; max-width:460px; animation:sfpop .22s cubic-bezier(.3,1.25,.45,1);}
+@keyframes sfpop{from{transform:scale(.94); opacity:0}}
+.sfk{display:inline-block; font:800 10px 'JetBrains Mono'; letter-spacing:.22em; color:var(--dim);
+  border:1px solid var(--line); border-radius:20px; padding:7px 14px;}
+.sfk.ok {color:var(--ok);   border-color:rgba(79,209,160,.55);  background:rgba(79,209,160,.1);}
+.sfk.dup{color:var(--wait); border-color:rgba(237,175,80,.55);  background:rgba(237,175,80,.1);}
+.sfk.bad{color:var(--bad);  border-color:rgba(224,138,138,.55); background:rgba(224,138,138,.1);}
+.sfk.win{color:#241A02; background:var(--gold-foil); border-color:transparent;}
+.sfnm{font:800 30px Inter,'Noto Sans SC'; line-height:1.15; margin-top:16px; word-break:break-word;}
+.sfbig{font:800 62px 'JetBrains Mono'; line-height:1; margin-top:14px; letter-spacing:-.02em;}
+.scflash.ok  .sfbig{color:#8fe2ae}
+.scflash.dup .sfbig{color:#f0c778}
+.sfunit{font:700 10px 'JetBrains Mono'; letter-spacing:.28em; color:var(--dim); margin-top:8px;}
+.sfprz{font:800 24px Inter,'Noto Sans SC'; line-height:1.2; margin-top:14px;
+  background:var(--gold-foil); -webkit-background-clip:text; background-clip:text; color:transparent;}
+.sfmeta{font:600 11px 'JetBrains Mono'; color:var(--dim); margin-top:12px; line-height:1.8; word-break:break-word;}
+.sfwhy{font:600 13px Inter,'Noto Sans SC'; color:var(--bad); margin-top:14px; line-height:1.6;}
+.sfbtn{margin-top:20px; width:100%; border:0; border-radius:14px; padding:17px;
+  background:var(--gold-foil); color:#241A02; font:800 13px Inter; letter-spacing:.1em; cursor:pointer;}
+.sfclose{margin-top:10px; width:100%; border:1px solid var(--line); background:transparent; color:var(--dim);
+  border-radius:14px; padding:14px; font:700 11px 'JetBrains Mono'; letter-spacing:.16em; cursor:pointer;}
+.sfhint{font:600 9px 'JetBrains Mono'; letter-spacing:.2em; color:#5A5445; margin-top:18px;}
+@media (max-height:680px){
+  .sfnm{font-size:25px; margin-top:12px} .sfbig{font-size:50px} .sfprz{font-size:20px}
+}
+@media (prefers-reduced-motion:reduce){ .scflash.show,.sfin{animation:none} }
+
+/* sound controls — the front-desk phone lives on this row */
+.sndrow{display:flex; align-items:center; gap:8px; margin-top:10px;}
+.sndtog{display:flex; align-items:center; gap:8px; border:1.5px solid var(--line); background:var(--panel2);
+  border-radius:11px; padding:9px 12px; cursor:pointer; color:var(--paper);
+  font:800 10.5px 'JetBrains Mono'; letter-spacing:.1em; white-space:nowrap;}
+.sndtog.on{border-color:rgba(79,209,160,.55); color:var(--ok); background:rgba(79,209,160,.08);}
+.sndtog .sw{width:26px; height:15px; border-radius:9px; background:#2A2519; position:relative; flex:none; transition:.18s;}
+.sndtog .sw::after{content:''; position:absolute; top:2px; left:2px; width:11px; height:11px; border-radius:50%;
+  background:#6B6350; transition:.18s;}
+.sndtog.on .sw{background:rgba(79,209,160,.3)}
+.sndtog.on .sw::after{left:13px; background:var(--ok)}
+.vol{display:flex; flex:1; border:1.5px solid var(--line); border-radius:11px; overflow:hidden; background:var(--panel2);}
+.vol button{flex:1; border:0; background:transparent; color:var(--dim);
+  font:700 10px 'JetBrains Mono'; letter-spacing:.08em; padding:10px 8px; cursor:pointer;}
+.vol button.on{background:rgba(232,193,90,.14); color:var(--gold);}
+.btest{width:100%; border:1px solid rgba(232,193,90,.45); background:rgba(232,193,90,.06); color:var(--gold);
+  border-radius:11px; padding:12px 14px; font:700 10.5px 'JetBrains Mono'; letter-spacing:.14em;
+  cursor:pointer; margin-top:8px;}
+.btest:active{background:rgba(232,193,90,.16)}
+
+/* ---------- draw / rehearsal ---------- */
+.dstat{border-radius:13px; padding:13px 15px; background:var(--panel2); border:1px solid var(--line);}
+.dstat b{display:block; font:700 10px 'JetBrains Mono'; letter-spacing:.15em; color:var(--gold);}
+.dstat i{font-style:normal; font:600 10px 'JetBrains Mono'; color:var(--dim); display:block; margin-top:5px; line-height:1.6;}
+.nextline{margin:13px 2px 9px; font:600 10.5px 'JetBrains Mono'; color:var(--dim); letter-spacing:.04em; line-height:1.7;}
+.nextline b{color:var(--gold)}
+.mega{border:0; border-radius:16px; width:100%; padding:22px; background:var(--gold-foil); color:#241A02;
+  font:800 15.5px Inter; letter-spacing:.12em; cursor:pointer; text-transform:uppercase;
+  box-shadow:0 16px 40px rgba(232,193,90,.3), inset 0 1.5px 0 rgba(255,255,255,.6);}
+.mega:active{transform:scale(.985)}
+.mega[disabled]{opacity:.5; cursor:not-allowed; box-shadow:none;}
+.mega.blue{background:var(--blue-foil); color:#0B1020; box-shadow:0 16px 40px rgba(126,155,255,.26), inset 0 1.5px 0 rgba(255,255,255,.55);}
+.lastwin{margin-top:12px;}
+.lastwin.rolling, .lastwin.hit{border-radius:15px; padding:16px 17px; border:1px solid var(--line); background:var(--panel2);}
+.lastwin.rolling .nm{font:700 20px 'JetBrains Mono'; color:var(--dim);}
+.lastwin.hit{border-color:rgba(232,193,90,.7); background:#171307; animation:hitin .45s cubic-bezier(.3,1.4,.4,1);}
+@keyframes hitin{from{transform:scale(.94); opacity:0}}
+.lastwin .tag{font:700 9.5px 'JetBrains Mono'; letter-spacing:.18em; color:var(--gold); margin-bottom:9px;}
+.lastwin .nm{font:700 23px 'JetBrains Mono'; letter-spacing:.02em; word-break:break-word;}
+.lastwin.gr .nm{font-size:29px; background:var(--gold-foil); -webkit-background-clip:text; background-clip:text; color:transparent;}
+.lastwin .mt{font:500 11px 'JetBrains Mono'; color:var(--dim); margin-top:8px; line-height:1.7; word-break:break-word;}
+/* the winning ticket number — under the name on the reveal card */
+.lastwin .wtix{display:inline-block; margin-top:11px; padding:8px 13px; border-radius:11px;
+  border:1px dashed rgba(232,193,90,.45); font:700 7.5px 'JetBrains Mono';
+  letter-spacing:.18em; color:var(--dim);}
+.lastwin .wtix b{display:block; margin-top:6px; font:800 15px 'JetBrains Mono';
+  letter-spacing:.01em; color:var(--gold); font-variant-numeric:tabular-nums;}
+#tReh .lastwin .wtix{border-color:rgba(126,155,255,.5);}
+#tReh .lastwin .wtix b{color:#9FB4FF;}
+/* compact version for board rows */
+.wtixs{font:800 9.5px 'JetBrains Mono'; color:var(--gold); margin-top:5px;
+  letter-spacing:.02em; font-variant-numeric:tabular-nums;}
+.btnrow{display:flex; gap:8px; margin-top:13px; flex-wrap:wrap;}
+.tierhead{display:flex; align-items:center; gap:11px; margin:24px 0 10px;}
+.tierhead .tt{font-family:var(--display); font-weight:700; font-size:16px; letter-spacing:.04em;}
+.tierhead .tp{font:600 8.5px 'JetBrains Mono'; color:var(--dim); letter-spacing:.06em;}
+.tierhead::after{content:''; height:1px; flex:1; background:linear-gradient(90deg,rgba(232,193,90,.4),transparent);}
+.tierhead.gr .tt{background:var(--gold-foil); -webkit-background-clip:text; background-clip:text; color:transparent; font-size:19px;}
+.wlist{display:flex; flex-direction:column; gap:7px;}
+.slot{display:flex; align-items:center; gap:12px; background:var(--panel); border:1px solid var(--line); border-radius:13px; padding:12px 14px;}
+.slot.locked{border-color:rgba(232,193,90,.5); background:#151107;}
+.slot .nm{font:700 13.5px 'JetBrains Mono'; word-break:break-word;}
+.slot .mt{font:500 9.5px 'JetBrains Mono'; color:var(--dim); margin-top:3px; line-height:1.6; word-break:break-word;}
+.slot .pill, .slot .mini{margin-left:auto; flex:none;}
+.slot .pill + .mini{margin-left:8px;}
+.slot .tk{margin-left:auto; text-align:right; flex:none;}
+.slot .tk .tc{font:700 11px 'JetBrains Mono'; color:var(--gold);}
+.wlist.gr .slot{padding:18px 16px; border-color:rgba(232,193,90,.85); background:linear-gradient(135deg,#241C09,#0F0E09 72%);}
+.wlist.gr .slot .nm{font-size:17px;}
+.danger{margin-top:24px; border:1px solid rgba(224,138,138,.4); border-radius:14px; overflow:hidden;}
+.danger>button{width:100%; border:0; background:rgba(224,138,138,.07); color:var(--bad); text-align:left;
+  font:800 10px 'JetBrains Mono'; letter-spacing:.2em; padding:13px 15px; cursor:pointer; display:flex; justify-content:space-between;}
+.danger .dbody{display:none; padding:14px 15px; border-top:1px dashed rgba(224,138,138,.35);}
+.danger.open .dbody{display:block}
+.bred{border:1.5px solid rgba(224,138,138,.6); background:transparent; color:var(--bad); border-radius:11px;
+  padding:12px 16px; font:800 11px Inter; letter-spacing:.08em; cursor:pointer; width:100%;}
+.rbanner{border-radius:13px; padding:13px 15px; margin-bottom:12px;
+  background:repeating-linear-gradient(135deg,#1B2A6B,#1B2A6B 14px,#16225A 14px,#16225A 28px); border:1px solid #3D53B8;}
+.rbanner b{font:800 12px Inter; letter-spacing:.08em; color:#BFD0FF; display:block;}
+.rbanner i{font-style:normal; font-size:10.5px; color:#8FA6E8; line-height:1.6; display:block; margin-top:4px;}
+#tReh .sec{color:var(--blue)}
+#tReh .sec::after{background:linear-gradient(90deg,rgba(126,155,255,.4),transparent)}
+#tReh .dstat b{color:var(--blue)}
+#tReh .lastwin.hit{border-color:rgba(126,155,255,.65); background:#0F1430;}
+#tReh .lastwin .tag{color:var(--blue)}
+#tReh .nextline b{color:var(--blue)}
+
+/* ---------- people ---------- */
+.search{position:sticky; top:64px; z-index:20; display:flex; gap:8px; padding:6px 0 12px;
+  background:linear-gradient(180deg,var(--ink) 78%,transparent);}
+/* Both the projection table and this list used a bare .prow, so the People
+   rows were inheriting display:flex and color:var(--dim) from the block
+   above: an expanded row put its buttons BESIDE the name instead of under
+   it, and every name rendered dim instead of white. Both rules are now
+   scoped to their own container. */
+#pTbl .prow{background:var(--panel); border:1px solid var(--line); border-radius:14px;
+  margin-bottom:8px; overflow:hidden;}
+#pTbl .prow.dqd{opacity:.5}
+.ptop{display:flex; align-items:center; gap:12px; padding:13px 15px; cursor:pointer;}
+.pinfo{min-width:0}
+.pnm{font-weight:700; font-size:13.5px; word-break:break-word;}
+.pmt{font:500 9.5px 'JetBrains Mono'; color:var(--dim); margin-top:3px; word-break:break-word;}
+.ptk{margin-left:auto; text-align:right; flex:none;}
+.ptk b{font-family:var(--display); font-weight:700; font-size:23px; line-height:1;
+  background:var(--gold-foil); -webkit-background-clip:text; background-clip:text; color:transparent;}
+.ptk i{font-style:normal; font:700 7px 'JetBrains Mono'; letter-spacing:.14em; color:var(--dim); display:block; margin-top:3px;}
+.pacts{display:none; padding:0 15px 13px;}
+#pTbl .prow.open .pacts{display:block}
+.chips{display:flex; gap:6px; flex-wrap:wrap; padding-top:11px; border-top:1px dashed rgba(226,199,132,.15);}
+.chip{font:700 8.5px 'JetBrains Mono'; color:var(--dim); border:1px solid var(--line); border-radius:99px; padding:4px 9px;}
+.chip.adj{color:#8FA6E8; border-color:rgba(126,155,255,.5);}
+.chip.dim{opacity:.7}
+/* Overview error box. loadOverview() paints RPC failures here instead of
+   failing silently — do not remove without repointing ovErr(). */
+#oErr{display:none; margin-top:10px; border-radius:14px; padding:12px 14px;
+  border:1px solid rgba(232,193,90,.5); background:rgba(232,193,90,.06);
+  font:600 11.5px/1.6 Inter}
+#oErr.on{display:block}
+#oErr b{font:800 13px 'JetBrains Mono'; color:var(--gold)}
+#oErr.risk{border-color:rgba(224,138,138,.6); background:rgba(224,138,138,.08)}
+#oErr.risk b{color:#E08A8A}
+/* Pool-source box. */
+#oSrc{display:none; margin-top:10px; border-radius:14px; padding:12px 14px;
+  border:1px solid rgba(232,193,90,.28); background:rgba(232,193,90,.04);
+  font:600 11.5px/1.6 Inter}
+#oSrc.on{display:block}
+#oSrc b{font:800 13px 'JetBrains Mono'; color:var(--gold)}
+#oSrc .off{display:block; margin-top:8px; color:var(--dim); font-weight:500}
+.srcbars{margin:9px 0 2px}
+.srow{display:flex; align-items:center; gap:7px; margin-bottom:5px}
+.srow .sl{flex:none; width:78px; font:700 9.5px 'JetBrains Mono'; color:var(--dim);
+  letter-spacing:.02em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.srow .sbar{flex:1; height:7px; border-radius:99px; background:rgba(232,193,90,.10); overflow:hidden}
+.srow .sbar i{display:block; height:100%; border-radius:99px; background:var(--gold)}
+.srow .sbar i.s-social,.srow .sbar i.s-repost{background:#E0A96D}
+.srow .sv{flex:none; width:42px; text-align:right; font:800 10.5px 'JetBrains Mono'; color:var(--paper)}
+.srow .sp{flex:none; width:30px; text-align:right; font:700 9.5px 'JetBrains Mono'; color:var(--dim)}
+#oLedger{display:none; margin-top:10px; border-radius:14px; padding:12px 14px;
+  border:1px solid rgba(232,193,90,.28); background:rgba(232,193,90,.04);
+  font:600 11.5px/1.6 Inter}
+#oLedger.on{display:block}
+#oLedger b{font:800 13px 'JetBrains Mono'; color:var(--gold)}
+#oLedger.risk{border-color:rgba(224,138,138,.6); background:rgba(224,138,138,.08)}
+#oLedger.risk b{color:#E08A8A}
+#oLedger .off{color:#97907E}
+
+/* ---- delete sheet ---- */
+.delwrap{position:fixed; inset:0; z-index:120; background:rgba(4,3,1,.86);
+  display:none; align-items:center; justify-content:center; padding:18px;}
+.delwrap.show{display:flex;}
+.delsheet{width:100%; max-width:400px; border:1px solid rgba(224,138,138,.5); border-radius:16px;
+  padding:18px; background:linear-gradient(180deg, rgba(224,138,138,.1), rgba(10,9,7,.96));
+  max-height:90vh; overflow:auto;}
+.delsheet h4{margin:0 0 5px; font-family:'Bodoni Moda',serif; font-weight:500;
+  font-size:21px; color:var(--bad);}
+.delsheet .dsub{font-size:12.5px; color:var(--dim); line-height:1.55; margin-bottom:14px;}
+.delwho{border:1px solid var(--line); border-radius:10px; padding:11px 13px; margin-bottom:12px;
+  background:rgba(0,0,0,.4);}
+.delwho .n{font-weight:600; font-size:14.5px;}
+.delwho .d{font:500 9.5px 'JetBrains Mono'; color:var(--dim); margin-top:4px; line-height:1.5;}
+.delgone{font-size:11.5px; color:var(--dim); line-height:1.75; margin:0 0 14px; padding-left:17px;}
+.delsheet label{display:block; font:700 9px 'JetBrains Mono'; letter-spacing:.13em;
+  color:var(--dim); margin:0 0 7px;}
+.delsheet input{width:100%; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.17);
+  border-radius:9px; padding:11px 12px; color:var(--txt); font-size:16px;
+  font-family:inherit; margin-bottom:13px;}
+.delsheet input#delPw{letter-spacing:.28em;}
+.delerr{display:none; font-size:12px; color:var(--bad); margin:-6px 0 12px; line-height:1.5;}
+.delerr.show{display:block;}
+.delbtns{display:flex; gap:9px;}
+.delbtns button{flex:1; border-radius:9px; padding:13px; font:600 13px Inter,sans-serif;
+  border:1px solid var(--line); background:rgba(255,255,255,.05); color:var(--txt);}
+.delbtns button.danger{background:#C4453C; border-color:#C4453C; color:#fff; font-weight:700;}
+.delbtns button:disabled{opacity:.5;}
+
+/* ---------- edit sheet: same shell as the delete sheet, gold not red ---------- */
+.delsheet.gold{border-color:rgba(232,193,90,.5);
+  background:linear-gradient(180deg, rgba(232,193,90,.1), rgba(10,9,7,.96));}
+.delsheet.gold h4{color:var(--gold);}
+.delbtns button.go{background:var(--gold-foil); border:0; color:#241A02; font-weight:800;}
+.delsheet select{width:100%; background-color:rgba(255,255,255,.05);
+  background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' stroke='%23E8C15A' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 13px center;
+  border:1px solid rgba(255,255,255,.17); border-radius:9px;
+  padding:11px 34px 11px 12px; color:var(--txt); font-size:16px;
+  font-family:inherit; margin-bottom:13px; -webkit-appearance:none; appearance:none;}
+.delsheet select option{background:#17140D; color:var(--txt);}
+.delsheet input#edPw{letter-spacing:.28em;}
+.edpair{display:grid; grid-template-columns:1fr 1fr; gap:9px;}
+.edhint{font-size:11px; color:var(--dim); line-height:1.5; margin:-8px 0 12px;}
+.edhint.bad{color:var(--wait);}
+.edfold{display:none;}
+.edfold.show{display:block;}
+.edwarn{border:1px solid rgba(232,193,90,.45); background:rgba(232,193,90,.07);
+  border-radius:10px; padding:10px 12px; margin:0 0 13px;
+  font-size:11.5px; line-height:1.7; color:#D9CFB4;}
+.edwarn b{color:var(--gold);}
+.edwarn ul{margin:6px 0 0; padding-left:16px;}
+/* Amber, not red: rows matching nobody is normal on every import — most of
+   them are customers who simply never signed up. Scoped under .res
+   because the plain `.res b` gold rule is declared later and would win. */
+.edmiss{margin-top:11px; padding:11px; border:1px solid rgba(237,175,80,.5);
+  border-radius:9px; background:rgba(237,175,80,.08); color:#D9CFB4; line-height:1.6;}
+.res .edmiss b{color:var(--wait);}
+.edmiss .row{font:500 10.5px 'JetBrains Mono'; color:#D9CFB4; margin-top:4px; word-break:break-all;}
+.edmiss .row i{font-style:normal; color:var(--dim);}
+.abtns{display:flex; gap:8px; flex-wrap:wrap; margin-top:11px;}
+
+/* ---------- data ---------- */
+.drop{border:1.5px dashed rgba(232,193,90,.45); border-radius:13px; padding:16px 14px; text-align:center;
+  cursor:pointer; font-size:10px; color:var(--dim); line-height:1.7; margin-bottom:10px;}
+.drop b{display:block; font:700 11.5px Inter; color:var(--paper); margin-bottom:3px;}
+.drop.over{background:rgba(232,193,90,.08); border-color:var(--gold);}
+textarea{width:100%; min-height:88px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.12);
+  border-radius:11px; padding:11px 12px; font:500 16px 'JetBrains Mono'; color:var(--paper); outline:none; resize:vertical;}
+textarea:focus{border-color:var(--gold)}
+.res{display:none; margin-top:10px; border:1px solid rgba(232,193,90,.4); background:rgba(232,193,90,.06);
+  border-radius:11px; padding:11px 13px; font-size:11px; line-height:1.7; color:#D9CFB4;}
+.res.show{display:block}
+.res b{color:var(--gold)}
+.warncard{margin-top:10px; border:1px solid rgba(232,193,90,.5); background:rgba(232,193,90,.06);
+  border-radius:13px; padding:13px 14px; font-size:11px; line-height:1.7; color:#D9CFB4;}
+.warncard b{color:var(--gold)}
+.warncard.okc{border-color:rgba(79,209,160,.5); background:rgba(79,209,160,.06); color:#BFE8D4;}
+
+/* ---------- toast / confetti ---------- */
+.toast{position:fixed; left:50%; bottom:96px; transform:translateX(-50%) translateY(16px); opacity:0;
+  background:#171307; border:1px solid rgba(232,193,90,.5); color:var(--paper); border-radius:12px;
+  padding:12px 18px; font:600 12px Inter,'Noto Sans SC'; z-index:99; transition:.25s; pointer-events:none; max-width:90vw; text-align:center;}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+@media(min-width:900px){.toast{bottom:26px}}
+.cf{position:fixed; top:-20px; z-index:60; animation:fall linear forwards; pointer-events:none;}
+@keyframes fall{to{transform:translateY(115vh) rotate(680deg); opacity:.5}}
+</style>
+</head>
+<body>
+
+<!-- full-screen scan result -->
+<div class="scflash" id="scFlash" onclick="onFlashTap(event)">
+  <div class="sfbar" id="sfBar"></div>
+  <div class="sfin" id="sfIn"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ============ DELETE CONFIRMATION ============ -->
+<div class="delwrap" id="delWrap">
+  <div class="delsheet">
+    <h4>Delete this entry</h4>
+    <div class="dsub">This removes the person and everything attached to them. It cannot be undone.</div>
+    <div class="delwho"><div class="n" id="delName">–</div><div class="d" id="delMeta">–</div></div>
+    <ul class="delgone" id="delGone"></ul>
+    <label>WHY (kept on the deletion record)</label>
+    <input id="delReason" placeholder="e.g. duplicate entry / fake account" autocomplete="off">
+    <label>TYPE THE ADMIN PASSWORD TO CONFIRM</label>
+    <input id="delPw" type="password" placeholder="••••••••••" autocomplete="off">
+    <div class="delerr" id="delErr"></div>
+    <div class="delbtns">
+      <button onclick="closeDelete()">Cancel</button>
+      <button class="danger" id="delGo" onclick="confirmDelete()">Delete permanently</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ EDIT PARTICIPANT ============ -->
+<div class="delwrap" id="edWrap">
+  <div class="delsheet gold">
+    <h4>Edit this entry</h4>
+    <div class="dsub">Fix a typo, or correct an IC that was keyed in wrong. Every change is logged.</div>
+    <div class="delwho"><div class="n" id="edWho">–</div><div class="d" id="edMeta">–</div></div>
+
+    <label>FULL NAME (A–Z, as printed on the IC)</label>
+    <input id="edName" autocomplete="off" spellcheck="false">
+    <div class="edhint bad" id="edNameHint" style="display:none">Only A–Z, spaces and / @ ' . - are kept.</div>
+
+    <label>PHONE</label>
+    <input id="edPhone" inputmode="tel" autocomplete="off">
+
+    <div class="edpair">
+      <div>
+        <label>PLATFORM</label>
+        <select id="edPlat">
+          <option value="instagram">Instagram</option>
+          <option value="facebook">Facebook</option>
+        </select>
+      </div>
+      <div>
+        <label>HANDLE</label>
+        <input id="edHandle" autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+    <div class="edhint" id="edHandleHint">Instagram: username only, no @.</div>
+
+    <label>NEW IC / PASSPORT — LEAVE BLANK TO KEEP</label>
+    <input id="edIc" autocomplete="off" spellcheck="false" placeholder="only fill this in to change it">
+
+    <div class="edfold" id="edFold">
+      <div class="edwarn">
+        <b>Changing the IC changes how this person is matched.</b>
+        <ul>
+          <li>Their tickets stay exactly as they are.</li>
+          <li>They must log in on the 9.01 site with the new number.</li>
+          <li>Re-import the renewal CSV afterwards to pick up their months.</li>
+          <li>At prize claim, their document must match this number.</li>
+        </ul>
+      </div>
+      <label>TYPE THE ADMIN PASSWORD TO CHANGE THE IC</label>
+      <input id="edPw" type="password" placeholder="••••••••••" autocomplete="off">
+    </div>
+
+    <label>WHY (kept on the edit record)</label>
+    <input id="edReason" placeholder="e.g. passport keyed in wrong at sign-up" autocomplete="off">
+
+    <div class="delerr" id="edErr"></div>
+    <div class="delbtns">
+      <button onclick="closeEdit()">Cancel</button>
+      <button class="go" id="edGo" onclick="confirmEdit()">Save changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= GATE ================= -->
+<div class="gate" id="gate">
+  <div class="gcard">
+    <div class="mkrow"><img class="mark" src="assets/logo.png" alt=""><img class="wm" src="assets/wordmark.png" alt="X FITNESS"></div>
+    <h1>DRAW CONSOLE · 9.01</h1>
+    <input type="password" id="pw" autocomplete="current-password" placeholder="••••••••••">
+    <label><input type="checkbox" id="remember" style="width:auto; accent-color:#C79A38" checked>
+      Remember on this device</label>
+    <div class="err" id="gErr"></div>
+    <button class="bgold" style="width:100%; margin-top:14px" id="gBtn">Unlock</button>
+  </div>
+</div>
+
+<!-- ================= SHELL ================= -->
+<div class="shell" id="shell">
+  <header><div class="hin">
+    <img class="mark" src="assets/logo.png" alt=""><img class="wm" src="assets/wordmark.png" alt="X FITNESS">
+    <span class="tag">9.01</span>
+    <div class="sp"><span class="pulse">LIVE DB</span><button class="lockb" onclick="lock()">LOCK</button></div>
+  </div></header>
+
+  <nav>
+    <button class="on" data-tab="tOver"><span class="ic">◈</span><span class="lb">OVERVIEW</span></button>
+    <button data-tab="tScan"><span class="ic">▣</span><span class="lb">SCAN</span></button>
+    <button data-tab="tDraw"><span class="ic">✦</span><span class="lb">DRAW</span></button>
+    <button data-tab="tPeople"><span class="ic">☰</span><span class="lb">PEOPLE</span></button>
+    <button data-tab="tData"><span class="ic">⇅</span><span class="lb">DATA</span></button>
+    <button class="reh" data-tab="tReh"><span class="ic">◔</span><span class="lb">REHEARSE</span></button>
+  </nav>
+
+  <div class="main">
+
+    <!-- ============ OVERVIEW ============ -->
+    <div class="tab show" id="tOver">
+      <div class="sec"><span id="oDay">TODAY</span></div>
+      <div class="stats">
+        <div class="st"><span class="up" id="oNew"></span><b id="oPart">–</b><i>PARTICIPANTS</i></div>
+        <div class="st"><b id="oTick">–</b><i>TICKETS IN POOL</i></div>
+        <div class="st"><span class="up">live</span><b id="oToday">–</b><i>CHECK-INS TODAY</i></div>
+        <div class="st"><b id="oRep">–</b><i>REPOST MISSIONS</i></div>
+        <div class="st"><b id="oPrz">–</b><i>PRIZES TO DRAW</i></div>
+      </div>
+      <div id="oErr"></div>
+      <div id="oSrc"></div>
+      <div id="oLedger"></div>
+
+      <div class="sec">QUICK ACTIONS</div>
+      <div class="quick">
+        <button class="qk" onclick="navTo('tScan')"><div class="ic">▣</div><div class="lb">SCAN QR</div></button>
+        <button class="qk" onclick="navTo('tPeople')"><div class="ic">☰</div><div class="lb">FIND ENTRANT</div></button>
+        <button class="qk" onclick="navTo('tData')"><div class="ic">⇅</div><div class="lb">IMPORT CSV</div></button>
+      </div>
+
+      <div class="sec">TODAY'S ACTIVITY</div>
+      <div class="panel" id="oFeed"></div>
+
+      <div class="sec">VERIFY · TAG &amp; REPOST</div>
+      <div class="panel">
+        <div class="row" style="margin-bottom:6px">
+          <button class="bline" id="btnXrp" onclick="exportReposts()">Export Tag &amp; Repost</button>
+          <button class="bline" id="btnXsc" onclick="exportSocials()">Export IG/FB follows</button>
+        </div>
+        <div class="ps" style="margin-bottom:8px">Tickets are credited <b>instantly</b> — the real check
+          happens at prize claim. Use this to spot-check a handle, or to <b>reject</b> an obvious abuse
+          before the pool locks. Exports carry name, phone, handle and profile link; load the gym export
+          in <b>IC NUMBERS</b> first and they carry the full IC too.
+          TikTok and RedNote are not exported — they store no handle, so there is nothing to compare.</div>
+        <div class="row" style="margin-bottom:6px">
+          <input id="rpQ" placeholder="Filter by name or handle" oninput="renderReposts()">
+          <select id="rpFilter" style="max-width:150px" onchange="loadReposts()">
+            <option value="approved">Claimed</option>
+            <option value="rejected">Rejected</option>
+            <option value="all">All</option>
+          </select>
+          <button class="bline" onclick="loadReposts()">Refresh</button>
+        </div>
+        <div id="rpTbl"></div>
+        <div class="row" style="margin-top:8px"><span class="muted" id="rpMore"></span></div>
+      </div>
+    </div>
+
+    <!-- ============ SCAN ============ -->
+    <div class="tab" id="tScan">
+      <div class="sec">FRONT DESK SCANNER</div>
+      <div class="modes">
+        <button class="scmode on" id="mCheckin" onclick="setScanMode('checkin')">
+          <b id="mCheckinLbl">CHECK-IN</b><i>25 – 31 Aug, closes 11:59 PM on 31 Aug. Instant credit — same person, same day never double-counts.</i>
+        </button>
+        <button class="scmode" id="mVerify" onclick="setScanMode('verify')">
+          <b>VERIFY / CLAIM</b><i>Prize day. Read-only lookup: identity, prize, mark collected.</i>
+        </button>
+      </div>
+      <div class="sndrow" style="margin-top:9px">
+        <div class="vol" id="camRow">
+          <button data-c="environment" class="on" onclick="setCam(this)">BACK CAM</button>
+          <button data-c="user" onclick="setCam(this)">FRONT CAM</button>
+        </div>
+      </div>
+      <div class="kiosk" id="kiosk">
+        <button class="kexit" id="kExit" aria-label="Hold to exit kiosk mode">&times;</button>
+        <div class="khd"><img src="assets/wordmark.png" alt="X FITNESS"><span class="k901">9.01</span></div>
+        <div class="kmsg">
+          <b id="kMsgT">SHOW YOUR QR CODE</b>
+          <i>扫描你的会员二维码</i>
+          <i>Tunjukkan kod QR anda</i>
+        </div>
+      </div>
+      <div id="scanBox">
+        <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
+        <div class="kscan"></div>
+        <div class="camstat" id="camStat"><span class="cdot"></span><b id="camStatT">CAMERA OFF</b></div>
+        <div id="reader"></div>
+      </div>
+      <div class="kiosk">
+        <div class="kfoot">
+          <div class="kdeal">
+            <span class="kfig">+3</span>
+            <div class="ktx">
+              <i>TICKETS EVERY DAY YOU TRAIN</i>
+              <i>每天来训练 &plus;3 张抽奖券</i>
+              <i>Tiket setiap hari anda berlatih</i>
+            </div>
+          </div>
+          <span class="kwhen" id="kFootT">25 &ndash; 31 AUG &middot; ONE SCAN A DAY</span>
+        </div>
+      </div>
+      <div class="scctl">
+        <button class="bgold" id="scStart" onclick="startScan()">Start camera</button>
+        <button class="bline" id="scStop" onclick="stopScan()" style="display:none">Stop camera</button>
+      </div>
+      <div class="sndrow">
+        <div class="sndtog on" id="sndTog" onclick="toggleSound()"><span class="sw"></span><span id="sndLbl">SOUND ON</span></div>
+        <div class="vol" id="volRow">
+          <button data-v=".35" onclick="setVol(this)">SOFT</button>
+          <button data-v=".7" class="on" onclick="setVol(this)">NORMAL</button>
+          <button data-v="1" onclick="setVol(this)">LOUD</button>
+        </div>
+      </div>
+      <button class="btest" onclick="cue('ok')">TEST SOUND</button>
+      <button class="kioskbtn" onclick="kioskOn()">KIOSK MODE &mdash; CUSTOMER FACING</button>
+      <button class="kioskbtn" style="border-color:var(--line); color:var(--dim)" onclick="camCheck()">CAMERA CHECK</button>
+      <div class="ps" style="margin-top:11px">No camera? Paste their entrant code below, or use the <b>Check-in today</b> button on their row in People.</div>
+      <div class="row" style="margin-top:8px">
+        <input id="scManual" placeholder="XF901:…" style="font:600 16px 'JetBrains Mono'">
+        <button class="bline" onclick="manualScan()">Go</button>
+      </div>
+      <div id="scRes"></div>
+    </div>
+
+    <!-- ============ DRAW ============ -->
+    <div class="tab" id="tDraw">
+      <div class="sec">LIVE DRAW · 1 SEPT</div>
+      <div class="dstat" id="dStat"><b>LOADING…</b><i>Fetching draw state</i></div>
+      <div class="nextline" id="nextLine">–</div>
+      <button class="mega" id="btnNext" onclick="drawNext()" disabled>DRAW NEXT WINNER</button>
+      <div class="ps" style="margin-top:10px">
+        Each press draws <b>one winner</b> for the current tier by weighted random and locks it permanently.
+        The audience page plays its reveal a few seconds later — read the name out <b>after</b> the big screen shows it.
+        Tiers open in order, 6th → Grand.
+      </div>
+      <div class="lastwin" id="lastWin"></div>
+      <div class="btnrow">
+        <button class="bline" onclick="loadDraw()">Refresh state</button>
+        <button class="bline" onclick="exportWinners()">Export winners CSV</button>
+      </div>
+      <div id="board"></div>
+      <div id="voidLog"></div>
+      <div class="danger" id="dz">
+        <button onclick="document.getElementById('dz').classList.toggle('open')"><span>DANGER ZONE</span><span>▾</span></button>
+        <div class="dbody">
+          <div class="ps" style="margin-bottom:10px">Wipes every real result and unlocks all tiers.
+            Practice belongs in the <b>Rehearse</b> tab — never touch this after the real draw.</div>
+          <button class="bred" onclick="resetDraw()">Wipe real draw results</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ PEOPLE ============ -->
+    <div class="tab" id="tPeople">
+      <div class="sec">PARTICIPANTS</div>
+      <div class="search">
+        <input id="pQ" placeholder="Name / phone / handle / last 4 of IC">
+        <button class="bline" onclick="loadPeople()">Search</button>
+      </div>
+      <div class="row" style="margin-bottom:12px">
+        <button class="mini" onclick="exportPeople()">Export CSV</button>
+        <button class="mini" onclick="exportAdjustments()">Adjustment log</button>
+        <span class="muted">Tap a row for actions · sorted by tickets</span>
+      </div>
+      <div id="pTbl"></div>
+    </div>
+
+    <!-- ============ DATA ============ -->
+    <div class="tab" id="tData">
+      <div class="sec">TICKET VALUES</div>
+      <div class="panel">
+        <div class="ps" style="margin-bottom:12px">These drive the draw <b>and</b> the entrant-facing
+          page — change them here and every screen follows. Applies to everyone
+          <b>retroactively</b>, including people who already claimed.
+          <b>Frozen once the pool locks</b> at 11:59 PM on 31 Aug.</div>
+
+        <div class="pgrid">
+          <label>Check-in · per day<input id="pC" type="number" min="0" max="50" inputmode="numeric"></label>
+          <label>Check-in · max days<input id="pM" type="number" min="1" max="31" inputmode="numeric"></label>
+          <label>Social follow · each<input id="pS" type="number" min="0" max="50" inputmode="numeric"></label>
+          <label>Repost mission<input id="pR" type="number" min="0" max="50" inputmode="numeric"></label>
+          <label>Renewal · per month<input id="pN" type="number" min="0" max="50" inputmode="numeric"></label>
+          <label>Renewal · cap months<input id="pX" type="number" min="0" max="120" inputmode="numeric"></label>
+        </div>
+        <div class="ps" style="margin:2px 0 12px">Renewal cap <b>0</b> = no cap.
+          4 social platforms (IG, FB, TikTok, 小红书), so social &times; 4 is the follow total.</div>
+
+        <div id="proj" class="proj"></div>
+
+        <div class="btnrow" style="margin-top:12px">
+          <button class="bline" onclick="previewPoints()">Preview</button>
+          <button class="bgold" onclick="savePoints()">Save values</button>
+        </div>
+      </div>
+
+      <div class="sec">IC NUMBERS</div>
+      <div class="panel">
+        <div class="ps" style="margin-bottom:11px">The full IC is <b>not in the database</b> — registration
+          hashes it on arrival and throws the original away, so all this console has ever had is the
+          last 4 digits. Your <b>gym export</b> does have them. Drop it in and this page will match the
+          two up locally, then show the full number wherever it can.<br>
+          <b>Nothing is sent to the server and nothing is saved.</b> The hashing happens in this browser;
+          only the resulting hashes are looked up. Close the tab and it locks itself again.<br>
+          Only unlocks people who appear in the gym export — a pure walk-in stays masked.</div>
+        <div class="drop" id="dropIcu"><b>Drop the gym export here, or tap to choose</b>Raw csvReport_*.csv — do not open it in Excel first</div>
+        <input type="file" id="fileIcu" accept=".csv,text/csv" style="display:none">
+        <textarea id="taIcu" placeholder="Drop the raw gym export above, or paste a plain list of IC numbers — one per line."></textarea>
+        <div class="row" style="margin-top:11px">
+          <button class="bgold" id="btnIcu" style="flex:1">Unlock IC numbers</button>
+          <button class="bline" onclick="icLock()">Lock</button>
+        </div>
+        <div class="row" style="margin-top:7px"><span class="muted" id="cntIcu"></span></div>
+        <div id="icuOut"></div>
+        <div class="ps" id="icuState" style="margin-top:9px"></div>
+      </div>
+
+      <div class="sec">IMPORTS</div>
+      <div class="panel">
+        <b style="font:800 12px Inter">Subscription renewals CSV</b>
+        <div class="ps" style="margin:5px 0 11px">1 ticket per month renewed in the past 12 months.
+          Drop the <b>raw export from your billing or booking system</b> straight in — it gets totalled
+          per person automatically. Months are <b>replaced, not added</b>, so re-importing the same file
+          changes nothing.<br>
+          <b>Always use the untouched raw export.</b> If it has been opened and re-saved in Excel the
+          ID column is silently destroyed and cannot be recovered.</div>
+        <div class="drop" id="dropRn"><b>Drop a CSV here, or tap to choose</b>Raw export, or ic,months,name</div>
+        <input type="file" id="fileRn" accept=".csv,text/csv" style="display:none">
+        <textarea id="taRn" placeholder="ic,months,name&#10;990101011234,6,TAN AH MENG&#10;880202025678,12,SITI BINTI ALI"></textarea>
+        <div class="row" style="margin-top:11px">
+          <button class="bline" id="btnRc" style="flex:1">Reconcile · check only</button>
+          <button class="bgold" id="btnRn" style="flex:1">Import renewals</button>
+        </div>
+        <div class="row" style="margin-top:7px"><span class="muted" id="cntRn"></span></div>
+        <div class="rcprog" id="rcProg" style="display:none"></div>
+        <div id="rcOut"></div>
+        <div class="res" id="resRn"></div>
+      </div>
+
+      <div class="panel">
+        <b style="font:800 12px Inter">Check-in CSV <span class="pill p-wait" style="margin-left:6px">BACKUP ONLY</span></b>
+        <div class="ps" style="margin:5px 0 11px">QR scanning credits instantly now.
+          Use this only if the scanner was down for part of a day — duplicates are skipped automatically.</div>
+        <div class="drop" id="dropCi"><b>Drop a CSV here, or tap to choose</b>Columns: ic, date (YYYY-MM-DD)</div>
+        <input type="file" id="fileCi" accept=".csv,text/csv" style="display:none">
+        <textarea id="taCi" placeholder="ic,date&#10;990101011234,2026-08-25&#10;880202025678,2026-08-25"></textarea>
+        <div class="row" style="margin-top:9px">
+          <button class="bgold" id="btnCi" style="flex:1">Import check-ins</button>
+          <span class="muted" id="cntCi"></span>
+        </div>
+        <div class="res" id="resCi"></div>
+      </div>
+
+      <div class="sec">9.01 POSTER LINKS</div>
+      <div class="panel">
+        <div class="ps" style="margin-bottom:12px">Paste the link to the <b>9.01 post itself</b>,
+          not the profile. This is what the <b>Tag &amp; Repost</b> button opens for entrants —
+          until it is filled they land on the profile page and have to hunt for the post.
+          Saved straight to the database, no code push. Instagram links go to Instagram
+          users, Facebook links to Facebook users.</div>
+
+        <label class="ufield">Instagram post URL
+          <input id="pstIG" type="url" inputmode="url" autocapitalize="off" spellcheck="false"
+                 placeholder="https://www.instagram.com/p/…"></label>
+        <label class="ufield">Facebook post URL
+          <input id="pstFB" type="url" inputmode="url" autocapitalize="off" spellcheck="false"
+                 placeholder="https://www.facebook.com/…/posts/…"></label>
+
+        <div class="btnrow" style="margin-top:12px">
+          <button class="bgold" onclick="savePoster()">Save links</button>
+        </div>
+        <div class="warncard" id="posterChk" style="margin-top:12px">Checking poster links…</div>
+      </div>
+
+      <div class="sec">ADMIN PASSWORD</div>
+      <div class="panel">
+        <div class="ps" style="margin-bottom:12px">The console password is the single key to
+          import, adjust, disqualify, draw and wipe. Rotate it <b>right after the draw</b>, and
+          again if it has ever been typed on a phone you do not control. Minimum 12 characters —
+          use a passphrase, not a word. Changing it logs every other device out.</div>
+        <label class="fl">CURRENT PASSWORD
+          <input id="pwOld" type="password" autocomplete="off" spellcheck="false"></label>
+        <label class="fl">NEW PASSWORD (12+ CHARACTERS)
+          <input id="pwNew" type="password" autocomplete="off" spellcheck="false"></label>
+        <label class="fl">TYPE THE NEW PASSWORD AGAIN
+          <input id="pwNew2" type="password" autocomplete="off" spellcheck="false"></label>
+        <div class="btnrow" style="margin-top:12px">
+          <button class="bgold" onclick="changePassword()">Change password</button>
+        </div>
+        <div class="warncard" id="pwMsg" style="margin-top:12px; display:none"></div>
+      </div>
+    </div>
+
+    <!-- ============ REHEARSAL ============ -->
+    <div class="tab" id="tReh">
+      <div class="sec">REHEARSAL · SANDBOX</div>
+      <div class="rbanner"><b>⚠ SANDBOX — SEPARATE FROM THE REAL DRAW</b>
+        <i>Real participants, real ticket weights, its own tables. Nothing here reaches <b>/#live</b> or the winners export.
+        Audience practice view: <b>/#rehearsal</b> — everything turns blue. A full dry run = 28 presses ≈ 6 min.</i></div>
+      <div class="dstat" id="rStat"><b>LOADING…</b><i>Fetching rehearsal state</i></div>
+      <div class="nextline" id="rNextLine">–</div>
+      <button class="mega blue" id="rBtnNext" onclick="rehearseNext()" disabled>TEST DRAW NEXT WINNER</button>
+      <div class="lastwin" id="rLastWin"></div>
+      <div class="btnrow">
+        <button class="bline" onclick="loadReh()">Refresh state</button>
+        <button class="bline" style="border-color:rgba(126,155,255,.55); color:var(--blue)" onclick="resetReh()">Reset rehearsal</button>
+      </div>
+      <div id="rBoard"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Served from our own origin. A scanner that cannot work without a third
+     party CDN is a scanner that stops working on the night it matters. The CDN
+     stays only as a fallback, wired up in startScan(). -->
+<script src="assets/html5-qrcode-2.3.8.min.js"></script>
+<script src="config.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+  ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+let toastTimer;
+function toast(m){
+  const t = $('toast'); t.textContent = m; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+/* Live ticket values, so console copy can never quote a number the draw
+   will not pay. Refreshed by loadPoints(); config.js is only the fallback. */
+let PTS = Object.assign({checkin:3, max_days:7, social:3, repost:6, renewal:1},
+                        (window.XF && window.XF.PTS) || {});
+
+const KEY = 'xf901_admin';
+let SECRET = sessionStorage.getItem(KEY) || localStorage.getItem(KEY) || '';
+
+async function call(fn, args){
+  const body = Object.assign({p_secret: SECRET}, args || {});
+  const r = await rpc(fn, body);
+  if (r && r.ok === false && r.error === 'auth'){ lock(); throw new Error('auth'); }
+  return r;
+}
+
+/* ============ gate ============ */
+$('gBtn').onclick = unlock;
+$('pw').addEventListener('keydown', e => { if (e.key === 'Enter') unlock(); });
+
+async function unlock(){
+  const pw = $('pw').value, err = $('gErr'), btn = $('gBtn');
+  err.classList.remove('show');
+  if (!pw) return;
+  btn.disabled = true; btn.textContent = 'Checking…';
+  try {
+    const r = await rpc('xf_admin_check', {p_secret: pw});
+    if (!r.ok){
+      err.textContent = 'Wrong password.'; err.classList.add('show');
+      return;
+    }
+    SECRET = pw;
+    ($('remember').checked ? localStorage : sessionStorage).setItem(KEY, pw);
+    enter();
+  } catch (e) {
+    err.textContent = 'Cannot reach the server. Check your connection.'; err.classList.add('show');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Unlock';
+  }
+}
+/* Auto-lock after 30 minutes of no touch. The console spends the whole campaign
+   sitting on a front-desk phone; this stops a walk-up from owning the draw. */
+let idleTimer;
+function bumpIdle(){
+  clearTimeout(idleTimer);
+  if (!SECRET) return;
+  idleTimer = setTimeout(() => {
+    /* A running scanner is a manned front desk, not an abandoned phone. Locking
+       it drops the camera and someone has to retype the password — so fall into
+       kiosk mode instead: nothing sensitive on screen, camera stays up. The real
+       device-level guard is Android App Pinning, not this timer. */
+    if (SCAN_WANTED && $('tScan').classList.contains('show')){
+      if (!document.body.classList.contains('kioskon')) kioskOn();
+      bumpIdle();
+      return;
+    }
+    lock(); toast('Locked after 30 min idle.');
+  }, 30 * 60 * 1000);
+}
+['click','keydown','touchstart','scroll'].forEach(ev =>
+  document.addEventListener(ev, bumpIdle, {passive: true}));
+
+function lock(){
+  clearTimeout(idleTimer);
+  localStorage.removeItem(KEY); sessionStorage.removeItem(KEY); SECRET = '';
+  $('shell').classList.remove('show'); $('gate').style.display = 'block'; $('pw').value = '';
+  scanTabLeave();
+}
+function enter(){
+  $('gate').style.display = 'none'; $('shell').classList.add('show');
+  loadOverview(); loadReposts(); loadDraw(); loadPeople(); posterCheck(); loadPoints();
+  bumpIdle();
+}
+
+/* ============ tabs ============ */
+document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('nav button').forEach(x => x.classList.remove('on'));
+  b.classList.add('on');
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('show'));
+  $(b.dataset.tab).classList.add('show');
+  window.scrollTo({top:0});
+  if (b.dataset.tab === 'tOver'){ loadOverview(); loadReposts(); }
+  if (b.dataset.tab === 'tPeople') loadPeople();
+  if (b.dataset.tab === 'tData'){ posterCheck(); loadPoints(); }
+  if (b.dataset.tab === 'tDraw')   loadDraw();
+  if (b.dataset.tab === 'tReh')    loadReh();
+  if (b.dataset.tab === 'tScan')   scanTabEnter();
+  if (b.dataset.tab !== 'tScan')   scanTabLeave();
+});
+function navTo(t){
+  const b = document.querySelector('nav button[data-tab="' + t + '"]');
+  if (b) b.click();
+}
+
+/* ============ overview ============
+   v9.11 — stats and today are loaded SEPARATELY. They used to share one
+   Promise.all(), so when xf_admin_today threw (it did, on every call, from
+   the day it was written) the healthy xf_admin_stats result was thrown away
+   with it and the whole tab rendered blank — including the eligibility
+   readout over in Data. A failure in one half must never blank the other,
+   and it must never be silent. */
+async function loadOverview(){
+  let s = null;
+  try {
+    s = await call('xf_admin_stats');
+    if (s && s.ok){
+      $('oPart').textContent = Number(s.participants || 0).toLocaleString();
+      $('oTick').textContent = Number(s.tickets || 0).toLocaleString();
+      $('oPrz').textContent  = Number((s.prizes_total || 0) - (s.drawn || 0));
+      paintSources(s);
+    }
+  } catch (e) { ovErr('oErr', 'stats', e); }
+
+  try {
+    const t = await call('xf_admin_today');
+    if (t && t.ok){
+      const myt = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Kuala_Lumpur'}).format(new Date());
+      let day = t.day || '';
+      if (myt >= '2026-08-25' && myt <= '2026-08-31')
+        day += ' · DAY ' + (Number(myt.slice(8)) - 24) + ' OF 7';
+      else if (myt < '2026-08-25') day += ' · TICKETS START 25 AUG';
+      else if (myt === '2026-09-01') day += ' · DRAW DAY';
+      else if (myt > '2026-08-31') day += ' · TICKET WINDOW CLOSED';
+      $('oDay').textContent = day;      $('oNew').textContent = t.new_today ? '+' + t.new_today + ' today' : '';
+      $('oToday').textContent = t.checkins_today || 0;
+      $('oRep').textContent = t.reposts_done || 0;
+      const KTAG = {checkin:'+' + PTS.checkin, join:'NEW', renewal:'RNW', adjust:'FIX',
+                    social:'+' + PTS.social, repost:'+' + PTS.repost};
+      $('oFeed').innerHTML = (t.feed || []).length
+        ? t.feed.map(f =>
+            '<div class="frow"><span class="ft">' + esc(f.at) + '</span>' +
+            '<div class="fbody"><div class="fn">' + esc(f.name) + '</div>' +
+            '<div class="fd">' + esc(f.detail) + '</div></div>' +
+            '<span class="fk k-' + esc(f.kind) + '">' + (KTAG[f.kind] || '') + '</span></div>').join('')
+        : '<div class="muted" style="padding:14px 2px">Quiet so far — activity shows up here.</div>';
+    }
+  } catch (e) { ovErr('oFeed', 'today', e); }
+
+  loadLedger();
+}
+
+/* A broken panel says so. Blank panels cost us three days of not knowing. */
+function ovErr(id, which, e){
+  const box = $(id);
+  if (!box) return;
+  box.className = 'on risk';
+  box.innerHTML = '⚠ <b>' + esc(which) + '</b> could not load — ' +
+    esc((e && e.message) || String(e)) + '<br>' +
+    '<span class="off">The rest of the console is unaffected. Screenshot this and send it over.</span>';
+}
+
+/* ============ ticket-number ledger ============
+   draw_tickets holds one permanent serial per ticket, handed out in the order
+   the tickets were actually earned. xf_issue_tickets() is idempotent, throttled
+   and aborts itself if a single participant disagrees with xf_tickets — so
+   nudging it on every Overview load is safe, and keeps new tickets numbered
+   without anyone having to remember. The strip turns red only if the ledger and
+   the real ticket counts ever disagree, which should never happen. */
+async function loadLedger(){
+  const box = $('oLedger');
+  if (!box) return;
+  try {
+    const r = await call('xf_admin_ledger');
+    if (!r || !r.ok){ box.className = ''; return; }
+    const bad = Number(r.mismatch || 0), ierr = r.issuer_error || '';
+    box.className = 'on' + ((bad || ierr) ? ' risk' : '');
+    box.innerHTML = '№ TICKET NUMBERS · <b>' + Number(r.live || 0).toLocaleString() +
+      '</b> issued &nbsp;·&nbsp; highest <b>' + Number(r.max_serial || 0).toLocaleString() + '</b>' +
+      (Number(r.voided || 0) ? ' &nbsp;·&nbsp; <b>' + Number(r.voided).toLocaleString() +
+        '</b> voided (gaps kept)' : '') +
+      '<br>' + (ierr
+        ? '⚠ Issuer error — <b>numbers are frozen</b> until this is fixed: ' + esc(ierr)
+        : bad
+        ? '⚠ <b>' + bad + '</b> participant(s) disagree with the real ticket count. ' +
+          'The issuer refuses to write while this is true — flag it before the draw.'
+        : '✓ Matches every participant\u2019s ticket count' +
+          (r.issued_at ? ' &nbsp;·&nbsp; last run ' + esc(r.issued_at) : '')) +
+      (r.public === 'true' ? '' :
+        '<br><span class="off">Hidden from customers · app_config.ticket_numbers_public = false</span>');
+  } catch (e) { box.className = ''; }
+}
+
+/* ============ where the pool came from (v9.11) ============
+   Read from draw_tickets, i.e. the same numbered set the draw picks from,
+   not from a separate count that could drift away from it. */
+/* Named POOL_SRC_LABEL, not SRC_LABEL: the draw board already owns that name
+   further down the file for the winning-ticket source. */
+const POOL_SRC_LABEL = {social:'Social follow', renewal:'Renewal', repost:'Tag & Repost',
+                        checkin:'Check-in', adjust:'Manual'};
+function paintSources(s){
+  const box = $('oSrc');
+  if (!box) return;
+  const by = s.pool_by_source || {};
+  const keys = Object.keys(by);
+  if (!keys.length){ box.className = ''; box.innerHTML = ''; return; }
+  const total = keys.reduce((a, k) => a + Number(by[k] || 0), 0) || 1;
+  const order = ['social','renewal','repost','checkin','adjust']
+    .filter(k => by[k] != null).concat(keys.filter(k => !POOL_SRC_LABEL[k]));
+  const selfDeclared = (Number(by.social || 0) + Number(by.repost || 0));
+  box.className = 'on';
+  box.innerHTML = '№ WHERE THE ' + total.toLocaleString() + ' TICKETS CAME FROM' +
+    '<div class="srcbars">' + order.map(k => {
+      const n = Number(by[k] || 0), pc = Math.round(100 * n / total);
+      return '<div class="srow"><span class="sl">' + esc(POOL_SRC_LABEL[k] || k) + '</span>' +
+        '<span class="sbar"><i class="s-' + esc(k) + '" style="width:' + pc + '%"></i></span>' +
+        '<span class="sv">' + n.toLocaleString() + '</span>' +
+        '<span class="sp">' + pc + '%</span></div>';
+    }).join('') + '</div>' +
+    '<span class="off">' + Math.round(100 * selfDeclared / total) +
+    '% is self-declared (a tap, not a scan). TikTok and RedNote store no handle at all, ' +
+    'so those can never be checked — that is by design and the T&amp;C says so.</span>';
+}
+
+/* ============ CSV ============ */
+function parseCSV(text){
+  const rows = [];
+  text.split(/\r?\n/).forEach(line => {
+    if (!line.trim()) return;
+    // simple split — these files are plain ic,value pairs
+    const parts = line.split(',').map(s => s.trim().replace(/^["']|["']$/g, ''));
+    rows.push(parts);
+  });
+  if (!rows.length) return [];
+  // drop a header row if the first cell isn't data-like
+  const h = (rows[0][0] || '').toLowerCase();
+  if (h === 'ic' || h === 'ic_number' || h.includes('passport')) rows.shift();
+  return rows;
+}
+function wireDrop(dropId, fileId, taId, cntId){
+  const drop = $(dropId), file = $(fileId), ta = $(taId);
+  drop.onclick = () => file.click();
+  drop.ondragover = e => { e.preventDefault(); drop.classList.add('over'); };
+  drop.ondragleave = () => drop.classList.remove('over');
+  drop.ondrop = e => {
+    e.preventDefault(); drop.classList.remove('over');
+    const f = e.dataTransfer.files[0]; if (f) readFile(f, ta, cntId);
+  };
+  file.onchange = () => { const f = file.files[0]; if (f) readFile(f, ta, cntId); };
+  ta.oninput = () => count(ta, cntId);
+}
+function readFile(f, ta, cntId){
+  const r = new FileReader();
+  r.onload = () => { ta.value = r.result; count(ta, cntId); toast('Loaded ' + f.name); };
+  r.readAsText(f);
+}
+function count(ta, cntId){
+  const n = parseCSV(ta.value).length;
+  $(cntId).textContent = n ? n + ' rows ready' : '';
+}
+wireDrop('dropCi','fileCi','taCi','cntCi');
+wireDrop('dropRn','fileRn','taRn','cntRn');
+wireDrop('dropIcu','fileIcu','taIcu','cntIcu');
+/* readFile() toasts the name but doesn't hand it back, so keep our own copy
+   purely so the unlock panel can say which file the numbers came from. */
+let ICU_FILE = '';
+$('fileIcu').addEventListener('change', () => {
+  const f = $('fileIcu').files[0]; if (f) ICU_FILE = f.name;
+});
+$('dropIcu').addEventListener('drop', e => {
+  const f = e.dataTransfer && e.dataTransfer.files[0]; if (f) ICU_FILE = f.name;
+});
+$('btnIcu').onclick = () => icUnlock(ICU_FILE);
+
+$('btnCi').onclick = async () => {
+  const rows = parseCSV($('taCi').value)
+    .map(r => ({ic: r[0], date: (r[1] || '').trim()}))
+    .filter(r => r.ic && r.date);
+  if (!rows.length) return toast('Nothing to import — check the file has ic,date columns.');
+  const btn = $('btnCi'); btn.disabled = true; btn.textContent = 'Importing…';
+  try {
+    const r = await call('xf_admin_import_checkins', {p_rows: rows});
+    const box = $('resCi'); box.classList.add('show');
+    box.innerHTML = r.ok
+      ? 'Inserted <b>' + r.inserted + '</b> new check-ins · duplicates skipped <b>' + r.duplicate +
+        '</b> · not registered <b>' + r.not_registered + '</b> · bad dates <b>' + r.bad_date + '</b>'
+      : (r.error === 'pool_locked'
+          ? 'The pool is locked — imports are frozen. Nothing was changed.'
+          : 'Failed: ' + esc(r.error));
+    if (r.ok){ toast('Check-ins imported.'); loadOverview(); }
+  } catch (e) { toast('Import failed — please retry.'); }
+  finally { btn.disabled = false; btn.textContent = 'Import check-ins'; }
+};
+
+/* `months` is REPLACED on import, so every export must be the CUMULATIVE
+   trailing-12-month figure. If a file is a delta by mistake — 3 instead of
+   12+3 — the server refuses those rows rather than quietly deleting tickets,
+   and lists who they were. Ticking the box below re-runs allowing it. */
+let RN_ALLOW_DECREASE = false;
+function renewalWarning(r){
+  if (!r.blocked_decrease) return '';
+  const who = (r.blocked || []).map(b =>
+    '<div style="margin-top:3px">· <b>' + esc(b.name) + '</b> — currently ' + b.was +
+    ' months, this file says ' + b.file_says + '</div>').join('');
+  return '<div style="margin-top:11px; padding:11px; border:1px solid rgba(237,175,80,.55);' +
+    'border-radius:9px; background:rgba(237,175,80,.08); color:var(--wait); line-height:1.6">' +
+    '<b>SKIPPED ' + r.blocked_decrease + ' row(s) that would REDUCE someone\'s months.</b>' +
+    '<div style="margin-top:6px; color:var(--dim)">Renewal months are replaced, not added — ' +
+    'the file must carry each person\'s <b>total for the past 12 months</b>, not just the new ' +
+    'renewal. Nothing was changed for these people:</div>' + who +
+    '<div style="margin-top:9px"><label style="color:var(--dim); font-size:12px">' +
+    '<input type="checkbox" id="rnAllow" style="vertical-align:middle; margin-right:6px">' +
+    'The lower numbers are correct — allow reductions, then import again</label></div></div>';
+}
+
+/* A row lands here when sha256(its IC) matches no participant. Two causes:
+   the person never signed up for 9.01 at all, or the IC differs between the
+   two systems by a digit, a dash or a truncated passport. A bare count told
+   you nothing, so the ICs themselves come back now — check each against the
+   person's name in People, then fix it with Edit. */
+function renewalMissed(r){
+  const m = r.missed || [];
+  if (!m.length) return '';
+  const rows = m.map(x =>
+    '<div class="row">' + esc(x.ic) + ' <i>· ' + x.months + ' mth' +
+    (x.name ? ' · ' + esc(x.name) : '') + '</i></div>').join('');
+  const more = r.not_registered > m.length
+    ? '<div class="row"><i>… and ' + (r.not_registered - m.length) + ' more</i></div>' : '';
+  return '<div class="edmiss"><b>' + r.not_registered +
+    ' row(s) matched nobody.</b><div style="color:var(--dim); margin-top:5px">' +
+    'Either they never signed up, or the IC differs between your system and ' +
+    'theirs. Search the name in People — if they are there, open Edit and ' +
+    'correct the IC, then import again.</div>' + rows + more + '</div>';
+}
+
+/* ============ loyalty CSV: normalise, reconcile, import ============
+   Re-feed your POS / loyalty export as often as you like. Two things have to
+   be true for that to be safe:
+     1. months REPLACE, never add — every file must carry the CUMULATIVE
+        total per person, not the delta since the last import
+     2. you see WHO won't match before anything is written — that's
+        Reconcile, which is read-only and writes nothing.
+   All the matching runs here in the browser. The only thing the server does
+   is answer "do any of these hashes belong to someone?" (xf_admin_match_ic). */
+
+let RC = null;                                    // last reconcile result
+let RCFILTER = 'icfix';
+
+/* --- quote-aware CSV parser. The gym export has a free-text remarks column
+       that can contain commas; the naive split would shift every field. --- */
+function csvSmart(text){
+  const rows = []; let row = [], cur = '', q = false;
+  for (let i = 0; i < text.length; i++){
+    const c = text[i];
+    if (q){
+      if (c === '"'){ if (text[i+1] === '"'){ cur += '"'; i++; } else q = false; }
+      else cur += c;
+    } else if (c === '"') q = true;
+    else if (c === ','){ row.push(cur); cur = ''; }
+    else if (c === '\n'){ row.push(cur); cur = ''; if (row.some(x => x.trim() !== '')) rows.push(row); row = []; }
+    else if (c !== '\r') cur += c;
+  }
+  row.push(cur);
+  if (row.some(x => x.trim() !== '')) rows.push(row);
+  return rows.map(r => r.map(x => x.trim()));
+}
+
+const normIc = v => (v || '').replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+
+/* package name -> months. null means "we don't recognise this package". */
+function pkgMonths(mt){
+  const t = (mt || '').trim();
+  if (!t) return 0;
+  if (/^JOIN\s*ONLY$/i.test(t)) return 0;
+  const m = t.match(/^(\d+)\s*-?\s*(?:M|MONTH)/i);
+  if (m) return parseInt(m[1], 10);
+  if (/^FREE/i.test(t)){ const k = t.match(/(\d+)/); return k ? parseInt(k[1], 10) : 0; }
+  return null;
+}
+
+function realDate(y, m, d){
+  const dt = new Date(Date.UTC(2000 + y, m - 1, d));
+  return dt.getUTCMonth() === m - 1 && dt.getUTCDate() === d;
+}
+/* Same rule the Year-1 report uses: 12 pure digits with a real YYMMDD front
+   is a Malaysian IC. Anything else is a passport. */
+function icKind(ic){
+  const v = normIc(ic);
+  if (!v) return 'bad';
+  if (/^\d{12}$/.test(v)){
+    const y = +v.slice(0,2), m = +v.slice(2,4), d = +v.slice(4,6);
+    return realDate(y, m, d) ? 'my' : 'pp';
+  }
+  if (/^[A-Z0-9]{6,20}$/.test(v) && /[A-Z]/.test(v)) return 'pp';
+  return 'bad';
+}
+
+/* --- name comparison. Malaysian names carry connectors that mean nothing
+       for identity (BIN / BINTI / A/L / A/P) and the gym system and the
+       sign-up form rarely agree on them. --- */
+function normName(s){
+  return (s || '').toUpperCase().replace(/[^A-Z ]/g, ' ')
+    .replace(/\b(BIN|BINTI|BT|BTE)\b/g, ' ')
+    .replace(/\bA L\b/g, ' ').replace(/\bA P\b/g, ' ')
+    .replace(/\s+/g, ' ').trim();
+}
+function nameSim(a, b){
+  if (!a || !b) return 0;
+  if (a === b) return 1;
+  const A = [], B = [];
+  for (let i = 0; i < a.length - 1; i++) A.push(a.slice(i, i+2));
+  for (let i = 0; i < b.length - 1; i++) B.push(b.slice(i, i+2));
+  if (!A.length || !B.length) return 0;
+  const m = new Map();
+  A.forEach(g => m.set(g, (m.get(g) || 0) + 1));
+  let hit = 0;
+  B.forEach(g => { const c = m.get(g) || 0; if (c > 0){ hit++; m.set(g, c - 1); } });
+  return (2 * hit) / (A.length + B.length);
+}
+
+/* --- plausible mistypes of one IC. We hold the plaintext from the gym
+       export, so we can hash candidates and see which one the person
+       actually registered with. A hash hit is proof, not a guess. --- */
+function icVariants(ic, deep){
+  const v = normIc(ic), out = new Set();
+  if (!v) return [];
+  if (v.length > 12) out.add(v.slice(0, 12));          // the old 12-char form cap
+  out.add(v.replace(/^0+/, ''));                        // leading zero dropped
+  out.add('0' + v);
+  if (/^\d+$/.test(v) && v.length < 12) out.add(v.padStart(12, '0'));
+  for (let i = 0; i < v.length; i++) out.add(v.slice(0, i) + v.slice(i + 1));      // one char missing
+  for (let i = 0; i < v.length - 1; i++)                                            // two chars swapped
+    out.add(v.slice(0, i) + v[i+1] + v[i] + v.slice(i + 2));
+  const LOOK = {O:'0','0':'O',I:'1','1':'I',S:'5','5':'S',B:'8','8':'B',Z:'2','2':'Z',G:'6','6':'G'};
+  for (let i = 0; i < v.length; i++)
+    if (LOOK[v[i]]) out.add(v.slice(0, i) + LOOK[v[i]] + v.slice(i + 1));
+  if (deep)                                                                          // one char too many
+    for (let i = 0; i <= v.length; i++)
+      for (const c of '0123456789') out.add(v.slice(0, i) + c + v.slice(i));
+  out.delete(v); out.delete('');
+  return [...out].filter(x => x.length >= 6 && x.length <= 20);
+}
+
+async function sha256hex(s){
+  const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+  const a = new Uint8Array(b); let o = '';
+  for (let i = 0; i < a.length; i++) o += a[i].toString(16).padStart(2, '0');
+  return o;
+}
+const rcSay = t => { const e = $('rcProg'); e.style.display = t ? 'block' : 'none'; e.textContent = t || ''; };
+const yieldUI = () => new Promise(r => setTimeout(r, 0));
+
+async function matchHashes(list){
+  const out = new Map();
+  for (let i = 0; i < list.length; i += 1500){
+    const r = await call('xf_admin_match_ic', {p_hashes: list.slice(i, i + 1500)});
+    if (!r || !r.ok) throw new Error((r && r.error) || 'match_failed');
+    (r.rows || []).forEach(x => out.set(x.h, x));
+    rcSay('Checking ' + Math.min(i + 1500, list.length) + ' / ' + list.length + ' …');
+    await yieldUI();
+  }
+  return out;
+}
+
+/* --- what lands in the textarea: always ic,months,name --- */
+function rnRows(){
+  return parseCSV($('taRn').value)
+    .map(r => ({ic: r[0], months: parseInt(r[1], 10), name: (r[2] || '').trim()}))
+    .filter(r => r.ic && !isNaN(r.months));
+}
+
+/* Turn a raw point-of-sale / booking export into that shape by totalling every
+   transaction per person. Recognised plan names are matched by pkgMonths(). */
+function rnNormalise(fname){
+  const ta = $('taRn'), txt = ta.value;
+  $('rcOut').innerHTML = ''; RC = null;
+  if (!txt.trim()){ count(ta, 'cntRn'); return; }
+
+  const rows = csvSmart(txt);
+  const head = rows[0].map(h => h.trim().toLowerCase());
+  // Accept whichever column name the source system uses for the plan/package.
+  const findCol = names => names.map(n => head.indexOf(n)).find(i => i >= 0) ?? -1;
+  const iIc   = findCol(['ic', 'nric', 'id', 'identity']),
+        iType = findCol(['membertype', 'packagetype', 'plantype', 'plan', 'package', 'product']),
+        iName = findCol(['name', 'customername', 'fullname']);
+
+  if (iIc < 0 || iType < 0){ count(ta, 'cntRn'); return; }   // already in import shape
+
+  const body = rows.slice(1);
+  const corrupt = body.filter(r => /\d[.,]?\d*E\+\d+/i.test(r[iIc] || '')).length;
+  if (corrupt){
+    $('rcOut').innerHTML = '<div class="rcalert"><b>This file has been through Excel.</b> ' +
+      corrupt + ' IC numbers are stored as scientific notation (7.60331E+11) and the last six ' +
+      'digits are gone for good — no formula can bring them back. Export a fresh copy from the ' +
+      'gym system and drop it in <b>without opening it</b>.</div>';
+    ta.value = ''; count(ta, 'cntRn'); return;
+  }
+
+  const agg = new Map(), unknown = new Map();
+  body.forEach(r => {
+    const ic = normIc(r[iIc] || ''); if (!ic) return;
+    const mo = pkgMonths(r[iType] || '');
+    if (mo === null) unknown.set((r[iType] || '').trim(), (unknown.get((r[iType] || '').trim()) || 0) + 1);
+    const cur = agg.get(ic) || {m: 0, n: ''};
+    cur.m += (mo || 0);
+    if (!cur.n && iName >= 0) cur.n = (r[iName] || '').trim();
+    agg.set(ic, cur);
+  });
+
+  const out = ['ic,months,name'];
+  [...agg.keys()].sort().forEach(k =>
+    out.push(k + ',' + agg.get(k).m + ',' + agg.get(k).n.replace(/[,\r\n]/g, ' ')));
+  ta.value = out.join('\n');
+  count(ta, 'cntRn');
+
+  let note = 'Raw export: ' + body.length + ' transactions totalled into ' + agg.size + ' people.';
+  if (unknown.size) note += ' Unrecognised package(s) counted as 0 months: ' +
+             [...unknown.keys()].map(k => k || '(blank)').join(', ') + '.';
+  $('rcOut').innerHTML = '<div class="ps" style="margin-top:9px">' + esc(note) + '</div>';
+  toast('Loaded ' + (fname || 'file'));
+}
+
+(function rewireRn(){
+  const drop = $('dropRn'), file = $('fileRn'), ta = $('taRn');
+  const load = f => {
+    const r = new FileReader();
+    r.onload = () => { ta.value = r.result; rnNormalise(f.name); };
+    r.onerror = () => toast('Could not read that file.');
+    r.readAsText(f);
+  };
+  drop.ondrop = e => { e.preventDefault(); drop.classList.remove('over');
+                       const f = e.dataTransfer.files[0]; if (f) load(f); };
+  file.onchange = () => { const f = file.files[0]; if (f) load(f); };
+  ta.oninput = () => { RC = null; $('rcOut').innerHTML = ''; count(ta, 'cntRn'); };
+})();
+
+/* ============ reconcile — reads only, writes nothing ============ */
+$('btnRc').onclick = async () => {
+  const btn = $('btnRc');
+  const rows = rnRows();
+  if (!rows.length) return toast('Nothing to check — drop the CSV in first.');
+  if (!window.crypto || !crypto.subtle)
+    return toast('This browser cannot hash locally. Open the panel over https.');
+
+  btn.disabled = true; btn.textContent = 'Checking…';
+  $('rcOut').innerHTML = '';
+  try {
+    rcSay('Loading everyone who signed up…');
+    const pr = await call('xf_admin_participants', {p_q: '', p_limit: 20000});
+    const people = (pr && pr.rows) || [];
+
+    rcSay('Hashing ' + rows.length + ' rows…');
+    for (const r of rows){ r.ic = normIc(r.ic); r.kind = icKind(r.ic); r.nn = normName(r.name); }
+    const hashes = [];
+    for (let i = 0; i < rows.length; i++){
+      rows[i].h = await sha256hex(rows[i].ic);
+      hashes.push(rows[i].h);
+      if (i % 400 === 0){ rcSay('Hashing ' + i + ' / ' + rows.length + ' …'); await yieldUI(); }
+    }
+
+    const hit = await matchHashes(hashes);
+
+    const B = {ok: [], spell: [], diffname: [], icfix: [], namehit: [], noreg: [], badic: [], nocsv: []};
+    const seen = new Set();
+    const loose = [];
+
+    rows.forEach(r => {
+      const p = hit.get(r.h);
+      if (p){
+        seen.add(p.id);
+        r.p = p; r.pn = normName(p.name); r.sim = nameSim(r.nn, r.pn);
+        if (!r.nn || !r.pn || r.sim >= 0.999) B.ok.push(r);
+        else if (r.sim >= 0.55) B.spell.push(r);
+        else B.diffname.push(r);
+      } else if (r.kind === 'bad') B.badic.push(r);
+      else loose.push(r);
+    });
+
+    const orphans = people.filter(p => !seen.has(p.id)).map(p => (p.nn = normName(p.name), p));
+    B.nocsv = orphans.slice();
+
+    rcSay('Looking for near matches on ' + loose.length + ' unmatched rows…');
+    await yieldUI();
+    const pairs = [];
+    loose.forEach(r => {
+      let best = null, bs = 0;
+      for (const p of orphans){
+        const s = nameSim(r.nn, p.nn);
+        if (s > bs){ bs = s; best = p; }
+        if (s === 1) break;
+      }
+      if (best && bs >= 0.45){ r.cand = best; r.csim = bs; pairs.push(r); }
+      else B.noreg.push(r);
+    });
+
+    /* Only the near-miss rows get the variant treatment, so this stays small
+       however big the export gets. Exact name matches also get the expensive
+       "one character too many" pass. */
+    const vmap = new Map(); const vlist = [];
+    let budget = 45000;
+    for (const r of pairs){
+      const vs = icVariants(r.ic, r.csim >= 0.999);
+      for (const v of vs){
+        if (budget-- <= 0) break;
+        if (!vmap.has(v)){ vmap.set(v, []); vlist.push(v); }
+        vmap.get(v).push(r);
+      }
+      if (budget <= 0) break;
+    }
+    rcSay('Testing ' + vlist.length + ' possible mistypes…');
+    await yieldUI();
+    const vh = [];
+    for (let i = 0; i < vlist.length; i++){
+      vh.push(await sha256hex(vlist[i]));
+      if (i % 800 === 0){ rcSay('Testing ' + i + ' / ' + vlist.length + ' …'); await yieldUI(); }
+    }
+    const vhit = vlist.length ? await matchHashes(vh) : new Map();
+    const vidx = new Map();
+    vlist.forEach((v, i) => vidx.set(v, i));
+
+    pairs.forEach(r => {
+      r.fix = null;
+      const vs = icVariants(r.ic, r.csim >= 0.999);
+      for (const v of vs){
+        const i = vidx.get(v); if (i === undefined) continue;
+        const p = vhit.get(vh[i]);
+        if (p){ r.fix = {typed: v, p: p, sim: nameSim(r.nn, normName(p.name))}; break; }
+      }
+      /* A variant hash hit is proof, so a loose name threshold is fine for
+         deciding who to TEST. But an unproven name-only guess is just a
+         guess, and at 0.45 hundreds of unrelated Malaysian names look
+         similar — that list would be unusable. Only fairly strong name
+         matches are worth a staff phone call. */
+      if (r.fix) B.icfix.push(r);
+      else if (r.csim >= 0.72) B.namehit.push(r);
+      else B.noreg.push(r);
+    });
+
+    B.icfix.sort((a, b) => b.fix.sim - a.fix.sim);
+    B.namehit.sort((a, b) => b.csim - a.csim);
+    B.diffname.sort((a, b) => a.sim - b.sim);
+
+    RC = {B: B, rows: rows, people: people, months: rows.reduce((s, r) => s + r.months, 0)};
+    rcSay('');
+    RCFILTER = B.icfix.length ? 'icfix' : (B.namehit.length ? 'namehit' : 'diffname');
+    renderRc();
+  } catch (e){
+    rcSay('');
+    $('rcOut').innerHTML = '<div class="rcalert">Could not finish the check: ' +
+      esc(String(e && e.message || e)) + '</div>';
+  } finally { btn.disabled = false; btn.textContent = 'Reconcile · check only'; }
+};
+
+const RCTABS = [
+  ['icfix',    'CAN AUTO-FIX',   'good'],
+  ['namehit',  'NAME OK, IC OFF','bad'],
+  ['diffname', 'IC OK, NAME OFF','bad'],
+  ['spell',    'SPELLING ONLY',  'warn'],
+  ['foreign',  'FOREIGNERS',     'warn'],
+  ['nocsv',    'NO GYM RECORD',  'warn'],
+  ['badic',    'BROKEN IC',      'bad'],
+  ['ok',       'CLEAN',          'good'],
+  ['noreg',    'NEVER SIGNED UP','']
+];
+
+function rcBucket(k){
+  if (!RC) return [];
+  if (k === 'foreign') return RC.rows.filter(r => r.kind === 'pp');
+  return RC.B[k] || [];
+}
+function rcPick(k){ RCFILTER = k; renderRc(); }
+
+function renderRc(){
+  if (!RC) return;
+  const landing = RC.B.ok.length + RC.B.spell.length + RC.B.diffname.length;
+  const chips = RCTABS.map(t => '<div class="rcchip ' + t[2] + (RCFILTER === t[0] ? ' on' : '') +
+      '" onclick="rcPick(\'' + t[0] + '\')">' + t[1] + '<b>' + rcBucket(t[0]).length + '</b></div>').join('');
+
+  const list = rcBucket(RCFILTER);
+  const body = list.length ? list.slice(0, 400).map(r => rcRow(RCFILTER, r)).join('') +
+      (list.length > 400 ? '<div class="rcempty">… and ' + (list.length - 400) +
+        ' more — use Download report.</div>' : '')
+    : '<div class="rcempty">Nothing in this group. </div>';
+
+  $('rcOut').innerHTML =
+    '<div class="ps" style="margin-top:11px"><b>' + landing + '</b> of ' + RC.rows.length +
+    ' rows will land on a real entrant. <b>' + RC.people.length + '</b> people have signed up; <b>' +
+    RC.B.nocsv.length + '</b> of them have no row in this file. Nothing has been written yet.</div>' +
+    '<div class="rcbar">' + chips + '</div>' +
+    '<div class="rclist">' + body + '</div>' +
+    '<div class="rcact" style="margin-top:10px">' +
+      '<button class="rcimp" id="rcImpA" onclick="rcImport(\'clean\')">Import CLEAN only \u00b7 ' +
+        RC.B.ok.length + '</button>' +
+      (RC.B.spell.length
+        ? '<button class="rcimp" id="rcImpB" onclick="rcImport(\'clean+spell\')">+ spelling \u00b7 ' +
+          (RC.B.ok.length + RC.B.spell.length) + '</button>' : '') +
+      '<button onclick="rcDownload()">Download report CSV</button></div>' +
+    '<div class="ps" style="margin-top:8px">Importing a subset writes nothing for anyone left out ' +
+    '\u2014 and rows whose IC matches nobody could never have written anything anyway. Fix an IC in ' +
+    'People, run Reconcile again, import again. Nothing here is final until the pool locks.</div>';
+}
+
+function rcRow(k, r){
+  const wa = p => p && p.phone
+    ? '<button onclick="window.open(\'https://wa.me/' + String(p.phone).replace(/\D/g,'') + '\',\'_blank\')">WhatsApp</button>' : '';
+  const edit = p => '<button onclick="rcEdit(' + p.id + ')">Open in People</button>';
+
+  if (k === 'icfix'){
+    const p = r.fix.p;
+    return '<div class="rcrow"><div class="rcn">' + esc(p.name) + '</div>' +
+      '<div class="rcm">Gym system has <i>' + esc(r.ic) + '</i> · they registered with <u>' +
+      esc(r.fix.typed) + '</u> (ends ' + esc(p.ic_last4 || '') + ')<br>' +
+      r.months + ' months waiting · name match ' + Math.round(r.fix.sim * 100) + '%</div>' +
+      '<div class="rcact">' + edit(p) + wa(p) + '</div></div>';
+  }
+  if (k === 'namehit'){
+    const p = r.cand;
+    return '<div class="rcrow"><div class="rcn">' + esc(r.name || '(no name in file)') + '</div>' +
+      '<div class="rcm">Gym IC <s>' + esc(r.ic) + '</s> matches nobody. Closest sign-up: <i>' +
+      esc(p.name) + '</i> (IC ends ' + esc(p.ic_last4 || '') + ', name ' + Math.round(r.csim * 100) +
+      '%)<br>' + r.months + ' months waiting · ' + (r.kind === 'pp' ? 'passport' : 'MyKad') + '</div>' +
+      '<div class="rcact">' + edit(p) + wa(p) + '</div></div>';
+  }
+  if (k === 'diffname' || k === 'spell'){
+    return '<div class="rcrow"><div class="rcn">' + esc(r.p.name) + '</div>' +
+      '<div class="rcm">Same IC (ends ' + esc(r.p.ic_last4 || '') + ') but the gym system calls them <i>' +
+      esc(r.name) + '</i> — ' + Math.round(r.sim * 100) + '% alike<br>' + r.months + ' months</div>' +
+      '<div class="rcact">' + edit(r.p) + wa(r.p) + '</div></div>';
+  }
+  if (k === 'foreign'){
+    const p = r.p || (r.fix && r.fix.p) || r.cand;
+    return '<div class="rcrow"><div class="rcn">' + esc(r.name || '(no name)') + '</div>' +
+      '<div class="rcm">Passport <i>' + esc(r.ic) + '</i> · ' + r.months + ' months · ' +
+      (r.p ? 'matched <u>' + esc(r.p.name) + '</u>'
+           : r.fix ? 'mistyped as <u>' + esc(r.fix.typed) + '</u>'
+           : r.cand ? 'closest sign-up ' + esc(r.cand.name)
+           : '<s>no sign-up found</s>') + '</div>' +
+      (p ? '<div class="rcact">' + edit(p) + wa(p) + '</div>' : '') + '</div>';
+  }
+  if (k === 'nocsv'){
+    return '<div class="rcrow"><div class="rcn">' + esc(r.name) + '</div>' +
+      '<div class="rcm">Signed up (IC ends ' + esc(r.ic_last4 || '') + ') but has no row in this export — ' +
+      'gets 0 renewal tickets<br>' + (r.total || 0) + ' tickets now · joined ' + esc(r.joined || '') + '</div>' +
+      '<div class="rcact">' + edit(r) + wa(r) + '</div></div>';
+  }
+  if (k === 'badic'){
+    return '<div class="rcrow"><div class="rcn">' + esc(r.name || '(no name)') + '</div>' +
+      '<div class="rcm">The gym system stores <s>' + esc(r.ic || '(blank)') + '</s> — not a usable IC or ' +
+      'passport. Fix it in the gym system, then export again.<br>' + r.months + ' months stuck</div></div>';
+  }
+  if (k === 'ok'){
+    return '<div class="rcrow"><div class="rcn">' + esc(r.p.name) + '</div>' +
+      '<div class="rcm">Clean match · ' + r.months + ' months · was ' + (r.p.renewal_months || 0) + '</div></div>';
+  }
+  return '<div class="rcrow"><div class="rcn">' + esc(r.name || '(no name)') + '</div>' +
+    '<div class="rcm">' + esc(r.ic) + ' · ' + r.months + ' months · never signed up for the draw</div></div>';
+}
+
+function rcEdit(id){
+  const p = (RC && RC.people.find(x => Number(x.id) === Number(id)));
+  if (!p) return toast('Reload People first.');
+  openEdit(p);
+}
+
+function rcDownload(){
+  if (!RC) return;
+  const q = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+  const out = [['group','gym_name','gym_ic','months','doc','registered_name','ic_last4','phone','note'].join(',')];
+  const push = (g, r) => {
+    if (g === 'nocsv') return out.push([g, '', '', 0, '', r.name, r.ic_last4, r.phone,
+      'signed up, no row in export'].map(q).join(','));
+    const p = r.p || (r.fix && r.fix.p) || r.cand || {};
+    const note = g === 'icfix'   ? 'registered as ' + r.fix.typed
+               : g === 'namehit' ? 'closest name ' + Math.round(r.csim * 100) + '%'
+               : (g === 'diffname' || g === 'spell') ? 'name ' + Math.round(r.sim * 100) + '% alike'
+               : g === 'badic'   ? 'unusable IC in gym system' : '';
+    out.push([g, r.name, r.ic, r.months, r.kind, p.name || '', p.ic_last4 || '', p.phone || '', note].map(q).join(','));
+  };
+  ['icfix','namehit','diffname','spell','badic','nocsv','noreg','ok'].forEach(g => rcBucket(g).forEach(r => push(g, r)));
+  const url = URL.createObjectURL(new Blob(['\ufeff' + out.join('\n')], {type: 'text/csv;charset=utf-8'}));
+  const a = document.createElement('a');
+  a.href = url; a.download = 'renewal_reconcile_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click(); setTimeout(() => URL.revokeObjectURL(url), 4000);
+}
+
+/* ============ import — writes ============ */
+
+/* Shared by the full import and the "clean only" import in the report. */
+function rnShowResult(r, sent){
+  const box = $('resRn'); box.classList.add('show');
+  if (!r.ok){
+    box.innerHTML = r.error === 'pool_locked'
+      ? 'The pool is locked \u2014 imports are frozen. Nothing was changed.'
+      : 'Failed: ' + esc(r.error);
+    return;
+  }
+  box.innerHTML =
+    'Sent <b>' + sent + '</b> rows \u00b7 saved <b>' + r.saved + '</b>' +
+    ' \u00b7 not registered <b>' + r.not_registered + '</b> \u00b7 bad values <b>' + r.bad_value + '</b>' +
+    (r.waiting != null
+      ? '<div style="margin-top:8px; color:var(--gold); font-size:11px; line-height:1.6">' +
+        '<b>' + r.waiting + '</b> people are held in the inbox \u2014 they have months but have not ' +
+        'signed up yet. The moment they register, their tickets appear on their own. You do not ' +
+        'have to import again for them.</div>' : '') +
+    '<div style="margin-top:8px; color:var(--dim); font-size:11px; line-height:1.6">' +
+    'Months are replaced, never added \u2014 you can run this again as often as you like until the ' +
+    'pool locks. Anyone not in what you just sent was left exactly as they were.</div>' +
+    renewalWarning(r) + renewalMissed(r);
+  toast('Renewals imported.');
+  loadOverview(); loadPeople();
+}
+
+/* Import a subset straight from the reconcile report. Same RPC, same rules \u2014
+   the only thing that changes is which rows go in the envelope. Useful when a
+   handful of people are still being chased and entrants are asking why their
+   tickets have not moved: send the ones you are sure about now, send the rest
+   when they reply. */
+async function rcImport(which){
+  if (!RC) return;
+  const set = which === 'clean' ? RC.B.ok : RC.B.ok.concat(RC.B.spell);
+  if (!set.length) return toast('Nothing in that group.');
+  const label = which === 'clean' ? 'perfectly matched' : 'matched (including spelling differences)';
+  if (!confirm('Import ' + set.length + ' ' + label + ' people?\n\n' +
+               'The other ' + (RC.rows.length - set.length) + ' rows are not sent and change nothing. ' +
+               'You can import them later once they are fixed.')) return;
+
+  const rows = set.map(r => ({ic: r.ic, months: r.months, name: r.name}));
+  const btn = $('rcImpA') || $('rcImpB');
+  document.querySelectorAll('.rcimp').forEach(b => b.disabled = true);
+  try {
+    const r = await call('xf_admin_import_renewals',
+      {p_rows: rows, p_allow_decrease: false});
+    rnShowResult(r, rows.length);
+    if (r.ok) $('resRn').scrollIntoView({behavior: 'smooth', block: 'nearest'});
+  } catch (e){ toast('Import failed \u2014 please retry.'); }
+  finally { document.querySelectorAll('.rcimp').forEach(b => b.disabled = false); }
+}
+
+$('btnRn').onclick = async () => {
+  const rows = rnRows();
+  if (!rows.length) return toast('Nothing to import — check the file has ic,months columns.');
+
+  const btn = $('btnRn'); btn.disabled = true; btn.textContent = 'Importing…';
+  try {
+    const allow = !!($('rnAllow') && $('rnAllow').checked);
+    const r = await call('xf_admin_import_renewals',
+      {p_rows: rows, p_allow_decrease: allow});
+    rnShowResult(r, rows.length);
+  } catch (e) { toast('Import failed — please retry.'); }
+  finally { btn.disabled = false; btn.textContent = 'Import renewals'; }
+};
+
+/* ============ ticket values ============ */
+const PF = ['pC','pM','pS','pR','pN','pX'];
+const pv = () => PF.map(id => {
+  const v = parseInt($(id).value, 10);
+  return Number.isFinite(v) ? v : null;
+});
+
+async function loadPoints(){
+  try {
+    const r = await call('xf_admin_projection');
+    if (!r.ok) return;
+    const c = await rpc('xf_points', {});
+    $('pC').value = c.checkin_pts_per_day;
+    $('pM').value = c.checkin_max_days;
+    $('pS').value = c.social_points;
+    $('pR').value = c.repost_points;
+    $('pN').value = c.renewal_pts_per_month;
+    $('pX').value = c.renewal_max_months;
+    PTS = {checkin: c.checkin_pts_per_day, max_days: c.checkin_max_days,
+           social: c.social_points, repost: c.repost_points,
+           renewal: c.renewal_pts_per_month};
+    if ($('mCheckinLbl')) $('mCheckinLbl').textContent = 'CHECK-IN · +' + PTS.checkin;
+    paintProj(r, true);
+  } catch (e) {}
+}
+
+async function previewPoints(){
+  const [c,m,sp,rp,np,xp] = pv();
+  if ([c,m,sp,rp,np,xp].some(v => v === null)) return toast('Fill in every field.');
+  try {
+    const r = await call('xf_admin_projection', {
+      p_checkin_pts:c, p_checkin_max:m, p_social_pts:sp,
+      p_repost_pts:rp, p_renewal_pts:np, p_renewal_max:xp});
+    if (!r.ok) return toast('Preview failed: ' + r.error);
+    paintProj(r, false);
+  } catch (e) { toast('Preview failed.'); }
+}
+
+/* The number that matters is how much of the ceiling someone can reach
+   without ever walking into the gym. If that share is high, the draw
+   rewards scrolling rather than training. */
+function paintProj(r, isSaved){
+  const share = Number(r.no_visit_share);
+  const cls = share >= 45 ? 'warn' : (share <= 30 ? 'good' : '');
+  $('proj').innerHTML =
+    '<div class="ph">' + (isSaved ? 'CURRENTLY LIVE' : 'PREVIEW · NOT SAVED') + '</div>' +
+    '<div class="prow"><span>Ceiling — every day, every platform, 12 months renewed</span><b>' +
+      r.max_possible + '</b></div>' +
+    '<div class="prow"><span>Gym attendance alone</span><b>' + r.gym_only + '</b></div>' +
+    '<div class="prow"><span>Loyalty (12 months renewed)</span><b>' + r.loyal_renewal + '</b></div>' +
+    '<div class="prow ' + cls + '"><span>Reachable without ever visiting</span><b>' +
+      r.no_visit_possible + ' · ' + share + '%</b></div>' +
+    '<div class="prow"><span>Live now — median / top / pool</span><b>' +
+      r.current.p50 + ' / ' + r.current.top + ' / ' + r.current.tickets + '</b></div>' +
+    '<div class="pnote">' +
+      (share >= 45
+        ? '⚠ Nearly half the ceiling is reachable from a phone. Someone who never trains competes with your regulars — consider raising check-in or lowering social.'
+        : share <= 30
+          ? '✓ Attendance and loyalty dominate the ceiling. Turning up is worth more than scrolling.'
+          : 'Balanced. Social is a real incentive without outweighing attendance.') +
+    '</div>';
+}
+
+async function savePoints(){
+  const [c,m,sp,rp,np,xp] = pv();
+  if ([c,m,sp,rp,np,xp].some(v => v === null)) return toast('Fill in every field.');
+  if (!confirm('Save these ticket values?\n\nEvery participant is recalculated immediately, ' +
+               'including people who already claimed, and the entrant-facing page updates to match.')) return;
+  try {
+    const r = await call('xf_admin_set_points', {
+      p_checkin_pts:c, p_checkin_max:m, p_social_pts:sp,
+      p_repost_pts:rp, p_renewal_pts:np, p_renewal_max:xp});
+    if (!r.ok) return toast(r.error === 'pool_locked'
+      ? 'Pool is locked — values are frozen.' : 'Save failed: ' + r.error);
+    toast('Saved. Everyone recalculated.');
+    loadPoints(); loadPeople(); loadOverview(); loadDraw();
+  } catch (e) { toast('Save failed.'); }
+}
+
+/* ============ reposts ============ */
+$('rpFilter').onchange = loadReposts;
+/* v9.11 — fetch and render are split. 265 rows straight into the DOM on a
+   phone was unusable, so the list caps at 40 with a "show all" and the search
+   box filters what we already have instead of hitting the server again. */
+let RPROWS = [], RPALL = false;
+
+async function loadReposts(){
+  try {
+    const r = await call('xf_admin_reposts', {p_status: $('rpFilter').value});
+    RPROWS = (r && r.rows) || []; RPALL = false;
+    renderReposts();
+  } catch (e) {
+    $('rpTbl').innerHTML = '<div class="rcalert">Could not load — ' +
+      esc((e && e.message) || String(e)) + '</div>';
+  }
+}
+
+function renderReposts(){
+  const q = ($('rpQ').value || '').trim().toLowerCase();
+  const rows = q
+    ? RPROWS.filter(x => (x.name || '').toLowerCase().includes(q) ||
+                         (x.handle || '').toLowerCase().includes(q))
+    : RPROWS;
+  const CAP = 40, shown = RPALL ? rows : rows.slice(0, CAP);
+
+  $('rpTbl').innerHTML = shown.length ? shown.map(x => {
+    const link = x.platform === 'facebook'
+      ? window.XF.LINKS.facebook
+      : 'https://www.instagram.com/' + encodeURIComponent(x.handle || '');
+    const pill = x.status === 'approved' ? '<span class="pill p-ok">APPROVED</span>'
+              : x.status === 'rejected' ? '<span class="pill p-bad">REJECTED</span>'
+              : '<span class="pill p-wait">PENDING</span>';
+    const acts = x.status === 'rejected'
+      ? '<button class="mini gold" onclick="review(' + x.id + ',true)">Restore</button>'
+      : '<button class="mini red" onclick="review(' + x.id + ',false)">Reject</button>';
+    return '<div class="rrow"><div class="rinfo">' +
+      '<div class="rnm">' + esc(x.name) + '</div>' +
+      '<div class="rmt">' + esc(icText(x.participant_id, x.ic_last4)) + ' · ' +
+        esc(x.phone || '') + ' · ' + esc(x.platform) + ' · ' +
+        '<a href="' + link + '" target="_blank" rel="noopener">' + esc(x.handle || '–') + '</a>' +
+        ' · ' + esc(x.submitted) + '</div></div>' +
+      '<div class="rend">' + pill + acts + '</div></div>';
+  }).join('') : '<div class="muted" style="padding:16px 4px">Nothing here.</div>';
+
+  const more = rows.length - shown.length;
+  $('rpMore').innerHTML = more > 0
+    ? shown.length + ' of ' + rows.length + ' shown · ' +
+      '<a href="#" onclick="RPALL=true;renderReposts();return false">show all ' + rows.length + '</a>'
+    : rows.length ? rows.length + ' row(s)' + (q ? ' matching' : '') : '';
+}
+async function review(id, ok){
+  try {
+    const r = await call('xf_admin_review_repost', {p_id: id, p_approve: ok});
+    if (r.ok){ toast(ok ? 'Approved · +6 tickets' : 'Rejected · tickets removed'); loadReposts(); loadOverview(); }
+    else toast('Failed: ' + r.error);
+  } catch (e) { toast('Action failed.'); }
+}
+
+/* ============ IC UNLOCK (v9.11) — browser only, nothing is stored ============
+
+   The plaintext IC is NOT in the database and never has been. xf_register
+   hashes it on arrival and throws the original away; participants holds only
+   ic_hash (sha256) and ic_last4. So "show the full IC" cannot be done by
+   changing a permission or a display rule — the data is not there to show.
+
+   What IS available is the gym system's own export, which carries all ~1,856
+   IDs in plain text on the operator's own machine. So we go the other way round:
+
+     1. read that CSV here in the browser
+     2. sha256 each IC locally (same normIc + sha256hex the reconcile uses,
+        which is the same normalisation xf_hash_ic uses server-side)
+     3. ask xf_admin_match_ic which participants those hashes belong to
+        — an existing, audited, read-only function
+     4. keep hash -> plaintext in a Map in memory
+
+   The plaintext never goes to the server, and no hash ever comes down: the
+   browser sends hashes up and gets participant ids back. Nothing is written
+   to the database, to localStorage, or to a cookie. Close the tab and the
+   unlock is gone.
+
+   Limit, stated plainly in the UI: this only unlocks people who exist in the
+   gym export. A pure walk-in who never bought a package stays masked — but
+   they are also not in the gym system, so there is nothing to compare them
+   against. */
+let ICMAP = new Map();          // participant_id -> plaintext IC
+let ICMAP_META = null;          // {rows, matched, at, file}
+
+/* The one place anything in this console decides how to render an IC. */
+function icFull(pid){ return ICMAP.get(Number(pid)) || ''; }
+function icText(pid, last4){
+  const f = icFull(pid);
+  return f ? f : '****' + (last4 || '');
+}
+
+function icPaintState(){
+  const box = $('icuState');
+  if (!box) return;
+  if (!ICMAP.size){
+    box.className = 'ps';
+    box.innerHTML = 'Locked. Every IC shows as <b>****1234</b>. ' +
+      'Drop the gym export above to reveal the full numbers for this session.';
+    return;
+  }
+  const m = ICMAP_META || {};
+  box.className = 'ps icuOn';
+  box.innerHTML = '🔓 <b>' + ICMAP.size.toLocaleString() + '</b> of ' +
+    Number(m.rows || 0).toLocaleString() + ' rows in ' + esc(m.file || 'the file') +
+    ' matched a participant. Their full IC now shows in People and in every export.' +
+    '<br><span class="muted">In this browser tab only — nothing was saved. ' +
+    'Reload or tap Lock and it is gone.</span>';
+}
+
+function icLock(){
+  ICMAP = new Map(); ICMAP_META = null;
+  icPaintState(); loadPeople(); toast('IC numbers locked again.');
+}
+
+async function icUnlock(fname){
+  const btn = $('btnIcu'), ta = $('taIcu'), txt = ta.value;
+  if (!txt.trim()) return toast('Drop the gym CSV in first.');
+  if (!window.crypto || !crypto.subtle)
+    return toast('This browser cannot hash locally. Open the console over https.');
+
+  btn.disabled = true; btn.textContent = 'Reading…';
+  try {
+    const rows = csvSmart(txt);
+    if (!rows.length) throw new Error('empty file');
+    const head = rows[0].map(h => h.trim().toLowerCase());
+    let iIc = head.indexOf('ic');
+    if (iIc < 0) iIc = 0;                       // a bare one-column list of ICs
+    const body = head.indexOf('ic') < 0 ? rows : rows.slice(1);
+
+    const corrupt = body.filter(r => /\d[.,]?\d*E\+\d+/i.test(r[iIc] || '')).length;
+    if (corrupt){
+      $('icuOut').innerHTML = '<div class="rcalert"><b>This file has been through Excel.</b> ' +
+        corrupt + ' IC numbers are stored as scientific notation (7.60331E+11) and the last six ' +
+        'digits are gone for good. Export a fresh copy from the gym system and drop it in ' +
+        '<b>without opening it</b>.</div>';
+      return;
+    }
+
+    const uniq = new Map();                     // plaintext IC -> itself, de-duped
+    body.forEach(r => { const v = normIc(r[iIc] || ''); if (v) uniq.set(v, v); });
+    const list = [...uniq.keys()];
+    if (!list.length) throw new Error('no IC column found');
+
+    const byHash = new Map();
+    for (let i = 0; i < list.length; i++){
+      byHash.set(await sha256hex(list[i]), list[i]);
+      if (i % 400 === 0){ btn.textContent = 'Hashing ' + i + '/' + list.length + '…'; await yieldUI(); }
+    }
+
+    btn.textContent = 'Matching…';
+    const hit = await matchHashes([...byHash.keys()]);   // hash -> participant row
+
+    const map = new Map();
+    hit.forEach((p, h) => { const ic = byHash.get(h); if (ic && p && p.id != null) map.set(Number(p.id), ic); });
+
+    ICMAP = map;
+    ICMAP_META = {rows: list.length, matched: map.size, file: fname || 'the file'};
+    $('icuOut').innerHTML = '';
+    icPaintState();
+    loadPeople();
+    toast('Unlocked ' + map.size + ' IC number(s).');
+  } catch (e) {
+    $('icuOut').innerHTML = '<div class="rcalert">Could not read that file — ' +
+      esc((e && e.message) || String(e)) + '</div>';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Unlock IC numbers';
+    rcSay('');   // matchHashes writes into the reconcile progress line; put it away
+  }
+}
+
+/* ============ participants ============ */
+let PEOPLE = [];
+
+async function loadPeople(){
+  try {
+    const r = await call('xf_admin_participants',
+      {p_q: $('pQ').value.trim(), p_limit: 1000});
+    PEOPLE = r.rows || [];
+    $('pTbl').innerHTML = PEOPLE.length ? PEOPLE.map(p => {
+      const badge = '';
+      // v9.11 — full IC when the gym export has been loaded, masked otherwise
+      const meta = 'IC ' + esc(icText(p.id, p.ic_last4)) + ' · ' + esc(p.phone || '') + ' · ' +
+        esc((p.platform || '').slice(0,2).toUpperCase()) + ' ' + esc(p.handle || '');
+      const chips =
+        '<span class="chip">CHK ' + p.checkin + '</span>' +
+        '<span class="chip">DAYS ' + (p.checkin_days ?? 0) + '</span>' +
+        '<span class="chip">RNW ' + p.renewal + '</span>' +
+        '<span class="chip">SOC ' + p.social + '</span>' +
+        '<span class="chip">RPT ' + p.repost + '</span>' +
+        (p.adjust ? '<span class="chip adj">ADJ ' + (p.adjust > 0 ? '+' : '') + p.adjust + '</span>' : '');
+      const acts = p.disqualified
+        ? '<span class="pill p-bad">DISQUALIFIED</span>' +
+          '<button class="mini"     data-act="ed"  data-id="' + p.id + '">Edit</button>' +
+          '<button class="mini red" data-act="del" data-id="' + p.id + '">Delete</button>'
+        : '<button class="mini gold" data-act="ci"  data-id="' + p.id + '">Check-in today</button>' +
+          '<button class="mini"      data-act="ed"  data-id="' + p.id + '">Edit</button>' +
+          '<button class="mini"      data-act="adj" data-id="' + p.id + '">Adjust</button>' +
+            '<button class="mini red"  data-act="dq"  data-id="' + p.id + '">Disqualify</button>' +
+          '<button class="mini red"  data-act="del" data-id="' + p.id + '">Delete</button>';
+      return '<div class="prow' + (p.disqualified ? ' dqd' : '') + '">' +
+        '<div class="ptop" onclick="this.parentNode.classList.toggle(\'open\')">' +
+          '<div class="pinfo"><div class="pnm">' + esc(p.name) + badge + '</div>' +
+          '<div class="pmt">' + meta + '</div></div>' +
+          '<div class="ptk"><b>' + p.total + '</b><i>TICKETS</i></div></div>' +
+        '<div class="pacts"><div class="chips">' + chips +
+          '<span class="chip dim">Joined ' + esc(p.joined) + '</span></div>' +
+          '<div class="abtns">' + acts + '</div></div></div>';
+    }).join('') : '<div class="muted" style="padding:18px 4px">No participants found.</div>';
+  } catch (e) {}
+}
+
+/* Row actions are delegated: a person's name never goes into markup or into a
+   JS string, so a hostile name can't break out and run code in this console. */
+$('pTbl').addEventListener('click', e => {
+  const b = e.target.closest('button[data-act]');
+  if (!b) return;
+  e.stopPropagation();
+  const id = Number(b.dataset.id);
+  const p  = PEOPLE.find(x => Number(x.id) === id);
+  if (!p) return;
+  if (b.dataset.act === 'ci')  ciNow(id, p.name);
+  if (b.dataset.act === 'ed')  openEdit(p);
+  if (b.dataset.act === 'adj') adjust(id, p.name, p.total);
+  if (b.dataset.act === 'dq')  dq(id, p.name);
+  if (b.dataset.act === 'del') openDelete(p);
+});
+
+/* ---- edit details ----
+   The renewal CSV is matched on sha256(normalised IC). One wrong digit in
+   the source system and the person's months never land — they show 0 renewal
+   tickets and nobody notices. Foreign passports are worse:
+   no fixed shape, so the same document can hash three different ways.
+   This is the repair hatch. Changing the IC re-asks for the password;
+   fixing a spelling does not. */
+
+/* Rewriting .value on every input event replays the composition buffer on
+   an IME keyboard, so "TAN AH MENG" comes out "tttaaannn". Never touch the
+   value mid-composition; apply once at the end and keep the caret. */
+function liveFilter(el, fn, onFilter){
+  let composing = false;
+  const apply = () => {
+    const before = el.value, after = fn(before);
+    if (onFilter) onFilter(after.length < before.length);
+    if (after === before) return;
+    const pos = el.selectionStart;
+    el.value = after;
+    const q = Math.max(0, pos - (before.length - after.length));
+    try { el.setSelectionRange(q, q); } catch (e) {}
+  };
+  el.addEventListener('compositionstart', () => { composing = true; });
+  el.addEventListener('compositionend',   () => { composing = false; apply(); });
+  el.addEventListener('input', () => { if (!composing) apply(); });
+  el.addEventListener('blur', apply);
+}
+
+let ED_ID = null;
+const ED_ERR = {
+  auth:                'Session expired — unlock the console again.',
+  bad_password:        'That password is wrong. Nothing was changed.',
+  reason_required:     'Give a reason (at least 4 characters).',
+  no_such_participant: 'That entry no longer exists.',
+  has_won:             'This person has already won a prize — their details are locked. Fix it in SQL if it is genuinely wrong.',
+  bad_name:            'Name must be 3–80 characters, A–Z only.',
+  bad_phone:           'Phone needs at least 9 digits.',
+  bad_platform:        'Pick Instagram or Facebook.',
+  bad_handle:          'Instagram usernames are letters, numbers, dots and underscores, 2–30 characters. A Facebook profile name is 2–40 characters.',
+  bad_ic:              'That IC or passport number is not valid.'
+};
+
+liveFilter($('edName'),
+  v => v.toUpperCase().replace(/[^A-Z \/@'.-]/g, ''),
+  stripped => { $('edNameHint').style.display = stripped ? 'block' : 'none'; });
+
+liveFilter($('edPhone'), v => v.replace(/[^0-9 +()-]/g, '').slice(0, 24));
+
+liveFilter($('edHandle'), v => $('edPlat').value === 'instagram'
+  ? v.replace(/^@+/, '').replace(/[^A-Za-z0-9._]/g, '').slice(0, 30)
+  : v.replace(/^@+/, '').replace(/[\u0000-\u001F\u007F]/g, '').slice(0, 40));
+
+/* An Instagram username really is ASCII. A Facebook profile name is a
+   display name — Chinese, Tamil, anything — so only length is enforced. */
+$('edPlat').onchange = () => {
+  const ig = $('edPlat').value === 'instagram';
+  $('edHandleHint').textContent = ig
+    ? 'Instagram: username only, no @.'
+    : 'Facebook: the profile name as it appears, any script.';
+  $('edHandle').dispatchEvent(new Event('input'));
+};
+
+/* Only fill the IC box to change it — the stored value is a hash, so there
+   is nothing to pre-fill and nothing to show back. */
+liveFilter($('edIc'), v => v.replace(/[^A-Za-z0-9]/g, '').toUpperCase().slice(0, 20));
+$('edIc').addEventListener('input', () => {
+  $('edFold').classList.toggle('show', $('edIc').value.trim() !== '');
+});
+
+function openEdit(p){
+  ED_ID = p.id;
+  $('edWho').textContent  = p.name;
+  $('edMeta').textContent = 'IC ' + icText(p.id, p.ic_last4) + ' · ' + p.total +
+                            ' tickets · joined ' + (p.joined || '');
+  $('edName').value   = p.name || '';
+  $('edPhone').value  = p.phone || '';
+  $('edPlat').value   = (p.platform === 'facebook') ? 'facebook' : 'instagram';
+  $('edHandle').value = p.handle || '';
+  $('edIc').value     = '';
+  $('edPw').value     = '';
+  $('edReason').value = '';
+  $('edNameHint').style.display = 'none';
+  $('edFold').classList.remove('show');
+  $('edErr').classList.remove('show');
+  $('edPlat').onchange();
+  $('edWrap').classList.add('show');
+  setTimeout(() => $('edName').focus(), 60);
+}
+function closeEdit(){ $('edWrap').classList.remove('show'); ED_ID = null; }
+$('edWrap').addEventListener('click', e => { if (e.target === $('edWrap')) closeEdit(); });
+$('edReason').addEventListener('keydown', e => { if (e.key === 'Enter') confirmEdit(); });
+
+async function confirmEdit(){
+  if (ED_ID == null) return;
+  const err = $('edErr'), btn = $('edGo');
+  const ic = $('edIc').value.trim(), pw = $('edPw').value;
+  const reason = $('edReason').value.trim();
+  err.classList.remove('show');
+
+  if (reason.length < 4){ err.textContent = ED_ERR.reason_required; err.classList.add('show'); return; }
+  // catch the empty password here rather than at the server: a blank try
+  // still counts against the 12-failures-per-15-minutes lockout.
+  if (ic && !pw){
+    err.textContent = 'Type the admin password to change the IC.';
+    err.classList.add('show'); $('edPw').focus(); return;
+  }
+
+  btn.disabled = true; btn.textContent = 'Saving…';
+  try {
+    const r = await call('xf_admin_edit_participant', {
+      p_id: ED_ID, p_name: $('edName').value.trim(), p_phone: $('edPhone').value.trim(),
+      p_platform: $('edPlat').value, p_handle: $('edHandle').value.trim(),
+      p_ic: ic || null, p_password: pw || null, p_reason: reason});
+
+    if (!r.ok){
+      err.textContent = r.error === 'ic_taken'
+        ? 'That IC already belongs to ' + (r.taken_by || 'another entry') +
+          '. Delete the duplicate first.'
+        : (ED_ERR[r.error] || ('Failed: ' + r.error));
+      err.classList.add('show');
+      return;
+    }
+
+    closeEdit();
+    if (r.unchanged) toast('Nothing to change — saved as-is.');
+    else if (r.ic_changed)
+      toast(r.name + ' · IC now ****' + r.ic_last4 + ' — re-import the renewal CSV');
+    else toast('Updated ' + r.name + ' · ' + (r.fields || []).join(', '));
+    loadPeople(); loadOverview();
+  } catch (e) {
+    err.textContent = 'Could not reach the server. Nothing was changed.';
+    err.classList.add('show');
+  } finally { btn.disabled = false; btn.textContent = 'Save changes'; }
+}
+
+/* ---- delete, with the password typed again ---- */
+let DEL_ID = null;
+const DEL_ERR = {
+  auth:                'Session expired — unlock the console again.',
+  bad_password:        'That password is wrong. Nothing was deleted.',
+  reason_required:     'Give a reason (at least 4 characters).',
+  pool_locked:         'The pool is locked. Use Disqualify instead — it leaves the entry visible.',
+  no_such_participant: 'That entry no longer exists.',
+  has_won:             'This person has already won a prize and cannot be deleted.'
+};
+
+function openDelete(p){
+  DEL_ID = p.id;
+  $('delName').textContent = p.name;
+  $('delMeta').textContent = 'IC ****' + p.ic_last4 + ' · ' + (p.phone || '') +
+                             ' · ' + p.total + ' tickets · joined ' + (p.joined || '');
+  const bits = [];
+  if (p.checkin) bits.push(Math.round(p.checkin / Math.max(1, PTS.checkin)) + ' check-ins');
+  if (p.social)  bits.push(p.social + ' social follows');
+  if (p.repost)  bits.push('their story repost');
+  if (p.renewal) bits.push(p.renewal + ' renewal months');
+  if (p.adjust)  bits.push('their ticket adjustments');
+  bits.push('their QR code stops working');
+  $('delGone').innerHTML = bits.map(b => '<li>' + esc(b) + '</li>').join('');
+  $('delReason').value = ''; $('delPw').value = '';
+  $('delErr').classList.remove('show');
+  $('delWrap').classList.add('show');
+  setTimeout(() => $('delReason').focus(), 60);
+}
+function closeDelete(){ $('delWrap').classList.remove('show'); DEL_ID = null; }
+$('delWrap').addEventListener('click', e => { if (e.target === $('delWrap')) closeDelete(); });
+$('delPw').addEventListener('keydown', e => { if (e.key === 'Enter') confirmDelete(); });
+
+async function confirmDelete(){
+  if (DEL_ID == null) return;
+  const err = $('delErr'), btn = $('delGo');
+  const reason = $('delReason').value.trim(), pw = $('delPw').value;
+  err.classList.remove('show');
+  if (reason.length < 4){ err.textContent = DEL_ERR.reason_required; err.classList.add('show'); return; }
+  if (!pw){ err.textContent = 'Type the admin password to confirm.'; err.classList.add('show'); return; }
+  btn.disabled = true; btn.textContent = 'Deleting…';
+  try {
+    const r = await call('xf_admin_delete_participant',
+      {p_id: DEL_ID, p_password: pw, p_reason: reason});
+    if (!r.ok){
+      err.textContent = DEL_ERR[r.error] || ('Failed: ' + r.error);
+      err.classList.add('show');
+      return;
+    }
+    closeDelete();
+    toast('Deleted ' + r.name + ' · ' + r.tickets + ' tickets removed');
+    loadPeople(); loadOverview();
+  } catch (e) {
+    err.textContent = 'Could not reach the server. Nothing was deleted.';
+    err.classList.add('show');
+  } finally { btn.disabled = false; btn.textContent = 'Delete permanently'; }
+}
+
+/* Manual ticket correction. Every change is logged with a reason, shown to
+   the entrant on their own tickets page, and frozen once the pool locks. */
+const ADJ_ERR = {
+  pool_locked:        'Pool is locked — tickets can no longer be changed.',
+  no_such_participant:'Participant not found.',
+  delta_out_of_range: 'Adjustment must be between -60 and +60.',
+  reason_required:    'A reason is required (at least 4 characters).',
+  would_go_negative:  'That would push their total below zero.'
+};
+async function adjust(id, name, current){
+  const raw = prompt('Adjust tickets for ' + name + '\n\nCurrent total: ' + current +
+                     '\nEnter the CHANGE, not the new total.\ne.g.  3   or   -2\n\n' +
+                     'Range: -60 to +60. Logged and visible to the entrant.');
+  if (raw === null) return;
+  const delta = parseInt(String(raw).trim(), 10);
+  if (!Number.isFinite(delta) || delta === 0) return toast('Enter a non-zero whole number.');
+
+  const why = prompt('Reason for the ' + (delta > 0 ? '+' : '') + delta + ' ticket change?\n\n' +
+                     'e.g. "CSV import missed a scan"\nThis is shown to the entrant.');
+  if (why === null) return;
+  if (String(why).trim().length < 4) return toast('Please give a real reason (4+ characters).');
+
+  try {
+    const r = await call('xf_admin_adjust_tickets',
+      {p_participant_id: id, p_delta: delta, p_reason: String(why).trim()});
+    if (r.ok){
+      toast(name + ': ' + (delta > 0 ? '+' : '') + delta + ' → ' + r.new_total + ' tickets');
+      loadPeople(); loadDraw(); loadOverview();
+    } else if (r.error === 'over_ceiling'){
+      toast('Blocked: ' + r.would_be + ' exceeds the ' + r.ceiling + '-ticket ceiling.');
+    } else {
+      toast(ADJ_ERR[r.error] || ('Adjustment failed: ' + r.error));
+    }
+  } catch (e) { toast('Adjustment failed — ' + (e.message || 'network error')); }
+}
+
+/* Full audit trail of every correction made. */
+async function exportAdjustments(){
+  try {
+    const r = await call('xf_admin_adjustments', {});
+    const rows = r.rows || [];
+    if (!rows.length) return toast('No adjustments have been made.');
+    const head = ['at','name','ic_last4','delta','reason'];
+    const csv = [head.join(',')].concat(rows.map(a =>
+      head.map(k => '"' + String(a[k] == null ? '' : a[k]).replace(/"/g,'""') + '"').join(','))).join('\n');
+    download('xfitness-ticket-adjustments.csv', csv);
+    toast(rows.length + ' adjustment(s) exported.');
+  } catch (e) { toast('Export failed.'); }
+}
+async function dq(id, name){
+  const why = prompt('Disqualify ' + name + '?\n\nThis removes them from the pool and deletes any prize they already won.\nReason:');
+  if (why === null) return;
+  try {
+    const r = await call('xf_admin_disqualify', {p_id: id, p_reason: why || 'no reason given'});
+    if (r.ok){ toast('Disqualified.'); loadPeople(); loadDraw(); loadOverview(); }
+  } catch (e) { toast('Action failed.'); }
+}
+function exportPeople(){
+  if (!PEOPLE.length) return toast('Nothing to export — run a search first.');
+  const head = ['ic','name','ic_last4','phone','platform','handle','checkin','renewal','social','repost','total','joined','disqualified'];
+  const csv = [head.join(',')].concat(PEOPLE.map(p =>
+    head.map(k => q(k === 'ic' ? icFull(p.id) : p[k])).join(','))).join('\n');
+  download('xfitness-participants.csv', csv);
+}
+/* One CSV quoter for the whole console. */
+function q(v){ return '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"'; }
+function download(name, text){
+  const a = document.createElement('a');
+  /* The BOM matters: without it Excel opens UTF-8 as ANSI and mangles every
+     non-ASCII name. rcDownload always had it; these exports did not. */
+  a.href = URL.createObjectURL(new Blob(['\ufeff' + text], {type:'text/csv;charset=utf-8'}));
+  a.download = name; a.click(); URL.revokeObjectURL(a.href);
+}
+
+/* ============ verification exports (v9.11) ============
+   Tag & Repost and the IG/FB follows are the only self-declared tickets that
+   can be checked at all — a handle exists to go and look at. TikTok and
+   RedNote store no handle by design (xf_claim_social blanks it, T&C 3.4 says
+   so), so they are deliberately not exported: the rows would be empty columns
+   pretending to be evidence. */
+function icuHint(n, matched){
+  return ICMAP.size
+    ? matched + ' of ' + n + ' rows have a full IC. The rest are not in the gym export.'
+    : 'IC column is blank — load the gym export in Data → IC NUMBERS first if you need it.';
+}
+
+async function exportReposts(){
+  const btn = $('btnXrp');
+  btn.disabled = true; btn.textContent = 'Building…';
+  try {
+    const r = await call('xf_admin_reposts', {p_status: 'all'});
+    const rows = (r && r.rows) || [];
+    if (!rows.length) return toast('Nothing to export.');
+    const head = ['ic','name','phone','platform','handle','profile_url','status','submitted','ic_last4'];
+    const out = [head.join(',')];
+    let matched = 0;
+    rows.forEach(x => {
+      const ic = icFull(x.participant_id); if (ic) matched++;
+      const url = x.platform === 'facebook'
+        ? (window.XF.LINKS.facebook || '')
+        : x.handle ? 'https://www.instagram.com/' + encodeURIComponent(x.handle) : '';
+      out.push([ic, x.name, x.phone, x.platform, x.handle, url,
+                x.status, x.submitted, x.ic_last4].map(q).join(','));
+    });
+    download('xfitness-tag-repost-' + new Date().toISOString().slice(0,10) + '.csv', out.join('\n'));
+    toast(rows.length + ' rows. ' + icuHint(rows.length, matched));
+  } catch (e) { toast('Export failed: ' + ((e && e.message) || e)); }
+  finally { btn.disabled = false; btn.textContent = 'Export Tag & Repost'; }
+}
+
+async function exportSocials(){
+  const btn = $('btnXsc');
+  btn.disabled = true; btn.textContent = 'Building…';
+  try {
+    const r = await call('xf_admin_socials', {p_platforms: ['instagram','facebook']});
+    const rows = (r && r.rows) || [];
+    if (!rows.length) return toast('Nothing to export.');
+    const head = ['ic','name','phone','platform','handle','profile_url','claimed','ic_last4'];
+    const out = [head.join(',')];
+    let matched = 0;
+    rows.forEach(x => {
+      const ic = icFull(x.participant_id); if (ic) matched++;
+      const url = x.platform === 'facebook'
+        ? (window.XF.LINKS.facebook || '')
+        : x.handle ? 'https://www.instagram.com/' + encodeURIComponent(x.handle) : '';
+      out.push([ic, x.name, x.phone, x.platform, x.handle, url, x.claimed, x.ic_last4].map(q).join(','));
+    });
+    download('xfitness-social-igfb-' + new Date().toISOString().slice(0,10) + '.csv', out.join('\n'));
+    toast(rows.length + ' rows. ' + icuHint(rows.length, matched));
+  } catch (e) { toast('Export failed: ' + ((e && e.message) || e)); }
+  finally { btn.disabled = false; btn.textContent = 'Export IG/FB follows'; }
+}
+
+/* ============ SCAN (front desk) ============
+   Two modes on one camera:
+     CHECK-IN   — 25-31 Aug, idempotent (same person same day = no double credit)
+     VERIFY     — prize-claim day: read-only identity + prize lookup, then Mark collected.
+   The QR payload is 'XF901:' + the SHA-256 of their IC. It is not the IC itself. */
+let SCAN_MODE = 'checkin', H5 = null, LAST_CODE = '', LAST_AT = 0, lastVerifyQr = '';
+
+/* Which lens. Saved per phone, so the kiosk handset is set to FRONT once and
+   stays that way, while staff scanning by hand keep the back camera.
+   Front is the right choice for an unattended phone: the screen faces the
+   person, so they can aim and read the result themselves. */
+let SCAN_CAM = 'environment';
+try { const c = localStorage.getItem('xf901_cam'); if (c === 'user' || c === 'environment') SCAN_CAM = c; } catch (e) {}
+
+function paintCam(){
+  document.querySelectorAll('#camRow button').forEach(x => x.classList.toggle('on', x.dataset.c === SCAN_CAM));
+  $('scanBox').classList.toggle('mir', SCAN_CAM === 'user');
+}
+async function setCam(b){
+  if (SCAN_CAM === b.dataset.c) return;
+  SCAN_CAM = b.dataset.c;
+  try { localStorage.setItem('xf901_cam', SCAN_CAM); } catch (e) {}
+  paintCam();
+  if (H5){ await stopScan(); startScan(); }   /* already running — swap lenses */
+}
+document.addEventListener('DOMContentLoaded', paintCam);
+
+function setScanMode(m){
+  SCAN_MODE = m;
+  $('mCheckin').classList.toggle('on', m === 'checkin');
+  $('mVerify').classList.toggle('on', m === 'verify');
+  $('scRes').innerHTML = '';
+}
+function scanTabEnter(){
+  /* Always open on check-in. Verify is a deliberate choice the staff make on
+     prize day — landing on it by accident just confuses the front desk. */
+  setScanMode('checkin');
+  /* Opening the scanner should start the scanner. Waiting for someone to press
+     Start is how the counter ends up with a dark viewfinder and a queue. */
+  setTimeout(() => { if ($('tScan').classList.contains('show') && !H5) startScan(); }, 200);
+}
+function scanTabLeave(){ stopScan(); closeFlash(); kioskOff(); }
+
+/* ============ KIOSK MODE ============
+   Turns the scan tab into a customer-facing sign. Starts the camera if it is
+   not already running, and swaps the wording for whichever mode is selected. */
+function kioskOn(){
+  document.body.classList.add('kioskon');
+  $('kMsgT').textContent  = SCAN_MODE === 'verify' ? 'SCAN TO CLAIM YOUR PRIZE' : 'SHOW YOUR QR CODE';
+  document.body.classList.toggle('kverify', SCAN_MODE === 'verify');
+  $('kFootT').innerHTML   = SCAN_MODE === 'verify'
+      ? '1 SEPT &middot; PRIZE COLLECTION &middot; BRING YOUR IC'
+      : '25 &ndash; 31 AUG &middot; ONE SCAN A DAY';
+  if (!H5) startScan();
+  history.pushState(null, '', location.href);   /* one state to eat the first back */
+  window.scrollTo({top:0});
+}
+/* ---------- installed-app behaviour ----------
+   Registering a (pass-through) service worker is what makes Chrome offer
+   "Install app". Once installed the scanner opens with no address bar, so a
+   visitor cannot type their way into the rest of the site. */
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+}
+/* Launched from the home-screen icon: go straight to the scanner. */
+window.addEventListener('load', () => {
+  if (location.hash !== '#kiosk') return;
+  const arm = () => {
+    if (!SECRET) return;                       /* still on the password gate */
+    navTo('tScan');
+    setTimeout(kioskOn, 250);
+    return true;
+  };
+  if (!arm()) {
+    const t = setInterval(() => { if (arm()) clearInterval(t); }, 400);
+    setTimeout(() => clearInterval(t), 5 * 60 * 1000);
+  }
+});
+/* Swallow the Android back gesture while the sign is up — otherwise one swipe
+   drops a visitor into the console. Hold the × to leave properly. */
+window.addEventListener('popstate', () => {
+  if (document.body.classList.contains('kioskon')) history.pushState(null, '', location.href);
+});
+
+function kioskOff(){
+  document.body.classList.remove('kioskon','kverify');
+  $('kExit').classList.remove('holding');
+}
+/* Press and hold to leave. A single tap would let anyone standing at the
+   counter drop the phone back into the full admin console. */
+let kHold = null;
+(function(){
+  const btn = $('kExit');
+  const start = e => { e.preventDefault(); btn.classList.add('holding');
+                       kHold = setTimeout(kioskOff, 800); };
+  const stop  = () => { clearTimeout(kHold); btn.classList.remove('holding'); };
+  ['pointerdown'].forEach(t => btn.addEventListener(t, start));
+  ['pointerup','pointerleave','pointercancel'].forEach(t => btn.addEventListener(t, stop));
+})();
+
+/* A phone standing on the counter sleeps in about a minute and the camera dies
+   with it. Hold a screen wake lock while scanning, and take it back whenever
+   the tab returns to the front. */
+let WAKE = null, SCAN_WANTED = false;
+async function keepAwake(on){
+  try {
+    if (on){
+      if (!WAKE && 'wakeLock' in navigator){
+        WAKE = await navigator.wakeLock.request('screen');
+        /* The OS releases this on every screen-off. Take it straight back, or
+           the phone sleeps once and the camera never comes home. */
+        WAKE.addEventListener('release', () => {
+          WAKE = null;
+          if (SCAN_WANTED && !document.hidden) setTimeout(() => keepAwake(true), 500);
+        });
+      }
+    } else if (WAKE){ await WAKE.release(); WAKE = null; }
+  } catch (e) {}
+}
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) return;
+  if (AC) AC.resume();
+  if (SCAN_WANTED && $('tScan').classList.contains('show')){
+    keepAwake(true);
+    /* H5 being non-null proves nothing — the object survives while its track is
+       dead. Give the frames a moment to resume, then judge on real health. */
+    setTimeout(() => {
+      if (!SCAN_WANTED || document.hidden) return;
+      if (!H5 || scanHealth() !== 'live') restartScan();
+    }, 700);
+  }
+});
+
+/* A half-started or half-torn-down scanner leaves a <video> holding the camera
+   open. Android then refuses every later attempt with NotReadableError, which
+   looks exactly like "permission denied" and does not clear until the tab is
+   killed. Wipe the element before every attempt. */
+function resetReader(){
+  const rd = $('reader');
+  if (!rd) return;
+  rd.querySelectorAll('video').forEach(v => {
+    try { ((v.srcObject && v.srcObject.getTracks()) || []).forEach(t => t.stop()); } catch (e) {}
+    v.srcObject = null;
+  });
+  rd.innerHTML = '';
+}
+
+/* html5-qrcode rejects with a plain string on some paths and a DOMException on
+   others, so read both before deciding what to tell the front desk. */
+function camRaw(e){
+  if (e == null) return 'unknown';
+  if (typeof e === 'string') return e;
+  if (e.name) return e.name + (e.message ? ': ' + e.message : '');
+  return String(e.message || e);
+}
+function camHint(e){
+  const n = camRaw(e);
+  if (/NotAllowed|Permission|Security/i.test(n))
+    return 'Permission is off. Chrome ⋮ → Settings → Site settings → Camera → allow this site. Also check Android Settings → Apps → Chrome → Permissions → Camera.';
+  if (/NotReadable|TrackStart|Abort/i.test(n))
+    return 'Another tab or app already holds the camera. Close the other tabs of this site and any camera app, then try again.';
+  if (/NotFound|Overconstrained|DevicesNotFound/i.test(n))
+    return 'No camera matched that lens. Switch between BACK CAM and FRONT CAM.';
+  if (/NotSupported|Insecure/i.test(n))
+    return 'The browser refused camera access on this page.';
+  return 'Unexpected camera error.';
+}
+/* Permission and "no such camera" errors need a human. Everything else — the
+   camera being briefly held by another app, a track dying on screen-off — is
+   transient, and giving up on it is exactly the behaviour the front desk was
+   complaining about. */
+function camTransient(e){ return /NotReadable|TrackStart|Abort|Timeout/i.test(camRaw(e)); }
+function camFail(e, keepTrying){
+  if (!keepTrying) SCAN_WANTED = false;
+  const raw = camRaw(e);
+  $('scRes').innerHTML = '<div class="scres bad"><b>CAMERA DID NOT START</b>' +
+    '<i>' + esc(camHint(e)) + '</i><i style="opacity:.7">' + esc(raw) + '</i></div>';
+  toast('Camera did not start — ' + raw);
+}
+
+async function openLens(mode){
+  resetReader();
+  H5 = new Html5Qrcode('reader');
+  /* qrbox as a function can never be larger than the frame the phone gives us;
+     a fixed 230 throws on cameras that report a smaller preview. */
+  await H5.start(
+    {facingMode: mode},
+    {fps:10, qrbox: (w, h) => { const m = Math.floor(Math.min(w, h) * .72); return {width:m, height:m}; }},
+    onScan, () => {}
+  );
+}
+/* If the bundled library somehow did not parse, pull the CDN copy once rather
+   than dying with "Html5Qrcode is not defined". */
+function loadQrLib(){
+  if (typeof Html5Qrcode !== 'undefined') return Promise.resolve();
+  return new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js';
+    s.onload  = () => typeof Html5Qrcode !== 'undefined'
+                      ? res() : rej(new Error('Scanner library loaded but is empty'));
+    s.onerror = () => rej(new Error('Scanner library could not be loaded. Check the connection and reload the page.'));
+    document.head.appendChild(s);
+  });
+}
+/* ============ SCANNER WATCHDOG ============
+   Every flag in this file can say "running" while the camera is stone dead: the
+   track ends on screen-off, another app steals the lens, or the preview freezes
+   with the video element still reporting play. So health is measured from the
+   frames themselves, checked every 2.5s, and anything that is not live gets
+   rebuilt without anyone having to notice. */
+let SCAN_TIMER = null, FRAME_T = -1, FRAME_AT = 0,
+    RESTARTING = false, FAIL_STREAK = 0, ALERTED = false;
+
+function scanVideo(){ const r = $('reader'); return r ? r.querySelector('video') : null; }
+
+function scanHealth(){
+  if (!SCAN_WANTED) return 'off';
+  const v = scanVideo();
+  if (!H5 || !v) return 'dead';
+  const st = v.srcObject, tr = st && st.getVideoTracks ? st.getVideoTracks()[0] : null;
+  if (!tr || tr.readyState !== 'live' || tr.muted) return 'dead';
+  if (v.paused || v.readyState < 2 || !v.videoWidth) return 'dead';
+  const now = Date.now();
+  if (v.currentTime !== FRAME_T){ FRAME_T = v.currentTime; FRAME_AT = now; return 'live'; }
+  if (FRAME_AT && now - FRAME_AT > 6000) return 'frozen';   /* picture stuck */
+  return 'live';
+}
+
+function paintScanState(s){
+  const el = $('camStat'), t = $('camStatT');
+  if (!el || !t) return;
+  el.className = 'camstat' + (s === 'live' ? ' live' : s === 'off' ? '' : ' retry');
+  t.textContent = s === 'live'  ? 'SCANNING'
+                : s === 'off'   ? 'CAMERA OFF'
+                : s === 'start' ? 'STARTING…'
+                :                 'RECONNECTING';
+}
+
+/* A track that ends or mutes tells us instantly — no need to wait for a tick. */
+function guardTrack(retry){
+  const v = scanVideo();
+  /* html5-qrcode builds the <video> during start(); on slow phones it can still
+     be a tick behind the promise resolving. */
+  if (!v){ if (!retry) setTimeout(() => guardTrack(true), 600); return; }
+  FRAME_T = -1; FRAME_AT = 0;
+  v.addEventListener('pause', () => { try { v.play(); } catch (e) {} });
+  const st = v.srcObject;
+  if (!st || !st.getVideoTracks) return;
+  st.getVideoTracks().forEach(tr => {
+    tr.addEventListener('ended', () => { if (SCAN_WANTED) restartScan(); });
+    tr.addEventListener('mute',  () => { if (SCAN_WANTED) restartScan(); });
+  });
+}
+
+async function restartScan(){
+  if (RESTARTING || !SCAN_WANTED) return;
+  RESTARTING = true;
+  FAIL_STREAK++;
+  paintScanState('retry');
+  try {
+    try { if (H5){ await H5.stop(); H5.clear(); } } catch (e) {}
+    H5 = null; resetReader();
+    await new Promise(r => setTimeout(r, Math.min(350 * FAIL_STREAK, 3000)));
+    if (!SCAN_WANTED) return;
+    await openLens(SCAN_CAM);
+    guardTrack();
+    $('scStart').style.display = 'none'; $('scStop').style.display = '';
+    $('scanBox').classList.add('live');
+    keepAwake(true);
+    paintScanState('live');
+    FAIL_STREAK = 0; ALERTED = false;
+    if (!SCAN_TIMER) scanWatchStart();     /* repaired outside a tick — re-arm */
+  } catch (e) {
+    try { if (H5) await H5.stop(); } catch (e0) {}
+    H5 = null; resetReader();
+    if (!camTransient(e)){ camFail(e); paintScanState('off'); scanWatchStop(); }
+    else if (FAIL_STREAK >= 4 && !ALERTED){
+      /* Four failed rebuilds is no longer a blip. Make a noise, because the
+         whole point is that nobody should have to keep checking the screen. */
+      ALERTED = true; cue('bad');
+      toast('Camera keeps dropping — ' + camRaw(e));
+    }
+  } finally { RESTARTING = false; }
+}
+
+function scanWatchStart(){
+  clearInterval(SCAN_TIMER);
+  SCAN_TIMER = setInterval(() => {
+    if (!SCAN_WANTED){ paintScanState('off'); return; }
+    if (RESTARTING || document.hidden) return;
+    const h = scanHealth();
+    if (h === 'live'){
+      FAIL_STREAK = 0; ALERTED = false;
+      paintScanState('live');
+      if (!WAKE) keepAwake(true);
+      return;
+    }
+    restartScan();
+  }, 2500);
+}
+function scanWatchStop(){ clearInterval(SCAN_TIMER); SCAN_TIMER = null; }
+
+async function startScan(){
+  if (H5) return;
+  /* Record the intent BEFORE anything can fail. If the first attempt dies on a
+     transient error, the watchdog has to know we still want a camera. */
+  SCAN_WANTED = true;
+  paintScanState('start');
+  try {
+    await loadQrLib();
+  } catch (e) {
+    return camFail(e);          /* bundled library missing — a reload, not a retry */
+  }
+  try {
+    await openLens(SCAN_CAM);
+  } catch (e) {
+    try { if (H5) await H5.stop(); } catch (e0) {}
+    H5 = null; resetReader();
+    if (SCAN_CAM === 'user'){
+      /* some phones have no usable front camera — drop back rather than die */
+      await new Promise(r => setTimeout(r, 350));    /* let the first attempt release */
+      try {
+        await openLens('environment');
+        SCAN_CAM = 'environment';
+        try { localStorage.setItem('xf901_cam', SCAN_CAM); } catch (e2) {}
+        paintCam();
+        toast('No front camera on this phone — using the back one.');
+      } catch (e3) {
+        try { if (H5) await H5.stop(); } catch (e4) {}
+        H5 = null; resetReader();
+        camFail(e3, camTransient(e3));
+        if (SCAN_WANTED){ paintScanState('retry'); scanWatchStart(); }
+        return;
+      }
+    } else {
+      camFail(e, camTransient(e));
+      if (SCAN_WANTED){ paintScanState('retry'); scanWatchStart(); }
+      return;
+    }
+  }
+  $('scStart').style.display = 'none'; $('scStop').style.display = '';
+  $('scanBox').classList.add('live');
+  SCAN_WANTED = true; keepAwake(true);
+  guardTrack(); paintScanState('live');
+  FAIL_STREAK = 0; ALERTED = false;
+  scanWatchStart();
+}
+
+/* One button that says exactly what is wrong, so nobody has to guess. */
+async function camCheck(){
+  const out = [];
+  out.push('Scanner library: ' + (typeof Html5Qrcode !== 'undefined' ? 'loaded' : 'NOT LOADED'));
+  out.push('Page is secure: ' + (window.isSecureContext ? 'yes' : 'NO'));
+  out.push('getUserMedia: ' + (navigator.mediaDevices && navigator.mediaDevices.getUserMedia ? 'available' : 'MISSING'));
+  out.push('Service worker controlling: ' + (navigator.serviceWorker && navigator.serviceWorker.controller ? 'yes' : 'no'));
+  out.push('Installed app mode: ' + (matchMedia('(display-mode: standalone)').matches ? 'yes' : 'no'));
+  try {
+    const st = await navigator.permissions.query({name:'camera'});
+    out.push('Camera permission: ' + st.state);
+  } catch (e) { out.push('Camera permission: cannot read'); }
+  let stream = null;
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({video:{facingMode: SCAN_CAM}});
+    const t = stream.getVideoTracks()[0];
+    out.push('Opened ' + (SCAN_CAM === 'user' ? 'FRONT' : 'BACK') + ' camera: OK' + (t ? ' (' + t.label + ')' : ''));
+  } catch (e) {
+    out.push('Opened camera: FAILED — ' + camRaw(e));
+  }
+  try {
+    const ds = await navigator.mediaDevices.enumerateDevices();
+    out.push('Cameras visible: ' + ds.filter(d => d.kind === 'videoinput').length);
+  } catch (e) {}
+  if (stream) stream.getTracks().forEach(t => t.stop());
+  resetReader();
+  $('scRes').innerHTML = '<div class="scres"><b>CAMERA CHECK</b><i>' + out.map(esc).join('<br>') + '</i>' +
+    '<i style="opacity:.7; margin-top:8px">Wait two seconds before pressing Start camera — this test has to hand the camera back first.</i></div>';
+}
+async function stopScan(){
+  SCAN_WANTED = false;          /* set first, so the watchdog cannot re-open it */
+  scanWatchStop(); paintScanState('off');
+  if (!H5) return;
+  try { await H5.stop(); H5.clear(); } catch (e) {}
+  H5 = null;
+  $('scStart').style.display = ''; $('scStop').style.display = 'none';
+  $('scanBox').classList.remove('live');
+  SCAN_WANTED = false; keepAwake(false);
+}
+function onScan(text){
+  const now = Date.now();
+  if (text === LAST_CODE && now - LAST_AT < 3500) return;   // one read per code per 3.5s
+  LAST_CODE = text; LAST_AT = now;
+  handleCode(text);
+}
+function manualScan(){
+  const v = $('scManual').value.trim();
+  if (!v) return;
+  handleCode(v); $('scManual').value = '';
+}
+
+async function handleCode(raw){
+  const code = String(raw || '').trim();
+  if (!/^(XF901:)?[0-9a-f]{64}$/i.test(code)){
+    cue('bad');
+    $('scRes').innerHTML = '<div class="scres bad"><b>NOT A 9.01 CODE</b><i>' + esc(code.slice(0,40)) + '</i></div>';
+    FLASH_TAP = true;
+    flashOpen('bad', '<div class="sfk bad">NOT A 9.01 CODE</div>' +
+      '<div class="sfnm">Wrong QR</div>' +
+      '<div class="sfwhy">That is not a valid entrant code. Ask them to log in and show the QR from their dashboard.</div>' +
+      '<div class="sfhint">TAP ANYWHERE TO CLOSE</div>', 5000);
+    return;
+  }
+  cue('tick');            /* the code was read — say so before the server answers */
+  flashPending();         /* ...and show it, so nobody scrolls looking for a result */
+  bumpIdle();             /* a scan counts as activity, or the kiosk logs itself out */
+  try {
+    if (SCAN_MODE === 'checkin'){
+      const r = await call('xf_admin_checkin_scan', {p_qr: code, p_on: null});
+      renderScan(r, 'checkin'); flashResult(r, 'checkin');
+      cue(!r.ok ? 'bad' : (r.duplicate ? 'dup' : 'ok'));
+      /* fire-and-forget: give the 3 new tickets their numbers right away.
+         Never awaited — the front desk must never wait on this. */
+      if (r.ok && !r.duplicate){ try { rpc('xf_issue_tickets', {}).catch(() => {}); } catch (e) {} }
+    } else {
+      lastVerifyQr = code;
+      const r = await call('xf_admin_verify_scan', {p_qr: code});
+      renderScan(r, 'verify'); flashResult(r, 'verify');
+      cue(!r.ok ? 'bad' : (r.prize ? 'win' : 'none'));
+    }
+  } catch (e) {
+    cue('bad');
+    closeFlash();
+    toast('Scan failed — ' + (e.message || 'network error'));
+  }
+}
+/* ============ SCANNER SOUND ============
+   One shared AudioContext, unlocked on the first tap and resumed whenever the
+   tab comes back to the front. Everything is synthesised — no audio files to
+   load, so it works on a bad connection. Each outcome gets its own tone: the
+   front desk can tell what happened without looking at the screen. */
+let AC = null, MASTER = null, SND_ON = true, SND_VOL = .7;
+try {
+  const sv = localStorage.getItem('xf901_snd'); if (sv !== null) SND_ON = sv === '1';
+  const vv = parseFloat(localStorage.getItem('xf901_vol')); if (vv > 0) SND_VOL = vv;
+} catch (e) {}
+
+function audio(){
+  if (!AC){
+    const C = window.AudioContext || window.webkitAudioContext;
+    if (!C) return null;
+    AC = new C();
+    MASTER = AC.createGain(); MASTER.gain.value = SND_VOL; MASTER.connect(AC.destination);
+    /* iOS 17+ — play on the media channel so the hardware silent switch is ignored */
+    try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) {}
+  }
+  if (AC.state === 'suspended') AC.resume();
+  return AC;
+}
+['pointerdown','touchstart','keydown'].forEach(ev =>
+  document.addEventListener(ev, () => audio(), {once:true, passive:true}));
+
+function tone(f0, f1, t0, dur, type, peak){
+  const a = audio(); if (!a) return;
+  const o = a.createOscillator(), g = a.createGain();
+  o.type = type || 'triangle';
+  o.frequency.setValueAtTime(f0, a.currentTime + t0);
+  if (f1 && f1 !== f0) o.frequency.exponentialRampToValueAtTime(f1, a.currentTime + t0 + dur);
+  g.gain.setValueAtTime(.0001, a.currentTime + t0);
+  g.gain.exponentialRampToValueAtTime(peak || .3, a.currentTime + t0 + .012);
+  g.gain.exponentialRampToValueAtTime(.0001, a.currentTime + t0 + dur);
+  o.connect(g); g.connect(MASTER);
+  o.start(a.currentTime + t0); o.stop(a.currentTime + t0 + dur + .03);
+}
+
+const BUZZ = {tick:[10], ok:[18,40,18], dup:[26,90,26], bad:[130], win:[24,60,24,60,90], none:[24]};
+
+function cue(kind){
+  if (!SND_ON) return;
+  audio();
+  switch (kind){
+    case 'tick':                                    /* QR decoded, server not back yet */
+      tone(1500,1500, 0,   .035,'square',  .10); break;
+    case 'ok':                                      /* checked in, tickets added */
+      tone(784, 784,  0,   .10, 'triangle',.34);
+      tone(1046,1046, .085,.10, 'triangle',.34);
+      tone(1318,1318, .17, .30, 'triangle',.38); break;
+    case 'dup':                                     /* already in today */
+      tone(620, 620,  0,   .10, 'sine',    .30);
+      tone(620, 620,  .16, .16, 'sine',    .26); break;
+    case 'bad':                                     /* rejected, unreadable, or network */
+      tone(340, 150,  0,   .34, 'sawtooth',.22);
+      tone(170, 78,   .02, .36, 'square',  .12); break;
+    case 'win':                                     /* verify mode: this person won */
+      tone(523, 523,  0,   .11, 'triangle',.32);
+      tone(659, 659,  .10, .11, 'triangle',.32);
+      tone(784, 784,  .20, .11, 'triangle',.34);
+      tone(1046,1046, .30, .52, 'triangle',.40);
+      tone(1568,1568, .32, .50, 'sine',    .14); break;
+    case 'none':                                    /* verify mode: found, no prize */
+      tone(500, 500,  0,   .18, 'sine',    .26); break;
+  }
+  try { if (navigator.vibrate) navigator.vibrate(BUZZ[kind] || 20); } catch (e) {}
+}
+
+function paintSound(){
+  $('sndTog').classList.toggle('on', SND_ON);
+  $('sndLbl').textContent = SND_ON ? 'SOUND ON' : 'SOUND OFF';
+  document.querySelectorAll('#volRow button')
+    .forEach(x => x.classList.toggle('on', parseFloat(x.dataset.v) === SND_VOL));
+}
+function toggleSound(){
+  SND_ON = !SND_ON;
+  try { localStorage.setItem('xf901_snd', SND_ON ? '1' : '0'); } catch (e) {}
+  paintSound();
+  if (SND_ON) cue('ok');
+}
+function setVol(b){
+  SND_VOL = parseFloat(b.dataset.v);
+  try { localStorage.setItem('xf901_vol', String(SND_VOL)); } catch (e) {}
+  if (MASTER) MASTER.gain.value = SND_VOL;
+  paintSound();
+  cue('ok');
+}
+document.addEventListener('DOMContentLoaded', paintSound);
+
+/* ============ FULL-SCREEN RESULT ============ */
+let flashT = null, FLASH_TAP = true;
+
+function closeFlash(){
+  clearTimeout(flashT);
+  $('scFlash').classList.remove('show');
+}
+function onFlashTap(){
+  /* Check-in: tap anywhere — nobody aims carefully at a busy counter.
+     Verify: nothing dismisses it but the CLOSE button, so a stray thumb
+     during a prize handover cannot wipe the screen. */
+  if (FLASH_TAP) closeFlash();
+}
+function flashOpen(kind, html, ms){
+  const el = $('scFlash'), bar = $('sfBar');
+  clearTimeout(flashT);
+  el.className = 'scflash show' + (kind ? ' ' + kind : '');
+  $('sfIn').innerHTML = html;
+  bar.style.transition = 'none'; bar.style.width = ms ? '100%' : '0';
+  if (ms){
+    void bar.offsetWidth;                 /* force the 100% state to land before animating */
+    bar.style.transition = 'width ' + ms + 'ms linear';
+    bar.style.width = '0%';
+    flashT = setTimeout(closeFlash, ms);
+  }
+}
+/* shown the instant the camera decodes, before the server answers, so the
+   person sees something happen even on slow wifi */
+function flashPending(){
+  FLASH_TAP = true;
+  flashOpen('', '<div class="sfk">READING…</div>', 0);
+}
+
+function flashResult(r, mode){
+  const close = '<button class="sfclose" onclick="closeFlash()">CLOSE</button>';
+
+  if (!r.ok){
+    FLASH_TAP = true;
+    return flashOpen('bad',
+      '<div class="sfk bad">NOT ACCEPTED</div>' +
+      '<div class="sfnm">' + (r.name ? esc(r.name) : 'NOT RECOGNISED') + '</div>' +
+      '<div class="sfwhy">' + esc(SCAN_ERR[r.error] || r.error) + '</div>' +
+      '<div class="sfhint">TAP ANYWHERE TO CLOSE</div>', 5000);
+  }
+
+  if (mode === 'checkin'){
+    FLASH_TAP = true;
+    const dup = r.duplicate;
+    return flashOpen(dup ? 'dup' : 'ok',
+      '<div class="sfk ' + (dup ? 'dup' : 'ok') + '">' + (dup ? 'ALREADY IN TODAY' : 'CHECKED IN') + '</div>' +
+      '<div class="sfnm">' + esc(r.name) + '</div>' +
+      '<div class="sfbig">' + (dup ? r.total : '+' + r.points_added) + '</div>' +
+      '<div class="sfunit">' + (dup ? 'TICKETS IN TOTAL' : 'TICKETS ADDED') + '</div>' +
+      '<div class="sfmeta">IC ****' + esc(r.ic_last4) +
+        ' · DAY ' + r.day_count + ' OF ' + r.max_days +
+        (dup ? '' : ' · ' + r.total + ' TOTAL') + '</div>' +
+      '<div class="sfhint">TAP ANYWHERE TO CLOSE</div>', dup ? 3200 : 4000);
+  }
+
+  /* verify / claim — stays up, there is an action to take */
+  FLASH_TAP = false;
+  const pz = r.prize;
+  flashOpen(pz ? 'win' : '',
+    '<div class="sfk ' + (pz ? 'win' : '') + '">' + (pz ? 'WINNER' : 'NO PRIZE') + '</div>' +
+    '<div class="sfnm">' + esc(r.name) + '</div>' +
+    (pz ? '<div class="sfprz">' + esc((pz.name || '').toUpperCase()) + '</div>' +
+          '<div class="sfmeta">' + esc(pz.subtitle || '') + ' · ' + esc(TIER_LABEL[pz.tier] || '') + '</div>'
+        : '') +
+    '<div class="sfmeta">IC ****' + esc(r.ic_last4) + ' · ' + esc(r.phone || '') + '<br>' +
+      r.total + ' tickets · ' + r.checkin_days + ' check-in day(s)</div>' +
+    (r.disqualified ? '<div class="sfwhy">DISQUALIFIED</div>' : '') +
+    (pz && !pz.claimed
+      ? '<button class="sfbtn" onclick="markClaimed(' + r.participant_id + ',false)">MARK COLLECTED</button>'
+      : '') +
+    (pz && pz.claimed
+      ? '<div class="sfk ok" style="margin-top:16px">COLLECTED ' + esc(pz.claimed_at || '') + '</div>'
+      : '') +
+    close, 0);
+}
+
+const SCAN_ERR = {
+  not_found:      'No entrant with that code. Ask them to register first.',
+  disqualified:   'This entrant is disqualified.',
+  outside_window: 'Outside the check-in window (25 – 31 Aug).',
+  checkin_closed: 'Check-in closed. The ticket window ended 11:59 PM on 31 Aug.'
+};
+
+function renderScan(r, mode){
+  const box = $('scRes');
+  if (!r.ok){
+    box.innerHTML = '<div class="scres bad"><b>' + (r.name ? esc(r.name) : 'NOT RECOGNISED') + '</b>' +
+      '<i>' + esc(SCAN_ERR[r.error] || r.error) + '</i></div>';
+    return;
+  }
+
+  if (mode === 'checkin'){
+    const dup = r.duplicate;
+    box.innerHTML = '<div class="scres ' + (dup ? 'dup' : 'ok') + '">' +
+      '<b>' + esc(r.name) + '</b>' +
+      '<i>IC ****' + esc(r.ic_last4) + ' · ' + esc(r.date) + '</i>' +
+      '<div class="big">' + (dup ? 'ALREADY IN TODAY' : '+' + r.points_added + ' TICKETS') + '</div>' +
+      '<i>Day ' + r.day_count + ' of ' + r.max_days + ' · ' + r.total + ' tickets total</i></div>';
+    loadOverview();
+    return;
+  }
+
+  const pz = r.prize;
+  box.innerHTML = '<div class="scres ' + (pz ? 'ok' : '') + '">' +
+    (pz ? '<span class="pill p-gold">WINNER</span>' : '') +
+    '<b>' + esc(r.name) + '</b>' +
+    '<i>IC ****' + esc(r.ic_last4) + ' · ' + esc(r.phone || '') + ' · ' +
+      esc((r.platform || '').toUpperCase()) + ' ' + esc(r.handle || '') + '</i>' +
+    '<i>' + r.total + ' tickets · ' + r.checkin_days + ' check-in day(s)</i>' +
+    (r.disqualified ? '<div class="big" style="color:var(--bad)">DISQUALIFIED</div>' : '') +
+    (pz
+      ? '<div class="big">' + esc((pz.name || '').toUpperCase()) + '</div>' +
+        '<i>' + esc(pz.subtitle || '') + ' · ' + esc(TIER_LABEL[pz.tier] || '') + '</i>' +
+        (pz.claimed
+          ? '<div class="claimbtns"><span class="pill p-ok">COLLECTED ' + esc(pz.claimed_at || '') + '</span>' +
+            '<button class="mini red" onclick="markClaimed(' + r.participant_id + ',true)">Undo</button></div>'
+          : '<div class="claimbtns"><button class="mini gold" onclick="markClaimed(' + r.participant_id + ',false)">Mark collected</button></div>')
+      : '<div class="big" style="color:var(--dim)">NO PRIZE</div>') +
+    '</div>';
+}
+
+async function markClaimed(id, undo){
+  if (!undo && !confirm('Confirm you have checked their PHYSICAL IC / passport and the name matches, then hand over the prize.')) return;
+  try {
+    const r = await call('xf_admin_mark_claimed', {p_participant_id: id, p_undo: !!undo});
+    if (!r.ok) return toast('Failed: ' + r.error);
+    toast(undo ? 'Collection undone.' : 'Marked as collected.');
+    if (lastVerifyQr){
+      const v = await call('xf_admin_verify_scan', {p_qr: lastVerifyQr});
+      renderScan(v, 'verify');
+      if ($('scFlash').classList.contains('show')) flashResult(v, 'verify');
+    }
+    loadWinnersBoard();
+  } catch (e) { toast('Failed — ' + (e.message || 'network error')); }
+}
+
+/* one-tap check-in straight from the Participants table */
+async function ciNow(id, name){
+  try {
+    const r = await call('xf_admin_checkin_id', {p_id: id, p_on: null});
+    if (!r.ok) return toast(SCAN_ERR[r.error] || ('Check-in failed: ' + r.error));
+    toast(r.duplicate ? name + ' already checked in today.'
+                      : name + ': +' + r.points_added + ' → ' + r.total + ' tickets');
+    loadPeople(); loadOverview();
+  } catch (e) { toast('Check-in failed — ' + (e.message || 'network error')); }
+}
+
+/* ============ DRAW ============ */
+const TIER_LABEL = {8:'8th Prize', 7:'7th Prize', 6:'6th Prize', 5:'5th Prize',
+                    4:'4th Prize', 3:'3rd Prize', 2:'2nd Prize', 1:'Grand Prize'};
+
+/* One engine, two instances: the real draw and the sandbox rehearsal.
+   Both call the same kind of server function and use the identical
+   weighted-random pick — only the tables differ. */
+function makeDrawEngine(o){
+  return {
+    tiers: [], busy: false, opt: o,
+    async load(){
+      try {
+        const r = await call(o.stateFn);
+        if (!r.ok) return;
+        this.tiers = (r.tiers || []).slice().sort((a,b) => a.draw_seq - b.draw_seq);
+        this.paint(r.eligible, r);
+        if (!this.busy) o.board();
+      } catch (e) {}
+    },
+    paint(eligible, st){
+      st = st || {};
+      const next = this.tiers.find(t => !t.is_drawn);
+      const btn = $(o.btn), line = $(o.line), stat = $(o.stat);
+      if (!next){
+        line.textContent = 'ALL TIERS COMPLETE';
+        btn.disabled = true; btn.textContent = o.doneLabel;
+        stat.innerHTML = '<b>' + o.doneStat + '</b><i>Nothing left to draw.</i>';
+        return;
+      }
+      const left = next.qty - next.drawn;
+      line.innerHTML = 'NOW DRAWING &nbsp;·&nbsp; <b style="color:var(--gold)">' +
+        esc((TIER_LABEL[next.tier] || '').toUpperCase()) + '</b> &nbsp;·&nbsp; ' +
+        esc((next.name || '').toUpperCase()) + ' &nbsp;·&nbsp; winner ' + (next.drawn + 1) + ' of ' + next.qty;
+      btn.disabled = this.busy;
+      btn.textContent = this.busy ? 'DRAWING…' : o.label;
+      const pool = eligible || 0;
+      stat.innerHTML = '<b>READY · ' + esc((TIER_LABEL[next.tier] || '').toUpperCase()) + '</b>' +
+        '<i>' + left + ' left in this tier · ' + Number(pool).toLocaleString() +
+        ' people still eligible</i>';
+    },
+    async next(){
+      if (this.busy) return;
+      const cur = this.tiers.find(t => !t.is_drawn);
+      if (!cur) return;
+      if (o.confirmGrand && cur.tier === 1 &&
+          !confirm('Draw the GRAND PRIZE winner now?\n\nThis is the final, permanent pick.')) return;
+
+      this.busy = true;
+      const btn = $(o.btn); btn.disabled = true; btn.textContent = 'DRAWING…';
+      const box = $(o.last);
+      box.className = 'lastwin rolling';
+      box.innerHTML = '<div class="nm">— — —</div><div class="mt">pulling a ticket number\u2026</div>';
+      const names = PEOPLE.length ? PEOPLE.map(x => x.name) : ['— — —'];
+      const roll = setInterval(() => {
+        const el = box.querySelector('.nm');
+        if (el) el.textContent = names[Math.floor(Math.random() * names.length)];
+      }, 65);
+
+      let res;
+      try { res = await call(o.nextFn); }
+      catch (e) {
+        clearInterval(roll); this.busy = false; box.className = 'lastwin';
+        box.innerHTML = ''; toast('Draw failed — nothing was recorded. Please retry.');
+        this.load(); return;
+      }
+      await new Promise(r => setTimeout(r, 650));   // let the roll breathe
+      clearInterval(roll);
+      this.busy = false;
+
+      if (!res.ok){
+        box.className = 'lastwin'; box.innerHTML = '';
+        if (res.error === 'ledger_stale'){
+          alert('DRAW BLOCKED \u2014 nothing was recorded.\n\n' + res.mismatch +
+                ' participant(s) hold tickets that have no number yet, so the pool is ' +
+                'not a faithful copy and the draw refuses to run off it.\n\n' +
+                'Open the Overview tab to refresh the ledger, then try again.');
+        } else {
+          toast('Draw failed: ' + res.error);
+        }
+        this.load(); return;
+      }
+      if (res.done){
+        box.className = 'lastwin'; box.innerHTML = '';
+        toast('Every tier is already complete.');
+        this.load(); return;
+      }
+      if (res.exhausted){
+        box.className = 'lastwin';
+        box.innerHTML = '<div class="nm" style="color:var(--dim)">— NOT AWARDED —</div>' +
+          '<div class="mt">Eligible pool is empty. ' + esc(TIER_LABEL[res.tier] || '') +
+          ' closed with ' + res.seq + ' of ' + res.qty + ' awarded.</div>';
+        toast('Pool exhausted — tier closed so the next tier can open.');
+        this.load(); return;
+      }
+
+      const w = res.winner || {}, grand = res.tier === 1;
+      box.className = 'lastwin hit' + (grand ? ' gr' : '');
+      box.innerHTML =
+        '<div class="tag">' + esc(TIER_LABEL[res.tier] || '') + ' · ' + res.seq + ' of ' + res.qty +
+          (o.tag ? ' · ' + o.tag : '') + '</div>' +
+        '<div class="nm">' + esc(w.name) + '</div>' +
+        '<div class="mt">IC ****' + esc(w.ic_last4) + ' · ' + esc(w.phone || '') + ' · ' +
+          esc((w.platform || '').toUpperCase()) + ' ' + esc(w.handle || '') + ' · ' +
+          w.tickets + ' tickets</div>' +
+        (tixLine(res.ticket)
+          ? '<div class="wtix">WINNING TICKET<b>' + esc(tixLine(res.ticket)) + '</b></div>'
+          : '');
+      if (grand && o.confetti) confetti();
+      if (res.tier_complete) toast(esc(TIER_LABEL[res.tier] || '') + ' complete.');
+      await this.load();
+    }
+  };
+}
+
+/* ============ winning ticket number ============
+   Turns a draw payload into 'No 4,415 · RENEWAL' etc. Returns '' for a pick
+   made before ticket numbers existed, so old rows never render a broken line. */
+const SRC_LABEL = {checkin:'CHECK-IN', renewal:'RENEWAL', social:'FOLLOW',
+                   repost:'TAG & REPOST', adjust:'MANUAL CORRECTION'};
+const MONS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function tixLine(t){
+  if (!t || t.serial == null) return '';
+  let src = SRC_LABEL[t.source] || 'TICKET';
+  if (t.source === 'social' && t.detail) src = String(t.detail).toUpperCase();
+  else if (t.source === 'checkin' && /^\d{4}-\d{2}-\d{2}$/.test(t.detail || '')){
+    src = 'CHECK-IN ' + Number(t.detail.slice(8)) + ' ' + MONS[Number(t.detail.slice(5,7)) - 1];
+  }
+  return '\u2116 ' + Number(t.serial).toLocaleString() + ' \u00b7 ' + src;
+}
+
+const DR = makeDrawEngine({
+  stateFn:'xf_admin_draw_state', nextFn:'xf_admin_draw_next',
+  btn:'btnNext', line:'nextLine', stat:'dStat', last:'lastWin',
+  label:'DRAW NEXT WINNER', doneLabel:'ALL PRIZES DRAWN', doneStat:'ALL TIERS DRAWN',
+  confirmGrand:true, confetti:true, board:() => { loadWinnersBoard(); loadVoids(); }
+});
+const loadDraw = () => DR.load();
+const drawNext = () => DR.next();
+
+/* Winner board — full contact details, plus prize-collection tracking. */
+let WINNERS = [];
+async function loadWinnersBoard(){
+  try {
+    const r = await call('xf_admin_winners');
+    if (!r.ok) return;
+    WINNERS = r.rows || [];
+    if (!WINNERS.length){ $('board').innerHTML = ''; return; }
+    const byTier = {};
+    WINNERS.forEach(w => { (byTier[w.tier] = byTier[w.tier] || []).push(w); });
+    const tiers = Object.keys(byTier).map(Number).sort((a,b) => a - b);   // 1 = grand on top
+    $('board').innerHTML = tiers.map(tier => {
+      const rows = byTier[tier], t0 = rows[0], grand = tier === 1;
+      return '<div class="tierhead ' + (grand ? 'gr' : '') + '">' +
+          '<span class="tt">' + esc(TIER_LABEL[tier] || ('Tier ' + tier)) + '</span>' +
+          '<span class="tp">' + esc((t0.prize || '').toUpperCase()) +
+            (t0.subtitle ? ' · ' + esc(t0.subtitle.toUpperCase()) : '') + ' ×' + t0.qty + '</span>' +
+        '</div><div class="wlist ' + (grand ? 'gr' : '') + '">' +
+        rows.map(w =>
+          '<div class="slot locked"><div><div class="nm">' + esc(w.name) + '</div>' +
+          '<div class="mt">IC ****' + esc(w.ic_last4) + ' · ' + esc(w.phone || '') + ' · ' +
+            esc((w.platform || '').toUpperCase()) + ' ' + esc(w.handle || '') +
+            ' · ' + w.tickets + ' tickets · drawn ' + esc(w.drawn_at || '') + '</div>' +
+          (tixLine(w) ? '<div class="wtixs">' + esc(tixLine(w)) + '</div>' : '') + '</div>' +
+          (w.claimed
+            ? '<span class="pill p-ok">COLLECTED</span>' +
+              '<button class="mini red" data-wact="undo" data-id="' + w.participant_id + '">Undo</button>'
+            : '<button class="mini gold" data-wact="claim" data-id="' + w.participant_id + '">Collected</button>' +
+              '<button class="mini warn" data-wact="redraw" data-id="' + w.participant_id + '">Redraw</button>') +
+          '</div>').join('') +
+        '</div>';
+    }).join('');
+  } catch (e) {}
+}
+
+/* Delegated so no winner's name is ever interpolated into markup or into a JS
+   string — that is what broke the Redraw button, and it is also the safest
+   shape if a name ever contains a quote. */
+$('board').addEventListener('click', e => {
+  const b = e.target.closest('button[data-wact]');
+  if (!b) return;
+  const id = Number(b.dataset.id);
+  const w  = WINNERS.find(x => Number(x.participant_id) === id);
+  if (!w) return;
+  if (b.dataset.wact === 'claim')  markClaimed(id, false);
+  if (b.dataset.wact === 'undo')   markClaimed(id, true);
+  if (b.dataset.wact === 'redraw') redraw(id, w.name);
+});
+
+/* Forfeit a winner and immediately draw a replacement for that same slot.
+   Used when a winner cannot produce a physical IC/passport, or did not
+   actually complete the repost mission. The forfeited winner is archived
+   with a written reason and can never be drawn again. */
+async function redraw(id, name){
+  if (!confirm('REDRAW this prize?\n\n' + name + ' forfeits and is removed from the pool permanently.\nA replacement is drawn immediately for the same slot.\n\nThis cannot be undone.')) return;
+  const reason = prompt('Reason for the forfeit (required, min 4 characters):\n\ne.g. "No physical IC at claim" · "Repost not found on their story"');
+  if (reason === null) return;
+  if (String(reason).trim().length < 4){ alert('A reason of at least 4 characters is required.'); return; }
+  let r;
+  try { r = await call('xf_admin_redraw', {p_participant_id: id, p_reason: reason}); }
+  catch (e){ alert('Redraw failed: ' + e.message); return; }
+  if (!r.ok){
+    alert(r.error === 'ledger_stale'
+      ? 'REDRAW BLOCKED \u2014 nothing was recorded.\n\n' + r.mismatch +
+        ' participant(s) hold tickets with no number yet. Open Overview to refresh the ledger, then retry.'
+      : 'Redraw failed: ' + (r.error || 'unknown'));
+    return;
+  }
+  if (r.exhausted){
+    alert('Voided ' + r.voided + '.\n\nNo eligible replacement left in the pool for ' + r.tier_name + ' — the slot stays empty.');
+  } else {
+    alert('Voided: ' + r.voided + '\n\nReplacement for ' + r.tier_name + ' #' + r.seq + ':\n' +
+          r.winner.name + '  ·  IC ****' + r.winner.ic_last4 + '  ·  ' + r.winner.tickets + ' tickets' +
+          (tixLine(r.ticket) ? '\n\nWinning ticket: ' + tixLine(r.ticket) : ''));
+  }
+  loadWinnersBoard(); loadVoids();
+}
+
+async function loadVoids(){
+  const el = $('voidLog'); if (!el) return;
+  try {
+    const r = await call('xf_admin_voids');
+    if (!r.ok || !(r.rows || []).length){ el.innerHTML = ''; return; }
+    el.innerHTML = '<div class="voidhead">FORFEITED &amp; REDRAWN · ' + r.rows.length + '</div>' +
+      r.rows.map(v =>
+        '<div class="voidrow"><div><div class="nm">' + esc(v.name) + '</div>' +
+        '<div class="mt">' + esc((v.prize || '').toUpperCase()) + ' #' + v.seq +
+        ' · IC ****' + esc(v.ic_last4) + ' · ' + v.tickets + ' tickets · ' + esc(v.at) + '</div>' +
+        '<div class="rs">' + esc(v.reason) + '</div></div></div>').join('');
+  } catch (e){}
+}
+
+async function resetDraw(){
+  if (!confirm('Wipe the ENTIRE real draw?\n\nAll winners will be deleted and every tier unlocked.\nNever do this after the real draw — use the Rehearsal tab for practice.')) return;
+  const t = prompt('Type RESET to confirm.');
+  if (t !== 'RESET') return;
+  let r;
+  try {
+    r = await call('xf_admin_reset_draw', {p_confirm: 'RESET'});
+  } catch (e) {
+    toast('Reset failed — ' + (e.message || 'network error'));
+    console.error('[reset]', e);
+    return;
+  }
+  if (!r || r.ok !== true){
+    toast('Reset failed: ' + ((r && r.error) || 'unknown'));
+    return;
+  }
+  DR.busy = false; DR.tiers = []; WINNERS = [];
+  $('board').innerHTML = ''; $('lastWin').innerHTML = ''; $('lastWin').className = 'lastwin';
+  toast('Draw wiped — ' + (r.cleared || 0) + ' result(s) cleared, all tiers unlocked.');
+  try { await loadDraw(); await loadOverview(); }
+  catch (e) { console.error('[reset refresh]', e); }
+}
+
+/* ============ REHEARSAL (sandbox) ============
+   Same engine, same server-side weighted random, separate tables. Nothing
+   here can ever reach /#live or the winners export. */
+const RE = makeDrawEngine({
+  stateFn:'xf_admin_rehearse_state', nextFn:'xf_admin_rehearse_next',
+  btn:'rBtnNext', line:'rNextLine', stat:'rStat', last:'rLastWin',
+  label:'TEST DRAW NEXT WINNER', doneLabel:'REHEARSAL COMPLETE', doneStat:'REHEARSAL COMPLETE',
+  confirmGrand:false, confetti:false, tag:'PRACTICE', board:() => renderRBoard()
+});
+const loadReh = () => RE.load();
+const rehearseNext = () => RE.next();
+
+async function renderRBoard(){
+  try {
+    const r = await rpc('xf_rehearsal_results', {});
+    const tiers = (r.tiers || []).filter(t => (t.winners || []).length)
+      .sort((a,b) => b.draw_seq - a.draw_seq);
+    if (!tiers.length){ $('rBoard').innerHTML = ''; return; }
+    $('rBoard').innerHTML = tiers.map(t =>
+      '<div class="tierhead"><span class="tt" style="color:#9FB4FF">' +
+        esc(TIER_LABEL[t.tier] || ('Tier ' + t.tier)) + '</span>' +
+        '<span class="tp">' + esc((t.name || '').toUpperCase()) + ' ×' + t.qty + ' · PRACTICE</span></div>' +
+      '<div class="wlist">' +
+      (t.winners || []).map(w =>
+        '<div class="slot"><div><div class="nm">' + esc(w.name) + '</div>' +
+        '<div class="mt">IC ****' + esc(w.ic_last4) + ' · ' + w.tickets + ' tickets</div>' +
+        (tixLine(w) ? '<div class="wtixs" style="color:#9FB4FF">' + esc(tixLine(w)) + '</div>' : '') +
+        '</div><div class="tk"><div class="tc" style="color:#9FB4FF">TEST</div></div></div>').join('') +
+      '</div>').join('');
+  } catch (e) {}
+}
+
+async function resetReh(){
+  try {
+    const r = await call('xf_admin_rehearse_reset');
+    if (!r || r.ok !== true) return toast('Reset failed: ' + ((r && r.error) || 'unknown'));
+    RE.busy = false; RE.tiers = [];
+    $('rBoard').innerHTML = ''; $('rLastWin').innerHTML = ''; $('rLastWin').className = 'lastwin';
+    toast('Rehearsal cleared (' + (r.cleared || 0) + ' practice picks removed).');
+    loadReh();
+  } catch (e) { toast('Reset failed — ' + (e.message || 'network error')); }
+}
+
+async function exportWinners(){
+  try {
+    const r = await call('xf_admin_winners');
+    const rows = (r && r.rows) || [];
+    if (!rows.length) return toast('No winners drawn yet.');
+    const head = ['tier','prize','subtitle','seq','name','ic_last4','phone','platform','handle',
+                  'tickets','serial','source','detail','earned_at','claimed','claimed_at','drawn_at'];
+    const csv = [head.join(',')].concat(rows.map(w =>
+      head.map(k => '"' + String(w[k] == null ? '' : w[k]).replace(/"/g,'""') + '"').join(','))).join('\n');
+    download('xfitness-winners.csv', csv);
+    toast(rows.length + ' winner(s) exported.');
+  } catch (e) { toast('Export failed.'); }
+}
+
+function confetti(){
+  for (let i = 0; i < 80; i++){
+    const c = document.createElement('div');
+    c.className = 'cf'; c.textContent = ['✦','●','▮','★'][i % 4];
+    c.style.left = Math.random() * 100 + 'vw';
+    c.style.color = ['#E8C15A','#F9E7AE','#C79A38','#FFFFFF'][i % 4];
+    c.style.animationDuration = (2.4 + Math.random() * 2.2) + 's';
+    c.style.fontSize = (10 + Math.random() * 16) + 'px';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 5200);
+  }
+}
+
+/* 9.01 poster links — stored in app_config, edited here, read by the
+   entrant page through xf_points(). One place, no code push. */
+function paintPosterCheck(ig, fb){
+  const el = $('posterChk'); if (!el) return;
+  const hasIG = !!(ig && String(ig).trim()), hasFB = !!(fb && String(fb).trim());
+  el.className = 'warncard' + (hasIG && hasFB ? ' okc' : '');
+  el.innerHTML = (hasIG && hasFB)
+    ? '✓ Both links are live — the Tag &amp; Repost button opens the post directly.'
+    : '⚠ Poster links ' + ((hasIG || hasFB) ? 'are only partly filled' : 'are still empty') +
+      ' &nbsp;(IG ' + (hasIG ? '✓' : '✗') + ' · FB ' + (hasFB ? '✓' : '✗') + ').' +
+      ' Until both are set, the Tag &amp; Repost button falls back to the profile page.';
+}
+
+async function posterCheck(){
+  try {
+    const r = await rpc('xf_points', {});
+    const p = (r && r.poster) || {};
+    if ($('pstIG')) $('pstIG').value = p.instagram || '';
+    if ($('pstFB')) $('pstFB').value = p.facebook  || '';
+    paintPosterCheck(p.instagram, p.facebook);
+  } catch (e) { paintPosterCheck('', ''); }
+}
+
+const POSTER_ERR = {
+  bad_instagram: 'That Instagram link looks wrong — it must start with https:// and contain instagram.com',
+  bad_facebook:  'That Facebook link looks wrong — it must start with https:// and contain facebook.com',
+  too_long:      'That link is too long. Paste the plain post URL without tracking parameters.'
+};
+
+async function savePoster(){
+  const ig = $('pstIG').value.trim(), fb = $('pstFB').value.trim();
+  try {
+    const r = await call('xf_admin_set_poster', {p_instagram: ig, p_facebook: fb});
+    if (!r.ok) return toast(POSTER_ERR[r.error] || ('Save failed: ' + r.error));
+    $('pstIG').value = r.instagram || '';
+    $('pstFB').value = r.facebook  || '';
+    paintPosterCheck(r.instagram, r.facebook);
+    toast('Poster links saved.');
+  } catch (e) { toast('Save failed.'); }
+}
+
+/* Rotation needs the current password, so it is exactly as strong as every
+   other admin action. The server enforces the 12-character floor too — the
+   browser is not the gatekeeper. */
+const PW_ERR = {
+  auth:          'Current password is wrong. Nothing was changed.',
+  too_short:     'The new password must be at least 12 characters.',
+  too_long:      'That password is too long.',
+  same_password: 'The new password is the same as the old one.'
+};
+async function changePassword(){
+  const oldPw = $('pwOld').value, a = $('pwNew').value, b = $('pwNew2').value;
+  const msg = $('pwMsg');
+  const show = (t, ok) => { msg.textContent = t; msg.className = 'warncard' + (ok ? ' okc' : '');
+                            msg.style.display = 'block'; };
+  if (!oldPw) return show('Type the current password.', false);
+  if (a.length < 12) return show('The new password must be at least 12 characters.', false);
+  if (a !== b) return show('The two new passwords do not match.', false);
+  try {
+    const r = await rpc('xf_admin_set_password', {p_secret: oldPw, p_new: a});
+    if (!r.ok) return show(PW_ERR[r.error] || ('Failed: ' + r.error), false);
+    /* keep this session alive on the new password rather than dumping the
+       operator back to the gate mid-campaign */
+    SECRET = a;
+    (localStorage.getItem(KEY) !== null ? localStorage : sessionStorage).setItem(KEY, a);
+    $('pwOld').value = $('pwNew').value = $('pwNew2').value = '';
+    show('✓ Password changed. Every other device is now logged out.', true);
+    toast('Admin password changed.');
+  } catch (e) { show('Could not reach the server. Nothing was changed.', false); }
+}
+
+/* ============ boot ============ */
+if (SECRET){
+  rpc('xf_admin_check', {p_secret: SECRET})
+    .then(r => { if (r.ok) enter(); else lock(); })
+    .catch(() => {});
+}
+</script>
+</body>
+</html>
