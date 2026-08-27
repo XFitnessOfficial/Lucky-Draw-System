@@ -27,6 +27,7 @@ workshop runs the same campaign by changing copy and images.
 - A ticket ledger that reconciles issued serials against every entrant's
   balance, so a mismatch surfaces days before the draw instead of on stage
 - Identity documents are hashed on arrival and never stored in plaintext
+- Complete backend included: 14 tables and 42 functions, ~1,500 lines of SQL
 
 ---
 
@@ -115,6 +116,7 @@ A static frontend talking to PostgreSQL through PostgREST. There is no
 application server.
 
 ```
+sql/          the complete backend: 14 tables, 42 functions
 index.html    customer page, live draw arena, registration, QR
 admin.html    staff console, scanner, kiosk, imports, ledger, draw controls
 config.js     Supabase URL + anon key (gitignored; copy config.example.js)
@@ -127,26 +129,33 @@ deployed as static files. Editing it does not require a toolchain, which
 matters when the person maintaining it is a business owner rather than a
 full-time engineer.
 
-**The backend is not in this repository.** See the next section.
-
 ---
 
 ## 🚀 Getting started
 
-### 1. You need to build the backend
+### 1. Set up the database
 
-This repository is the frontend. It expects **38 PostgreSQL functions** exposed
-through PostgREST, and those are not included.
+Three SQL files in [`sql/`](sql/), run in order against a fresh Supabase
+project. No migration tool, no build step — paste each into the SQL Editor.
 
-That is deliberate. Our production functions encode our own authentication
-flow, our rate-limiting thresholds and their failure modes. Publishing them
-would be publishing our door codes. What we publish instead is the contract.
+| File | Creates |
+|---|---|
+| `01_schema.sql` | 14 tables, indexes, Row Level Security, defaults |
+| `02_public.sql` | Ticket maths, the pool builder, 7 public functions |
+| `03_admin.sql` | Password auth with throttling, 35 admin functions |
 
-**[`API_CONTRACT.md`](API_CONTRACT.md)** lists all 38 functions with the exact
-arguments the frontend sends, along with the six rules any implementation has
-to follow. Build against it and this frontend runs unmodified.
+Then change the password — the default is `changeme`:
 
-Tables you will need:
+```sql
+select xf_admin_set_password('changeme', 'your-long-random-password');
+```
+
+Full instructions, including how the draw and the security model work, are in
+**[`sql/README.md`](sql/README.md)**. If you would rather build your own
+backend, **[`API_CONTRACT.md`](API_CONTRACT.md)** is the spec these files
+implement.
+
+The tables:
 
 | Table | Holds |
 |---|---|

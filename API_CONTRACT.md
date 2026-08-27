@@ -1,7 +1,16 @@
 # API contract
 
 Every RPC this frontend calls, extracted directly from `index.html` and
-`admin.html`. This is the complete surface you need to implement.
+`admin.html`. This is the complete surface.
+
+**A working implementation is now included** — see [`sql/`](sql/). Load the
+three files in order and this frontend runs unmodified. The tables below stay
+here as the spec, for anyone who wants to build their own backend instead.
+
+Note the four draw functions (`xf_admin_draw_state`, `xf_admin_draw_next`,
+`xf_admin_rehearse_state`, `xf_admin_rehearse_next`) are invoked through a
+variable rather than a literal, so a naive grep for RPC names misses them.
+There are **42** functions, not 38.
 
 All calls are `POST` to `{SUPABASE_URL}/rest/v1/rpc/{name}` with a JSON body,
 via the `window.rpc()` helper in `config.js`. Every function returns a single
