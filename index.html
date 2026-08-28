@@ -1918,10 +1918,12 @@ tick(); setInterval(tick, 1000);
    upcoming / open / closed, and the draw node goes red when 8 PM arrives.
    Driven off the same one-second tick, and it only touches the DOM when the
    text it would write has actually changed. */
+const _CW = (window.XF && window.XF.CAMPAIGN) || {};
+const _span = (a, b) => [Date.parse(a), Date.parse(b)];
 const WKWIN = {
-  tix:  [Date.parse('2026-08-25T00:00:00+08:00'), Date.parse('2026-08-31T23:59:59+08:00')],
-  promo:[Date.parse('2026-08-30T00:00:00+08:00'), Date.parse('2026-09-01T23:59:59+08:00')],
-  draw: [Date.parse('2026-09-01T20:00:00+08:00'), Date.parse('2026-09-01T22:00:00+08:00')]
+  tix:  _span(_CW.tickets_open, _CW.tickets_close),
+  promo:_span(_CW.promo_open,   _CW.promo_close),
+  draw: _span(_CW.draw_start,   _CW.draw_end)
 };
 let WKSIG = null;
 function wkGap(ms){
@@ -2197,9 +2199,18 @@ const PRIZE_IMG = {1:'assets/hero-iphone.webp', 2:'assets/hero-watch.webp', 3:'a
                    8:'assets/hero-protein.webp'};
 /* The check-in window as calendar dates. The strip shows the first
    PTS.max_days of these, so shortening max_days shortens the strip. */
-const CAMPAIGN_DAYS = ['2026-08-25','2026-08-26','2026-08-27','2026-08-28',
-                       '2026-08-29','2026-08-30','2026-08-31'];
-const todayMYT = () => new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Kuala_Lumpur'}).format(new Date());
+/* Every calendar date in the ticket window, derived from config rather than
+   typed out, so moving the campaign is a one-line change in config.js. */
+const CAMPAIGN_DAYS = (() => {
+  const out = [], end = new Date(WKWIN.tix[1]);
+  for (let d = new Date(WKWIN.tix[0]); d <= end; d.setUTCDate(d.getUTCDate() + 1)){
+    out.push(new Intl.DateTimeFormat('en-CA',
+      {timeZone: (window.XF && window.XF.TIMEZONE) || 'Asia/Kuala_Lumpur'}).format(d));
+  }
+  return out;
+})();
+const todayMYT = () => new Intl.DateTimeFormat('en-CA',
+  {timeZone: (window.XF && window.XF.TIMEZONE) || 'Asia/Kuala_Lumpur'}).format(new Date());
 
 function renderMe(){
   if (!ME || !ME.ok) return;
@@ -2280,7 +2291,7 @@ const SRC_KEY = {checkin:'srcCheckin', renewal:'srcRenewal', social:'srcSocial',
 const PLAT_NAME = {instagram:'INSTAGRAM', facebook:'FACEBOOK', tiktok:'TIKTOK', xhs:'小红书'};
 const nfmt = n => Number(n || 0).toLocaleString();
 const serRange = e => e.n > 1 ? '№ ' + nfmt(e.from) + ' – ' + nfmt(e.to) : '№ ' + nfmt(e.from);
-/* '2026-08-25' -> '25 Aug'. Uses visit_date, which can differ from the scan
+/* '2026-01-15' -> '15 Jan'. Uses visit_date, which can differ from the scan
    time if a check-in was backdated or imported. */
 const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 function fmtDay(d){

@@ -37,16 +37,26 @@ end $$;
 -- choice — skip throttling when the IP is unknown — turns the rate limit into
 -- decoration, because an attacker who can suppress the header gets unlimited
 -- guesses. Losing the console for fifteen minutes is the lesser problem.
+--
+-- CHANGE THE THRESHOLDS FOR YOUR INSTALL. They live in app_config
+-- (auth_max_fails, auth_window_minutes, auth_delay_ms) precisely so that
+-- reading this file tells an attacker nothing about how any particular
+-- deployment is tuned. Values published in a repository are values an
+-- attacker can pace an attack against.
 create or replace function xf_admin_ok(p_secret text)
 returns boolean language plpgsql security definer set search_path = public as $$
 declare v_hash text; v_ip text; v_fails int; v_ok boolean;
+        v_max int; v_win int; v_delay numeric;
 begin
-  v_ip := coalesce(xf_client_ip(), 'unknown');
+  v_ip    := coalesce(xf_client_ip(), 'unknown');
+  v_max   := xf_cfg_int('auth_max_fails', 8);
+  v_win   := xf_cfg_int('auth_window_minutes', 10);
+  v_delay := xf_cfg_int('auth_delay_ms', 500) / 1000.0;
 
   select count(*) into v_fails from admin_auth_fails
-   where ip = v_ip and created_at > now() - interval '15 minutes';
-  if v_fails >= 12 then
-    perform pg_sleep(1.0);
+   where ip = v_ip and created_at > now() - (v_win || ' minutes')::interval;
+  if v_fails >= v_max then
+    perform pg_sleep(v_delay * 2);
     return false;
   end if;
 
@@ -61,10 +71,10 @@ begin
     insert into admin_auth_fails (ip) values (v_ip);
     -- Constant-ish delay on failure: slows a wordlist, and stops the response
     -- time from revealing whether the password was close.
-    perform pg_sleep(0.7);
+    perform pg_sleep(v_delay);
   else
     delete from admin_auth_fails
-     where ip = v_ip and created_at > now() - interval '15 minutes';  -- WHERE: safeupdate
+     where ip = v_ip and created_at > now() - (v_win || ' minutes')::interval;  -- WHERE: safeupdate
   end if;
 
   return v_ok;
@@ -394,9 +404,12 @@ returns jsonb language plpgsql security definer set search_path = public as $$
 declare v_id bigint; v jsonb;
 begin
   if not xf_admin_ok(p_secret) then return jsonb_build_object('ok', false, 'error', 'auth'); end if;
-  select id into v_id from participants
-   where ic_hash = replace(coalesce(p_qr, ''), 'XF1:', '');
-  if not found then return jsonb_build_object('ok', false, 'error', 'bad_code'); end if;
+  begin
+    select id into v_id from participants
+     where qr_token = replace(coalesce(p_qr, ''), 'LD1:', '')::uuid;
+  exception when others then v_id := null;   -- not a UUID at all
+  end;
+  if v_id is null then return jsonb_build_object('ok', false, 'error', 'bad_code'); end if;
   v := xf_admin_checkin_id(p_secret, v_id, p_on);
   return v || jsonb_build_object('prize',
     (select jsonb_build_object('tier', w.tier, 'name', pz.name, 'claimed', w.claimed)
@@ -408,8 +421,12 @@ returns jsonb language plpgsql security definer set search_path = public as $$
 declare p participants%rowtype; t record;
 begin
   if not xf_admin_ok(p_secret) then return jsonb_build_object('ok', false, 'error', 'auth'); end if;
-  select * into p from participants where ic_hash = replace(coalesce(p_qr, ''), 'XF1:', '');
-  if not found then return jsonb_build_object('ok', false, 'error', 'bad_code'); end if;
+  begin
+    select * into p from participants
+     where qr_token = replace(coalesce(p_qr, ''), 'LD1:', '')::uuid;
+  exception when others then return jsonb_build_object('ok', false, 'error', 'bad_code');
+  end;
+  if p.id is null then return jsonb_build_object('ok', false, 'error', 'bad_code'); end if;
   select * into t from xf_ticket_counts(p.id);
   return jsonb_build_object('ok', true, 'name', p.full_name, 'ic_last4', p.ic_last4,
     'phone', p.phone, 'total', t.total, 'disqualified', p.disqualified,

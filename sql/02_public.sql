@@ -186,9 +186,10 @@ begin
     'ic_last4', p.ic_last4,
     'platform', p.platform,
     'disqualified', p.disqualified,
-    -- The QR payload is a hash, never the document itself. A photographed
-    -- QR code therefore leaks nothing.
-    'qr', 'XF1:' || p.ic_hash,
+    -- An opaque random token. Not the document, and not derived from it, so
+    -- a photographed QR code reveals nothing about the person. See the
+    -- qr_token comment in 01_schema.sql for why this is not paranoia.
+    'qr', 'LD1:' || p.qr_token::text,
     'tickets', jsonb_build_object(
       'total', t.total, 'checkin', t.checkin, 'renewal', t.renewal,
       'social', t.social, 'repost', t.repost, 'adjust', t.adjust),

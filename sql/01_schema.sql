@@ -50,6 +50,19 @@ create table if not exists participants (
   id            bigserial primary key,
   ic_hash       text        not null unique,
   ic_last4      text        not null,
+  -- The QR payload. A random token, NOT anything derived from the document.
+  --
+  -- This matters more than it looks. A national ID is a small, structured
+  -- space — a Malaysian NRIC is about 1.3e10 valid combinations, and a single
+  -- consumer GPU computes ~2.2e10 SHA-256/sec. So an unsalted hash of one is
+  -- not a one-way function at all; it is an encoding, reversible in under a
+  -- second by anyone who obtains it.
+  --
+  -- Entrants show this QR at a counter and it appears on their phone screen.
+  -- If it carried a hash of the document, one photograph would hand over the
+  -- document itself. A random token carries no information about the person
+  -- and is useless anywhere except this database.
+  qr_token      uuid        not null unique default gen_random_uuid(),
   full_name     text        not null,
   phone         text        not null,
   platform      text        not null default 'instagram',
@@ -231,6 +244,11 @@ insert into app_config (key, value) values
   ('ticket_numbers_public', 'true'),
   ('poster_instagram',      ''),
   ('poster_facebook',       ''),
+  -- Admin login throttle. CHANGE THESE. Numbers published in a public
+  -- repository are numbers an attacker can pace an attack against.
+  ('auth_max_fails',        '8'),
+  ('auth_window_minutes',   '10'),
+  ('auth_delay_ms',         '500'),
   ('timezone',              'Asia/Kuala_Lumpur'),
   -- CHANGE THIS IMMEDIATELY. Default password is: changeme
   ('admin_secret',          crypt('changeme', gen_salt('bf', 10)))

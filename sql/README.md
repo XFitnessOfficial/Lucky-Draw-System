@@ -32,6 +32,18 @@ select xf_admin_set_password('changeme', 'your-long-random-password-here');
 Minimum 10 characters, and please make it long and random rather than
 memorable — this one password is the entire admin boundary.
 
+Then **change the login throttle**, because the defaults are published here:
+
+```sql
+update app_config set value = '5'  where key = 'auth_max_fails';
+update app_config set value = '20' where key = 'auth_window_minutes';
+update app_config set value = '900' where key = 'auth_delay_ms';
+```
+
+Anyone reading this repository knows the shipped defaults, and knowing them
+lets an attacker pace a password attack to sit just under the cut-off. Pick
+numbers nobody can look up. Nothing else in the system depends on them.
+
 ## 3. Set your dates and prizes
 
 ```sql
@@ -147,10 +159,24 @@ carry a default that grants those roles full rights on every newly created
 table; without that revoke, every table would be world-writable the instant it
 was created.
 
-**Identity documents are never stored.** `xf_register` normalises and SHA-256
-hashes the document on arrival and keeps only the hash plus the last four
-characters. There is no path back to the original, including for you. The QR
-code on an entrant's page carries the hash, so a photographed QR leaks nothing.
+**Identity documents are never stored.** `xf_register` normalises and hashes
+the document on arrival and keeps only the hash plus the last four characters.
+
+**The QR code carries a random token, not the hash.** This distinction is the
+one worth understanding, because the obvious design is wrong. A national ID is
+a small, structured space — a Malaysian NRIC is roughly 1.3e10 valid
+combinations, and one consumer GPU computes about 2.2e10 SHA-256/sec. An
+unsalted hash of an ID is therefore not a one-way function; it is an encoding,
+reversible in under a second by anyone holding it. Entrants show this QR at a
+counter and it sits on their phone screen, so if it carried a hash of the
+document, a single photograph would hand over the document. `qr_token` is a
+random UUID instead: meaningless outside this database.
+
+The same arithmetic applies to `ic_hash` in the table, which is a plain
+SHA-256. It is never exposed — the table is unreachable and no function
+returns it to a non-admin — so it is defence in depth rather than a live
+exposure. If your threat model includes the database itself leaking, switch it
+to an HMAC keyed with a secret held outside the row.
 
 **Password throttling fails closed.** Twelve failures from one IP within
 fifteen minutes locks that IP out, and an attempt whose IP cannot be determined

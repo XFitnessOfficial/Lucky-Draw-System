@@ -3,7 +3,7 @@
    FILL THESE IN with YOUR OWN Supabase project before deploying. The values
    below are placeholders. The anon key is designed to be public and safe to
    commit, but ONLY because every table is protected by Row Level Security —
-   see FORK_NOTES.md before you create any new table.
+   see sql/README.md before you create any new table.
    --------------------------------------------------------------------------- */
 window.XF = {
   SUPABASE_URL:  'PUT YOUR SUPABASE URL HERE',
@@ -13,6 +13,20 @@ window.XF = {
      app_config.pool_locks_at — that is the single source of truth, and
      xf_pool_locked() is what actually stops entries. Set both. */
   DRAW_AT: '2026-12-31T20:00:00+08:00',
+
+  TIMEZONE: 'Asia/Kuala_Lumpur',
+
+  /* Your campaign window. The customer page derives the check-in day strip and
+     the live status panel from these, so this is the only place dates are
+     written down. Full ISO strings with your UTC offset. */
+  CAMPAIGN: {
+    tickets_open:  '2026-12-25T00:00:00+08:00',
+    tickets_close: '2026-12-31T23:59:59+08:00',
+    promo_open:    '2026-12-30T00:00:00+08:00',
+    promo_close:   '2026-12-31T23:59:59+08:00',
+    draw_start:    '2026-12-31T20:00:00+08:00',
+    draw_end:      '2026-12-31T22:00:00+08:00'
+  },
 
   /* FALLBACK ONLY. The live values come from the server (xf_points) and are
      edited in Admin -> Data -> TICKET VALUES. These are used for the split

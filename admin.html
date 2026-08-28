@@ -717,7 +717,7 @@ textarea:focus{border-color:var(--gold)}
     <div class="mkrow"><img class="mark" src="assets/logo.png" alt=""><img class="wm" src="assets/wordmark.png" alt="X FITNESS"></div>
     <h1>DRAW CONSOLE · 9.01</h1>
     <input type="password" id="pw" autocomplete="current-password" placeholder="••••••••••">
-    <label><input type="checkbox" id="remember" style="width:auto; accent-color:#C79A38" checked>
+    <label><input type="checkbox" id="remember" style="width:auto; accent-color:#C79A38">
       Remember on this device</label>
     <div class="err" id="gErr"></div>
     <button class="bgold" style="width:100%; margin-top:14px" id="gBtn">Unlock</button>
@@ -980,7 +980,7 @@ textarea:focus{border-color:var(--gold)}
           Use this only if the scanner was down for part of a day — duplicates are skipped automatically.</div>
         <div class="drop" id="dropCi"><b>Drop a CSV here, or tap to choose</b>Columns: ic, date (YYYY-MM-DD)</div>
         <input type="file" id="fileCi" accept=".csv,text/csv" style="display:none">
-        <textarea id="taCi" placeholder="ic,date&#10;990101011234,2026-08-25&#10;880202025678,2026-08-25"></textarea>
+        <textarea id="taCi" placeholder="ic,date&#10;990101011234,2026-01-15&#10;880202025678,2026-01-15"></textarea>
         <div class="row" style="margin-top:9px">
           <button class="bgold" id="btnCi" style="flex:1">Import check-ins</button>
           <span class="muted" id="cntCi"></span>
@@ -1179,13 +1179,23 @@ async function loadOverview(){
   try {
     const t = await call('xf_admin_today');
     if (t && t.ok){
-      const myt = new Intl.DateTimeFormat('en-CA', {timeZone:'Asia/Kuala_Lumpur'}).format(new Date());
+      /* Campaign window comes from config.js, not from dates typed in here.
+         One place to change when the campaign moves. */
+      const _C = (window.XF && window.XF.CAMPAIGN) || {};
+      const _tz = (window.XF && window.XF.TIMEZONE) || 'Asia/Kuala_Lumpur';
+      const _d  = s => { const v = Date.parse(s); return isNaN(v) ? null
+        : new Intl.DateTimeFormat('en-CA', {timeZone:_tz}).format(new Date(v)); };
+      const myt   = new Intl.DateTimeFormat('en-CA', {timeZone:_tz}).format(new Date());
+      const open  = _d(_C.tickets_open), close = _d(_C.tickets_close), draw = _d(_C.draw_start);
       let day = t.day || '';
-      if (myt >= '2026-08-25' && myt <= '2026-08-31')
-        day += ' · DAY ' + (Number(myt.slice(8)) - 24) + ' OF 7';
-      else if (myt < '2026-08-25') day += ' · TICKETS START 25 AUG';
-      else if (myt === '2026-09-01') day += ' · DRAW DAY';
-      else if (myt > '2026-08-31') day += ' · TICKET WINDOW CLOSED';
+      if (open && close && myt >= open && myt <= close){
+        const days = Math.round((Date.parse(close) - Date.parse(open)) / 86400000) + 1;
+        const n    = Math.round((Date.parse(myt) - Date.parse(open)) / 86400000) + 1;
+        day += ' · DAY ' + n + ' OF ' + days;
+      }
+      else if (open  && myt < open)  day += ' · TICKETS NOT OPEN YET';
+      else if (draw  && myt === draw) day += ' · DRAW DAY';
+      else if (close && myt > close) day += ' · TICKET WINDOW CLOSED';
       $('oDay').textContent = day;      $('oNew').textContent = t.new_today ? '+' + t.new_today + ' today' : '';
       $('oToday').textContent = t.checkins_today || 0;
       $('oRep').textContent = t.reposts_done || 0;
@@ -1985,7 +1995,7 @@ async function savePoints(){
 
 /* ============ reposts ============ */
 $('rpFilter').onchange = loadReposts;
-/* v9.11 — fetch and render are split. 265 rows straight into the DOM on a
+/* Fetch and render are split. A few hundred rows straight into the DOM on a
    phone was unusable, so the list caps at 40 with a "show all" and the search
    box filters what we already have instead of hitting the server again. */
 let RPROWS = [], RPALL = false;
@@ -2731,18 +2741,19 @@ async function openLens(mode){
     onScan, () => {}
   );
 }
-/* If the bundled library somehow did not parse, pull the CDN copy once rather
-   than dying with "Html5Qrcode is not defined". */
+/* The scanner library is bundled and served from this origin. There is
+   deliberately NO CDN fallback.
+
+   A fallback would mean this console can be made to execute a script from a
+   third party, and this console holds the admin password in memory. Guarding
+   against a corrupted deploy — which has never happened, and which a reload
+   fixes — is not worth leaving that door open permanently. The CSP is
+   correspondingly narrow: script-src is 'self' only. */
 function loadQrLib(){
   if (typeof Html5Qrcode !== 'undefined') return Promise.resolve();
-  return new Promise((res, rej) => {
-    const s = document.createElement('script');
-    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js';
-    s.onload  = () => typeof Html5Qrcode !== 'undefined'
-                      ? res() : rej(new Error('Scanner library loaded but is empty'));
-    s.onerror = () => rej(new Error('Scanner library could not be loaded. Check the connection and reload the page.'));
-    document.head.appendChild(s);
-  });
+  return Promise.reject(new Error(
+    'Scanner library did not load. Hard-reload the page (hold reload, ' +
+    'or Ctrl/Cmd+Shift+R). If it persists the deploy is incomplete.'));
 }
 /* ============ SCANNER WATCHDOG ============
    Every flag in this file can say "running" while the camera is stone dead: the
