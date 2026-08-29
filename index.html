@@ -1847,9 +1847,6 @@ let LANG = localStorage.getItem('xf901_lang') || 'en';
 let PTS = Object.assign({checkin:3, max_days:7, social:3, repost:6, renewal:1},
                         (window.XF && window.XF.PTS) || {});
 const PTOK = () => ({c:PTS.checkin, m:PTS.max_days, s:PTS.social, r:PTS.repost, n:PTS.renewal});
-/* Fills the two entrant-specific tokens the shared PTOK map cannot know. */
-const Tv = (k, vars) => T(k).replace(/\{([gd])\}/g, (_, t) => vars[t]);
-
 const T = k => {
   const raw = (I18N[LANG] && I18N[LANG][k] != null) ? I18N[LANG][k] : (I18N.en[k] || '');
   if (raw.indexOf('{') < 0) return raw;

@@ -1158,12 +1158,11 @@ function navTo(t){
 }
 
 /* ============ overview ============
-   v9.11 — stats and today are loaded SEPARATELY. They used to share one
+   stats and today are loaded SEPARATELY. They used to share one
    Promise.all(), so when xf_admin_today threw (it did, on every call, from
    the day it was written) the healthy xf_admin_stats result was thrown away
-   with it and the whole tab rendered blank — including the eligibility
-   readout over in Data. A failure in one half must never blank the other,
-   and it must never be silent. */
+   with it and the whole tab rendered blank. A failure in one half must never
+   blank the other, and it must never be silent. */
 async function loadOverview(){
   let s = null;
   try {
